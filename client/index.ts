@@ -1,5 +1,7 @@
 export { ReelVaultClient } from "./core/app-client";
 
+export { BaseResource } from "./core/base-resource";
+
 export { InFlightDeduper, TtlCache } from "./core/cache";
 
 export type { ApiProblemDetails } from "./core/errors";
@@ -9,6 +11,8 @@ export { isRetryableStatus, NetworkError, ReelVaultError, ReelVaultValidationErr
 export { isRetryableError } from "./core/retry";
 
 export { TokenManager } from "./core/token-manager";
+
+export { assertValidPath } from "./core/validation";
 
 export type {
 	ClientConfig,
