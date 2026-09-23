@@ -29,6 +29,8 @@ jobs:
       # Tag a release as v1.2.3 to publish @reelvault/sdk@1.2.3 with provenance.
       - name: Publish to npm
         if: startsWith(github.ref, 'refs/tags/v')
-        run: npm publish
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" >> ~/.npmrc
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
