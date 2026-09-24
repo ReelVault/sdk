@@ -62,7 +62,7 @@ bun test
 bun run build   # → dist/ (ESM + CJS + .d.ts)
 ```
 
-Pushing a tag `v1.2.3` publishes `@reelvault/sdk@1.2.3` to npm with provenance (requires the `NPM_TOKEN` secret on the repository). For local development against a server or website checkout, use `bun link` from this directory.
+Releases are published to npm automatically via CI when a version tag is pushed. For local development against a server or website checkout, use bun link from this directory.
 
 > **Note:** ReelVault plugins do **not** install this package at runtime — the host provides its own SDK build and resolves `@reelvault/sdk/*` imports itself. Plugin authors only use it as a devDependency for types and local builds.
 
