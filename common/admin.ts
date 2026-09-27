@@ -359,3 +359,71 @@ export const AdminDatabaseBackupSchema = t.Object({
 export type AdminDatabaseBackup = typeof AdminDatabaseBackupSchema.static;
 
 export const AdminDatabaseBackupListSchema = t.Array(AdminDatabaseBackupSchema);
+
+export const AdminUpdateAssetSchema = t.Object({
+	name: t.String(),
+	url: t.String(),
+	size: t.Integer({ minimum: 0 }),
+});
+
+export type AdminUpdateAsset = typeof AdminUpdateAssetSchema.static;
+
+export const AdminUpdateReleaseSchema = t.Object({
+	version: t.String(),
+	name: t.String(),
+	url: t.String(),
+	publishedAt: t.Nullable(t.String({ format: "date-time" })),
+	notes: t.Nullable(t.String()),
+	/** Web releases only — the oldest server version this UI is compatible with. */
+	minServerVersion: t.Nullable(t.String()),
+	assets: t.Array(AdminUpdateAssetSchema),
+});
+
+export type AdminUpdateRelease = typeof AdminUpdateReleaseSchema.static;
+
+export const AdminUpdateTargetSchema = t.Union([t.Literal("server"), t.Literal("web")]);
+
+export type AdminUpdateTarget = typeof AdminUpdateTargetSchema.static;
+
+export const AdminUpdateJobStateSchema = t.Object({
+	target: AdminUpdateTargetSchema,
+	state: t.Union([
+		t.Literal("downloading"),
+		t.Literal("verifying"),
+		t.Literal("extracting"),
+		t.Literal("swapping"),
+		t.Literal("restarting"),
+	]),
+	progressPercent: t.Integer({ minimum: 0, maximum: 100 }),
+	message: t.Nullable(t.String()),
+	startedAt: t.String({ format: "date-time" }),
+});
+
+export type AdminUpdateJobState = typeof AdminUpdateJobStateSchema.static;
+
+export const AdminUpdateStatusSchema = t.Object({
+	serverVersion: t.String(),
+	webVersion: t.Nullable(t.String()),
+	serverUpdateAvailable: t.Boolean(),
+	webUpdateAvailable: t.Boolean(),
+	serverLatest: t.Nullable(AdminUpdateReleaseSchema),
+	webLatest: t.Nullable(AdminUpdateReleaseSchema),
+	installType: t.Union([t.Literal("archive"), t.Literal("docker"), t.Literal("dev")]),
+	flavor: t.Nullable(t.Union([t.Literal("default"), t.Literal("full")])),
+	serverRollbackAvailable: t.Boolean(),
+	webRollbackAvailable: t.Boolean(),
+	lastCheckedAt: t.Nullable(t.String({ format: "date-time" })),
+	serverLastError: t.Nullable(t.String()),
+	webLastError: t.Nullable(t.String()),
+	job: t.Nullable(AdminUpdateJobStateSchema),
+});
+
+export type AdminUpdateStatus = typeof AdminUpdateStatusSchema.static;
+
+export const AdminUpdateInstallResponseSchema = t.Object({
+	started: t.Boolean(),
+	target: AdminUpdateTargetSchema,
+	version: t.String(),
+});
+
+export type AdminUpdateInstallResponse = typeof AdminUpdateInstallResponseSchema.static;

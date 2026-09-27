@@ -15,6 +15,9 @@ import type {
 	AdminResourcesResponse,
 	AdminSetUserPassword,
 	AdminStats,
+	AdminUpdateInstallResponse,
+	AdminUpdateStatus,
+	AdminUpdateTarget,
 	AdminUser,
 	AdminUserProfile,
 	AdminUsersPage,
@@ -62,6 +65,23 @@ export class AdminClient extends BaseResource {
 
 	resetSystemSettings(body?: ResetSystemSettings): Promise<SystemSettingsGrouped> {
 		return this._post("/admin/settings/reset", { body });
+	}
+
+	// ─── System Updates ───────────────────────────────────────────────────────
+	getUpdateStatus(): Promise<AdminUpdateStatus> {
+		return this._get("/admin/update/status");
+	}
+
+	checkForUpdates(): Promise<AdminUpdateStatus> {
+		return this._post("/admin/update/check", { body: undefined });
+	}
+
+	installUpdate(target: AdminUpdateTarget): Promise<AdminUpdateInstallResponse> {
+		return this._post("/admin/update/install", { body: { target } });
+	}
+
+	rollbackUpdate(target: AdminUpdateTarget): Promise<AdminUpdateInstallResponse> {
+		return this._post("/admin/update/rollback", { body: { target } });
 	}
 
 	// ─── Workers & Schedules ──────────────────────────────────────────────────
