@@ -406,6 +406,7 @@ export const AdminUpdateStatusSchema = t.Object({
 	webVersion: t.Nullable(t.String()),
 	serverUpdateAvailable: t.Boolean(),
 	webUpdateAvailable: t.Boolean(),
+	webRequiresServerUpdate: t.Boolean(),
 	serverLatest: t.Nullable(AdminUpdateReleaseSchema),
 	webLatest: t.Nullable(AdminUpdateReleaseSchema),
 	installType: t.Union([t.Literal("archive"), t.Literal("docker"), t.Literal("dev")]),
