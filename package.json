@@ -1,9 +1,31 @@
 {
 	"name": "@reelvault/sdk",
 	"version": "1.0.2",
+	"author": "ReelVault",
 	"description": "Typed SDK for ReelVault — HTTP client, shared contracts, plugin host and UI kit.",
 	"license": "GPL-3.0-only",
 	"type": "module",
+	"homepage": "https://reelvault.org/sdk/",
+	"bugs": {
+		"url": "https://github.com/ReelVault/sdk/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ReelVault/sdk.git"
+	},	
+	"keywords": [
+		"reelvault",
+		"media-server",
+		"sdk",
+		"client",
+		"plugin",
+		"elysia",
+		"typebox"
+	],
+	"publishConfig": {
+		"access": "public",
+		"provenance": true
+	},	
 	"engines": {
 		"bun": ">=1.4.2",
 		"node": ">=20"
@@ -101,27 +123,5 @@
 		"@types/bun": "^1.4.2",
 		"tsdown": "^0.23.0",
 		"typescript": "^7.0.2"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/ReelVault/sdk.git"
-	},
-	"homepage": "https://reelvault.org/sdk/",
-	"bugs": {
-		"url": "https://github.com/ReelVault/sdk/issues"
-	},
-	"keywords": [
-		"reelvault",
-		"media-server",
-		"sdk",
-		"client",
-		"plugin",
-		"elysia",
-		"typebox"
-	],
-	"author": "ReelVault",
-	"publishConfig": {
-		"access": "public",
-		"provenance": true
 	}
 }
