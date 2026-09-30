@@ -270,6 +270,15 @@ export interface MetadataProviderContext {
 	config: Readonly<Record<string, unknown>>;
 }
 
+/**
+ * Optional per-request hints the host derives from context (currently the
+ * library a file belongs to). Providers should prefer them over their own
+ * static config; older plugins simply ignore the extra argument.
+ */
+export interface ProviderRequestHints {
+	language?: string | undefined;
+}
+
 export interface MetadataProvider {
 	readonly id: string;
 	readonly name: string;
@@ -277,12 +286,17 @@ export interface MetadataProvider {
 	readonly supportedTypes?: CatalogMediaType[] | undefined;
 	initialize(context: MetadataProviderContext): void | Promise<void>;
 	dispose?(): void | Promise<void>;
-	search(type: CatalogMediaType, query: string, year?: number): Promise<ProviderSearchResult[]>;
-	getDetails(type: CatalogMediaType, externalId: string): Promise<ProviderMetadataResult | null>;
+	search(type: CatalogMediaType, query: string, year?: number, hints?: ProviderRequestHints): Promise<ProviderSearchResult[]>;
+	getDetails(type: CatalogMediaType, externalId: string, hints?: ProviderRequestHints): Promise<ProviderMetadataResult | null>;
 	getDetailsByExternalIds?(type: ProviderMediaType, identifiers: ExternalIdentifiers): Promise<ProviderMetadataResult | null>;
 	getImages?(type: CatalogMediaType, externalId: string): Promise<ProviderImageResult[]>;
-	getSeasonDetails(externalId: string, seasonNumber: number): Promise<ProviderSeasonResult | null>;
-	getEpisodeDetails(externalId: string, seasonNumber: number, episodeNumber: number): Promise<ProviderEpisodeResult | null>;
+	getSeasonDetails(externalId: string, seasonNumber: number, hints?: ProviderRequestHints): Promise<ProviderSeasonResult | null>;
+	getEpisodeDetails(
+		externalId: string,
+		seasonNumber: number,
+		episodeNumber: number,
+		hints?: ProviderRequestHints,
+	): Promise<ProviderEpisodeResult | null>;
 	getPersonDetails?(externalId: string): Promise<ProviderPersonResult | null>;
 	/** Optional curated feeds (trending/popular/upcoming/recommendations…). */
 	discover?(request: ProviderDiscoveryRequest): Promise<ProviderDiscoveryPage>;

@@ -10,6 +10,8 @@ export interface MediaIdentity {
 	year?: number | undefined;
 	season?: number | undefined;
 	episode?: number | undefined;
+	/** Last episode covered by the same file when it spans a range (S01E01-E02). */
+	episodeEnd?: number | undefined;
 }
 
 /** Stable external identifier owned by a metadata provider. */

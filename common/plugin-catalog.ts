@@ -35,6 +35,7 @@ export const PluginCatalogVersionSchema = t.Object({
 	version: t.String(),
 	date: t.Optional(t.String()),
 	changelog: t.Optional(t.String()),
+	minServerVersion: t.Optional(t.String()),
 });
 
 export type PluginCatalogVersion = typeof PluginCatalogVersionSchema.static;
@@ -50,6 +51,8 @@ export const PluginCatalogEntrySchema = t.Object({
 	changelog: t.Optional(t.String()),
 	capabilities: t.Optional(t.Array(t.String())),
 	date: t.Optional(t.String()),
+	/** Oldest server release that can install this plugin version — the server refuses installs below it. */
+	minServerVersion: t.Optional(t.String()),
 	versions: t.Optional(t.Array(PluginCatalogVersionSchema)),
 	repositoryId: t.String(),
 	repositoryName: t.String(),

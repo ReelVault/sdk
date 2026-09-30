@@ -113,6 +113,7 @@ export type {
 	ProviderPersonGender,
 	ProviderPersonResult,
 	ProviderRating,
+	ProviderRequestHints,
 	ProviderResultCast,
 	ProviderResultCollection,
 	ProviderResultCrew,

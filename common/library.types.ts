@@ -28,6 +28,8 @@ export const LibrarySchema = EntitySchema(
 		type: t.Union([t.Literal("movies"), t.Literal("tv_shows")]),
 		metadataStorageMode: MetadataStorageModeSchema,
 		sidecarFlavor: SidecarFlavorSchema,
+		/** Per-library metadata language override (ISO code); null = provider default. */
+		metadataLanguage: t.Union([t.String(), t.Null()]),
 	}),
 );
 
@@ -99,6 +101,7 @@ export const CreateLibrarySchema = t.Object({
 	type: LibraryTypeSchema,
 	metadataStorageMode: t.Optional(MetadataStorageModeSchema),
 	sidecarFlavor: t.Optional(SidecarFlavorSchema),
+	metadataLanguage: t.Optional(t.Union([t.String(), t.Null()])),
 	providerPriorities: t.Optional(t.Array(LibraryProviderPrioritySchema)),
 	paths: t.Array(CreateLibraryPathSchema),
 });

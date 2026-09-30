@@ -12,4 +12,6 @@ export interface PluginManifest {
 	description?: string | undefined;
 	homepage?: string | undefined;
 	license?: string | undefined;
+	/** Oldest server release allowed to install this plugin — the host refuses older ones. */
+	minServerVersion?: string | undefined;
 }

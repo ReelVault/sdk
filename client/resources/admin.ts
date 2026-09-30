@@ -41,7 +41,6 @@ import type {
 	UpdateSystemSettings,
 	WorkerCategory,
 	WorkerCategoryRunResponse,
-	WorkerJob,
 	WorkerOperation,
 	WorkerOperationJobsResponse,
 	WorkerSummary,
@@ -121,20 +120,8 @@ export class AdminClient extends BaseResource {
 	}
 
 	// ─── Worker Jobs ──────────────────────────────────────────────────────────
-	getWorkerJobs(query?: { limit?: number; workerId?: string }): Promise<WorkerJob[]> {
-		return this._get("/admin/workers/jobs", { query });
-	}
-
-	getWorkerJob(jobId: string): Promise<WorkerJob> {
-		return this._get(`/admin/workers/jobs/${jobId}`);
-	}
-
 	cancelWorkerJob(jobId: string): Promise<{ success: boolean }> {
 		return this._post(`/admin/workers/jobs/${jobId}/cancel`, { body: undefined });
-	}
-
-	deleteWorkerJob(jobId: string): Promise<{ success: boolean }> {
-		return this._delete(`/admin/workers/jobs/${jobId}`);
 	}
 
 	// ─── Worker Operations (Batches) ──────────────────────────────────────────
@@ -259,16 +246,6 @@ export class AdminClient extends BaseResource {
 		return this._get("/admin/cache-stats");
 	}
 
-	getDashboard(): Promise<{
-		stats: AdminStats;
-		resources: AdminResourcesResponse;
-		providers: MetadataProviderConfiguration[];
-		plugins: PluginRuntimeStatus[];
-		settings: SystemSettingsGrouped;
-	}> {
-		return this._get("/admin/dashboard");
-	}
-
 	getAnalytics(days?: number): Promise<AdminAnalytics> {
 		return this._get("/admin/analytics", { query: days ? { days } : undefined });
 	}
@@ -323,10 +300,6 @@ export class AdminClient extends BaseResource {
 		return this._get("/admin/audit", { query });
 	}
 
-	downloadLogs(fileId?: string): Promise<string> {
-		return this._get("/admin/logs/download", { query: fileId ? { fileId } : undefined });
-	}
-
 	deleteLogFile(fileId: string): Promise<{ success: boolean }> {
 		return this._delete("/admin/logs", { query: { fileId } });
 	}
@@ -338,10 +311,6 @@ export class AdminClient extends BaseResource {
 	// ─── Trickplay ────────────────────────────────────────────────────────────
 	getTrickplayStats(): Promise<{ total: number; withTrickplay: number; missingTrickplay: number }> {
 		return this._get("/admin/trickplay/stats");
-	}
-
-	generateTrickplay(mediaFileId: string): Promise<{ enqueued: boolean; taskId: string | null }> {
-		return this._post(`/admin/trickplay/generate/${mediaFileId}`, { body: undefined });
 	}
 
 	generateAllTrickplay(): Promise<{ enqueued: number }> {
@@ -399,10 +368,6 @@ export class AdminClient extends BaseResource {
 
 	reloadPlugins(): Promise<PluginRuntimeStatus[]> {
 		return this._post("/admin/plugins/reload", { body: undefined });
-	}
-
-	getPlugin(pluginId: string): Promise<PluginRuntimeStatus> {
-		return this._get(`/admin/plugins/${pluginId}`);
 	}
 
 	enablePlugin(pluginId: string): Promise<PluginRuntimeStatus> {
