@@ -360,6 +360,16 @@ export type AdminDatabaseBackup = typeof AdminDatabaseBackupSchema.static;
 
 export const AdminDatabaseBackupListSchema = t.Array(AdminDatabaseBackupSchema);
 
+/** Restore queues a detached process: it waits for server exit, swaps the
+ * database file and relaunches — the caller always gets an ack, not a result. */
+export const AdminDatabaseRestoreResponseSchema = t.Object({
+	success: t.Boolean(),
+	restarting: t.Boolean(),
+	restoredFrom: t.String(),
+});
+
+export type AdminDatabaseRestoreResponse = typeof AdminDatabaseRestoreResponseSchema.static;
+
 export const AdminUpdateAssetSchema = t.Object({
 	name: t.String(),
 	url: t.String(),

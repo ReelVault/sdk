@@ -12,6 +12,15 @@ export const SidecarFlavorSchema = t.Union([t.Literal("reelvault"), t.Literal("k
 
 export type SidecarFlavor = typeof SidecarFlavorSchema.static;
 
+/** Per-library metadata provider override; omitted providers keep the global order. */
+export const LibraryProviderPrioritySchema = t.Object({
+	providerId: t.String({ minLength: 1 }),
+	priority: t.Integer({ minimum: 1, maximum: 10_000 }),
+	enabled: t.Boolean(),
+});
+
+export type LibraryProviderPriority = typeof LibraryProviderPrioritySchema.static;
+
 export const LibrarySchema = EntitySchema(
 	t.Object({
 		id: t.String(),
@@ -59,6 +68,7 @@ export const LibraryWithRelationsSchema = t.Composite([
 		totalMediaFiles: t.Optional(t.Integer()),
 		totalSize: t.Optional(t.Integer()),
 		mediaFileCount: t.Optional(t.Integer()),
+		providerPriorities: t.Optional(t.Array(LibraryProviderPrioritySchema)),
 	}),
 ]);
 
@@ -89,6 +99,7 @@ export const CreateLibrarySchema = t.Object({
 	type: LibraryTypeSchema,
 	metadataStorageMode: t.Optional(MetadataStorageModeSchema),
 	sidecarFlavor: t.Optional(SidecarFlavorSchema),
+	providerPriorities: t.Optional(t.Array(LibraryProviderPrioritySchema)),
 	paths: t.Array(CreateLibraryPathSchema),
 });
 

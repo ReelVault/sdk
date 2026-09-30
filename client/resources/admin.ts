@@ -5,6 +5,9 @@ import type {
 	AdminCreateUser,
 	AdminCreateUserProfile,
 	AdminDatabaseBackup,
+	AdminDatabaseRestoreResponse,
+	ApiKey,
+	ApiKeyCreated,
 	AdminDownloadsResponse,
 	AdminFfmpegCapabilities,
 	AdminFilesystemBrowse,
@@ -372,6 +375,22 @@ export class AdminClient extends BaseResource {
 
 	deleteDatabaseBackup(fileName: string): Promise<{ success: boolean }> {
 		return this._delete(`/admin/database/backups/${fileName}`);
+	}
+
+	restoreDatabase(fileName: string): Promise<AdminDatabaseRestoreResponse> {
+		return this._post("/admin/database/restore", { body: { fileName } });
+	}
+
+	getApiKeys(): Promise<ApiKey[]> {
+		return this._get("/admin/api-keys");
+	}
+
+	createApiKey(body: { name: string; scope: "read_only" | "full"; expiresAtDays?: number }): Promise<ApiKeyCreated> {
+		return this._post("/admin/api-keys", { body });
+	}
+
+	revokeApiKey(id: string): Promise<{ success: boolean }> {
+		return this._delete(`/admin/api-keys/${id}`);
 	}
 
 	getPlugins(): Promise<PluginRuntimeStatus[]> {

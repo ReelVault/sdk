@@ -58,7 +58,13 @@ export { created, fail, ok, route } from "./http";
 
 export type { PluginCapabilityName, PluginManifest } from "./manifest";
 
-export type { PluginNotification, PluginNotifications } from "./notifications";
+export type {
+	OutgoingNotification,
+	PluginNotification,
+	PluginNotificationChannel,
+	PluginNotificationChannels,
+	PluginNotifications,
+} from "./notifications";
 
 export type { PluginRealtime } from "./realtime";
 

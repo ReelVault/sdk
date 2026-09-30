@@ -23,6 +23,7 @@ export const PLUGIN_CAPABILITIES = [
 	"httpRoute",
 	"accessPolicy",
 	"notification",
+	"notificationChannel",
 	"httpFetch",
 ] as const;
 

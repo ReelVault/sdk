@@ -22,6 +22,10 @@ export interface PluginEventDataMap {
 		userId: string;
 		profileId?: string | undefined;
 		type: string;
+		title: string;
+		message?: string | null | undefined;
+		link?: string | null | undefined;
+		data?: Record<string, unknown> | undefined;
 		sourcePluginId?: string | null | undefined;
 	};
 	"playback.session.started": { sessionId: string; mediaFileId: string };

@@ -18,7 +18,7 @@ import type { PluginEvents } from "./events";
 import type { PluginHooks } from "./hooks";
 import type { PluginHttpRoute } from "./http";
 import type { PluginManifest } from "./manifest";
-import type { PluginNotifications } from "./notifications";
+import type { PluginNotificationChannels, PluginNotifications } from "./notifications";
 import type { PluginRealtime } from "./realtime";
 import type { PluginStorage } from "./storage";
 
@@ -555,6 +555,8 @@ export interface PluginHost<TConfig extends PluginConfig = PluginConfig> {
 	};
 	readonly access: PluginAccess;
 	readonly notifications: PluginNotifications;
+	/** Register an external delivery channel — requires the "notificationChannel" capability. */
+	readonly notificationChannels: PluginNotificationChannels;
 	readonly realtime: PluginRealtime;
 	readonly storage: PluginStorage;
 	readonly markers: {

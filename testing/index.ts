@@ -18,7 +18,7 @@ import type {
 	MediaRecognitionCandidate,
 } from "../plugin/hooks";
 import type { PluginHttpRoute } from "../plugin/http";
-import type { PluginNotification } from "../plugin/notifications";
+import type { OutgoingNotification, PluginNotification, PluginNotificationChannel } from "../plugin/notifications";
 import type { PluginBlob, PluginBlobMetadata, PluginBlobWriteOptions } from "../plugin/storage";
 import type {
 	ExtractedFrame,
@@ -247,6 +247,20 @@ export class PluginTestHost implements PluginHost {
 			return Promise.resolve();
 		},
 	};
+
+	/** Channels registered through `host.notificationChannels` during tests. */
+	readonly registeredChannels: PluginNotificationChannel[] = [];
+
+	readonly notificationChannels = {
+		register: (channel: PluginNotificationChannel): void => {
+			this.registeredChannels.push(channel);
+		},
+	};
+
+	/** Deliver an outgoing notification to every registered test channel. */
+	async deliverToChannels(notification: OutgoingNotification): Promise<void> {
+		for (const channel of this.registeredChannels) await channel.deliver(notification);
+	}
 
 	readonly realtime = {
 		broadcast: (_type: string, _payload: unknown): void => {
