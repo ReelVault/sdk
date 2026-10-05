@@ -1,5 +1,7 @@
 import type {
+	BatchSmartPlayResponse,
 	ContinueWatchingResponse,
+	HydratedWatchlistItem,
 	InsightsRange,
 	MetadataPlaybackProgress,
 	ProfileInsights,
@@ -46,10 +48,21 @@ export class MeClient extends BaseResource {
 		return this._get(`/me/playback-suggestions/${metadataId}`);
 	}
 
+	/** Batch smart-play suggestions + watchlist flags for card grids (max 50 ids). */
+	getPlaybackSuggestionsBatch(metadataIds: string[]): Promise<BatchSmartPlayResponse> {
+		return this._get("/me/playback-suggestions", { query: { metadataIds: metadataIds.join(",") } });
+	}
+
 	// Watchlist
 	getWatchlist<F extends string = string>(
 		query?: PaginationQuery & FieldsQuery<F> & WatchlistFilters & WatchlistSorting,
-	): Promise<PaginatedResponse<SelectFields<Watchlist, F>>> {
+	): Promise<PaginatedResponse<SelectFields<Watchlist, F>>>;
+	getWatchlist<F extends string = string>(
+		query: PaginationQuery & FieldsQuery<F> & WatchlistFilters & WatchlistSorting & { hydrate: true },
+	): Promise<PaginatedResponse<HydratedWatchlistItem>>;
+	getWatchlist<F extends string = string>(
+		query?: PaginationQuery & FieldsQuery<F> & WatchlistFilters & WatchlistSorting & { hydrate?: boolean },
+	): Promise<PaginatedResponse<SelectFields<Watchlist, F>> | PaginatedResponse<HydratedWatchlistItem>> {
 		return this._get("/me/watchlist", { query });
 	}
 

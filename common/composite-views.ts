@@ -21,7 +21,9 @@ export type SeasonWithEpisodes = typeof SeasonWithEpisodesSchema.static;
  * Composite View for Full Player Initialisation
  */
 export const PlaybackViewResponseSchema = t.Object({
-	mediaFile: ProjectedResponseSchema(MediaFileWithRelationSchema),
+	// Full row, not a projection — the player UI works on the strict shape and
+	// the view service always returns the complete aggregate.
+	mediaFile: MediaFileWithRelationSchema,
 	metadata: ProjectedResponseSchema(MetadataSchema),
 	episode: t.Nullable(ProjectedResponseSchema(EpisodeSchema)),
 	markers: t.Array(MediaMarkerSchema),

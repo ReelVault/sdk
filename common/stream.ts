@@ -217,4 +217,17 @@ export const SmartPlayResponseSchema = t.Object({
 	suggestion: t.Nullable(SmartPlaySuggestionSchema),
 });
 
+/** `GET /me/playback-suggestions?metadataIds=` — one call for grids/rails of cards. */
+export const BatchSmartPlayResponseSchema = t.Object({
+	suggestions: t.Array(
+		t.Object({
+			metadataId: t.String(),
+			suggestion: t.Nullable(SmartPlaySuggestionSchema),
+			inWatchlist: t.Boolean(),
+		}),
+	),
+});
+
+export type BatchSmartPlayResponse = typeof BatchSmartPlayResponseSchema.static;
+
 export type SmartPlayResponse = typeof SmartPlayResponseSchema.static;
