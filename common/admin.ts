@@ -1,4 +1,7 @@
 import { t } from "elysia";
+import { PaginatedResponseSchema } from "./api";
+import { LibrarySchema } from "./library.types";
+import { WorkerOperationSchema } from "./workers";
 
 export const AdminUserSchema = t.Object({
 	id: t.String(),
@@ -430,6 +433,22 @@ export const AdminUpdateStatusSchema = t.Object({
 });
 
 export type AdminUpdateStatus = typeof AdminUpdateStatusSchema.static;
+
+/**
+ * Composite view for the admin dashboard: everything the page previously
+ * fetched with 6 parallel requests (stats, libraries, worker operations,
+ * audit feed, error logs, update status) in one call.
+ */
+export const AdminDashboardViewResponseSchema = t.Object({
+	stats: AdminStatsSchema,
+	libraries: t.Array(LibrarySchema),
+	operations: PaginatedResponseSchema(WorkerOperationSchema),
+	audit: AdminAuditPageSchema,
+	logs: AdminLogsPageSchema,
+	update: AdminUpdateStatusSchema,
+});
+
+export type AdminDashboardViewResponse = typeof AdminDashboardViewResponseSchema.static;
 
 export const AdminUpdateInstallResponseSchema = t.Object({
 	started: t.Boolean(),

@@ -63,6 +63,14 @@ export interface RealtimeEventMap {
 		type: string;
 		[key: string]: unknown;
 	};
+	/** Throttled to at most one message per second per running job (matches the DB progress-write throttle). */
+	"worker:progress": {
+		jobId: string;
+		operationId?: string | undefined;
+		workerId: string;
+		percent: number;
+		[key: string]: unknown;
+	};
 	"plugin:enabled": {
 		pluginId?: string | undefined;
 		[key: string]: unknown;

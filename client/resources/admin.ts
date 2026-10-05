@@ -17,6 +17,7 @@ import type {
 	AdminProcessesResponse,
 	AdminResourcesResponse,
 	AdminSetUserPassword,
+	AdminDashboardViewResponse,
 	AdminStats,
 	AdminUpdateInstallResponse,
 	AdminUpdateStatus,
@@ -236,6 +237,10 @@ export class AdminClient extends BaseResource {
 	/** Persists provider priority order (first = highest priority). */
 	reorderMetadataProviderConfigurations(providerIds: string[]): Promise<MetadataProviderConfiguration[]> {
 		return this._put("/admin/providers/order", { body: { providerIds } });
+	}
+
+	getDashboardView(): Promise<AdminDashboardViewResponse> {
+		return this._get("/admin/dashboard-view");
 	}
 
 	getStats(): Promise<AdminStats> {
