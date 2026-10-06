@@ -4,13 +4,13 @@ import type { GlobalSearchResponse } from "@sdk/common/metadata";
 
 import type { MetadataFilters, MetadataSorting, MetadataWithRelation, UpdateMetadata } from "@sdk/common/metadata.types";
 import type { MetadataImageOption, SelectMetadataImage } from "@sdk/common/metadata-images";
-import type { PaginatedResponse, PaginationQuery } from "@sdk/common/pagination";
+import type { CursorPaginatedResponse, CursorPaginationQuery, PaginatedResponse, PaginationQuery } from "@sdk/common/pagination";
 import { BaseResource } from "../core/base-client";
 
 export class MetadataClient extends BaseResource {
 	getAll<F extends string>(
-		query?: PaginationQuery & FieldsQuery<F> & MetadataFilters & MetadataSorting,
-	): Promise<PaginatedResponse<SelectFields<MetadataWithRelation, F>>> {
+		query?: CursorPaginationQuery & FieldsQuery<F> & MetadataFilters & MetadataSorting,
+	): Promise<CursorPaginatedResponse<SelectFields<MetadataWithRelation, F>>> {
 		return this._get("/metadata", { query });
 	}
 

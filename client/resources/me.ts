@@ -10,7 +10,7 @@ import type {
 	WrappedInsights,
 } from "@sdk/common";
 import type { FieldsQuery, SelectFields } from "@sdk/common/fields";
-import type { PaginatedResponse, PaginationQuery } from "@sdk/common/pagination";
+import type { CursorPaginatedResponse, CursorPaginationQuery, PaginatedResponse, PaginationQuery } from "@sdk/common/pagination";
 import type { StreamPrefs, UpdatePlaybackProgress } from "@sdk/common/playback-progress.types";
 import type { CreateUserRatingRequest, UserRating, UserRatingFilters, UserRatingSorting } from "@sdk/common/user-ratings.types";
 import type { CreateWatchedHistory, WatchedHistoryWithRelations } from "@sdk/common/watched-history.types";
@@ -87,7 +87,7 @@ export class MeClient extends BaseResource {
 	}
 
 	// Watched History
-	getWatchedHistory(query?: { limit?: number; page?: number; perPage?: number }): Promise<PaginatedResponse<WatchedHistoryWithRelations>> {
+	getWatchedHistory(query?: CursorPaginationQuery): Promise<CursorPaginatedResponse<WatchedHistoryWithRelations>> {
 		return this._get("/me/watched-history", { query });
 	}
 

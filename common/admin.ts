@@ -4,18 +4,6 @@ import { LibrarySchema } from "./library.types";
 import { PaginationMetaSchema } from "./pagination";
 import { WorkerOperationSchema } from "./workers";
 
-/**
- * Nested admin page meta — the same four fields as `PaginationMetaSchema`, kept
- * in the admin envelope's historical field order (total first) so neither the
- * JSON response shape nor the generated OpenAPI document moves.
- */
-const AdminPaginationMetaSchema = t.Object({
-	total: PaginationMetaSchema.properties.total,
-	page: PaginationMetaSchema.properties.page,
-	limit: PaginationMetaSchema.properties.limit,
-	totalPages: PaginationMetaSchema.properties.totalPages,
-});
-
 export const AdminUserSchema = t.Object({
 	id: t.String(),
 	name: t.String(),
@@ -44,8 +32,8 @@ export const AdminUserProfileSchema = t.Object({
 export type AdminUserProfile = typeof AdminUserProfileSchema.static;
 
 export const AdminUsersPageSchema = t.Object({
+	...PaginationMetaSchema.properties,
 	data: t.Array(AdminUserSchema),
-	pagination: AdminPaginationMetaSchema,
 });
 
 export type AdminUsersPage = typeof AdminUsersPageSchema.static;
@@ -285,8 +273,8 @@ export const AdminLogEntrySchema = t.Object(
 export type AdminLogEntry = typeof AdminLogEntrySchema.static;
 
 export const AdminLogsPageSchema = t.Object({
+	...PaginationMetaSchema.properties,
 	data: t.Array(AdminLogEntrySchema),
-	pagination: AdminPaginationMetaSchema,
 });
 
 export type AdminLogsPage = typeof AdminLogsPageSchema.static;
@@ -328,8 +316,8 @@ export const AdminAuditEntrySchema = t.Object({
 export type AdminAuditEntry = typeof AdminAuditEntrySchema.static;
 
 export const AdminAuditPageSchema = t.Object({
+	...PaginationMetaSchema.properties,
 	data: t.Array(AdminAuditEntrySchema),
-	pagination: AdminPaginationMetaSchema,
 });
 
 export type AdminAuditPage = typeof AdminAuditPageSchema.static;
