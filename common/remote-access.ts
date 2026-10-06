@@ -4,8 +4,9 @@ export const RemoteAccessCheckSchema = t.Object({
 	id: t.String(),
 	/** true = pass, false = action needed, null = informational warning. */
 	ok: t.Union([t.Boolean(), t.Null()]),
-	title: t.String(),
-	detail: t.String(),
+	/** Stable message code; the client owns all translated text. */
+	code: t.String(),
+	params: t.Optional(t.Record(t.String(), t.Union([t.String(), t.Number(), t.Boolean(), t.Null()]))),
 });
 
 export type RemoteAccessCheck = typeof RemoteAccessCheckSchema.static;
