@@ -1,5 +1,6 @@
 import { t } from "elysia";
 import type { Logger } from "./logger";
+import { PaginationMetaSchema } from "./pagination";
 import { TaskLastExecutionSchema, type TaskTrigger, TaskTriggerSchema } from "./scheduled-tasks";
 
 export const WorkerJobStateSchema = t.Union([
@@ -47,10 +48,7 @@ export const WorkerOperationItemsSummarySchema = t.Object({
 export const WorkerOperationJobsResponseSchema = t.Object({
 	items: t.Array(WorkerJobSchema),
 	summary: WorkerOperationItemsSummarySchema,
-	page: t.Integer({ minimum: 1 }),
-	limit: t.Integer({ minimum: 1 }),
-	total: t.Integer({ minimum: 0 }),
-	totalPages: t.Integer({ minimum: 0 }),
+	...PaginationMetaSchema.properties,
 });
 
 export type WorkerOperationJobsResponse = typeof WorkerOperationJobsResponseSchema.static;
@@ -64,6 +62,20 @@ export const WorkerOperationStatusSchema = t.Union([
 ]);
 
 export type WorkerOperationStatus = typeof WorkerOperationStatusSchema.static;
+
+/**
+ * Admin worker-operations list status filter — `active` additionally matches
+ * pending/running operations; the per-operation job list keeps the narrower
+ * `WorkerJobStateSchema` union.
+ */
+export const WorkerStatusFilterSchema = t.Union([
+	t.Literal("pending"),
+	t.Literal("running"),
+	t.Literal("completed"),
+	t.Literal("failed"),
+	t.Literal("cancelled"),
+	t.Literal("active"),
+]);
 
 export const WorkerOperationSchema = t.Object({
 	id: t.String(),

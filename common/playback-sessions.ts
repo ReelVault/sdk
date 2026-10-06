@@ -21,6 +21,18 @@ export const CreatePlaybackSessionSchema = t.Object(
 
 export type CreatePlaybackSession = typeof CreatePlaybackSessionSchema.static;
 
+/** Request body of `POST /playback-sessions/:sessionId/heartbeat` — optional
+ * piggy-backed playback progress saves the client a second request per interval. */
+export const HeartbeatBodySchema = t.Object({
+	position: t.Optional(t.Nullable(t.Number({ minimum: 0 }))),
+	audioStreamIndex: t.Optional(t.Nullable(t.Integer({ minimum: 0 }))),
+	subtitleId: t.Optional(t.Nullable(t.String())),
+	duration: t.Optional(t.Nullable(t.Number({ minimum: 0 }))),
+	isPaused: t.Optional(t.Nullable(t.Boolean())),
+});
+
+export type HeartbeatBody = typeof HeartbeatBodySchema.static;
+
 export const PlaybackSessionSchema = t.Object({
 	operationId: t.String(),
 	mode: PlaybackModeSchema,

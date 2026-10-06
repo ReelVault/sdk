@@ -1,4 +1,5 @@
 import { type Static, type TSchema, t } from "elysia";
+import { PaginationMetaSchema } from "./pagination";
 
 export type DeepPartial<T> = T extends Date
 	? T
@@ -87,10 +88,7 @@ export type SuccessResponse = typeof SuccessResponseSchema.static;
 
 export const PaginatedResponseSchema = <T extends TSchema>(item: T) =>
 	t.Object({
-		page: t.Integer({ minimum: 1 }),
-		limit: t.Integer({ minimum: 1 }),
-		total: t.Integer({ minimum: 0 }),
-		totalPages: t.Integer({ minimum: 0 }),
+		...PaginationMetaSchema.properties,
 		nextCursor: t.Optional(t.String()),
 		data: t.Array(item, { default: [] }),
 	});

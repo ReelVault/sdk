@@ -55,13 +55,13 @@ export * from "./movie.types";
 
 export * from "./notification.types";
 
-export type * from "./pagination";
+export * from "./pagination";
 
 export * from "./people.types";
 
 export * from "./playback";
 
-export type * from "./playback-progress.types";
+export * from "./playback-progress.types";
 
 export * from "./playback-sessions";
 

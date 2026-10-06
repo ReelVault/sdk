@@ -24,6 +24,17 @@ export type CreateWatchlist = typeof CreateWatchlistSchema.static;
 
 export const UpdateWatchlistSchema = t.Partial(CreateWatchlistSchema);
 
+/** One row of the batch watchlist check (`GET /me/watchlist/statuses`). */
+export const WatchlistStatusSchema = t.Object({ metadataId: t.String(), inWatchlist: t.Boolean() });
+
+export type WatchlistStatus = typeof WatchlistStatusSchema.static;
+
+export const WatchlistStatusesResponseSchema = t.Object({
+	statuses: t.Array(WatchlistStatusSchema),
+});
+
+export type WatchlistStatusesResponse = typeof WatchlistStatusesResponseSchema.static;
+
 export const WatchlistFiltersSchema = t.Object({
 	profileId: t.Optional(t.String()),
 	metadataId: t.Optional(t.String()),

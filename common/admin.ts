@@ -1,7 +1,20 @@
 import { t } from "elysia";
 import { PaginatedResponseSchema } from "./api";
 import { LibrarySchema } from "./library.types";
+import { PaginationMetaSchema } from "./pagination";
 import { WorkerOperationSchema } from "./workers";
+
+/**
+ * Nested admin page meta — the same four fields as `PaginationMetaSchema`, kept
+ * in the admin envelope's historical field order (total first) so neither the
+ * JSON response shape nor the generated OpenAPI document moves.
+ */
+const AdminPaginationMetaSchema = t.Object({
+	total: PaginationMetaSchema.properties.total,
+	page: PaginationMetaSchema.properties.page,
+	limit: PaginationMetaSchema.properties.limit,
+	totalPages: PaginationMetaSchema.properties.totalPages,
+});
 
 export const AdminUserSchema = t.Object({
 	id: t.String(),
@@ -32,12 +45,7 @@ export type AdminUserProfile = typeof AdminUserProfileSchema.static;
 
 export const AdminUsersPageSchema = t.Object({
 	data: t.Array(AdminUserSchema),
-	pagination: t.Object({
-		total: t.Integer({ minimum: 0 }),
-		page: t.Integer({ minimum: 1 }),
-		limit: t.Integer({ minimum: 1 }),
-		totalPages: t.Integer({ minimum: 0 }),
-	}),
+	pagination: AdminPaginationMetaSchema,
 });
 
 export type AdminUsersPage = typeof AdminUsersPageSchema.static;
@@ -278,12 +286,7 @@ export type AdminLogEntry = typeof AdminLogEntrySchema.static;
 
 export const AdminLogsPageSchema = t.Object({
 	data: t.Array(AdminLogEntrySchema),
-	pagination: t.Object({
-		total: t.Integer({ minimum: 0 }),
-		page: t.Integer({ minimum: 1 }),
-		limit: t.Integer({ minimum: 1 }),
-		totalPages: t.Integer({ minimum: 0 }),
-	}),
+	pagination: AdminPaginationMetaSchema,
 });
 
 export type AdminLogsPage = typeof AdminLogsPageSchema.static;
@@ -326,12 +329,7 @@ export type AdminAuditEntry = typeof AdminAuditEntrySchema.static;
 
 export const AdminAuditPageSchema = t.Object({
 	data: t.Array(AdminAuditEntrySchema),
-	pagination: t.Object({
-		total: t.Integer({ minimum: 0 }),
-		page: t.Integer({ minimum: 1 }),
-		limit: t.Integer({ minimum: 1 }),
-		totalPages: t.Integer({ minimum: 0 }),
-	}),
+	pagination: AdminPaginationMetaSchema,
 });
 
 export type AdminAuditPage = typeof AdminAuditPageSchema.static;
