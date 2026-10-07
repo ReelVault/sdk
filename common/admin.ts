@@ -1,6 +1,6 @@
 import { t } from "elysia";
 import { PaginatedResponseSchema } from "./api";
-import { LibrarySchema } from "./library.types";
+import { LibraryWithRelationsSchema } from "./library.types";
 import { PaginationMetaSchema } from "./pagination";
 import { WorkerOperationSchema } from "./workers";
 
@@ -427,7 +427,7 @@ export type AdminUpdateStatus = typeof AdminUpdateStatusSchema.static;
  */
 export const AdminDashboardViewResponseSchema = t.Object({
 	stats: AdminStatsSchema,
-	libraries: t.Array(LibrarySchema),
+	libraries: t.Array(LibraryWithRelationsSchema),
 	operations: PaginatedResponseSchema(WorkerOperationSchema),
 	audit: AdminAuditPageSchema,
 	logs: AdminLogsPageSchema,
