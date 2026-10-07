@@ -1,6 +1,6 @@
 {
 	"name": "@reelvault/sdk",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"author": "ReelVault",
 	"description": "Typed SDK for ReelVault — HTTP client, shared contracts, plugin host and UI kit.",
 	"license": "GPL-3.0-only",

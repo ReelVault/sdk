@@ -38,6 +38,7 @@ import type {
 	ResetSystemSettings,
 	SystemSettingsGrouped,
 	TaskTrigger,
+	TrickplayStats,
 	UpdatePluginRepositoryBody,
 	UpdateSystemSettings,
 	WorkerCategory,
@@ -314,7 +315,7 @@ export class AdminClient extends BaseResource {
 	}
 
 	// ─── Trickplay ────────────────────────────────────────────────────────────
-	getTrickplayStats(): Promise<{ total: number; withTrickplay: number; missingTrickplay: number }> {
+	getTrickplayStats(): Promise<TrickplayStats> {
 		return this._get("/admin/trickplay/stats");
 	}
 

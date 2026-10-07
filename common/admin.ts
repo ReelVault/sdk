@@ -443,3 +443,16 @@ export const AdminUpdateInstallResponseSchema = t.Object({
 });
 
 export type AdminUpdateInstallResponse = typeof AdminUpdateInstallResponseSchema.static;
+
+/** Coverage and storage usage of built-in (core) trickplay artifacts. */
+export const TrickplayStatsSchema = t.Object({
+	total: t.Integer(),
+	withTrickplay: t.Integer(),
+	missingTrickplay: t.Integer(),
+	/** Bytes currently stored for core trickplay artifacts (sprites + VTT). */
+	storageBytes: t.Integer(),
+	/** Effective core artifacts budget in bytes (`system.artifacts.coreMaxStorageGb`, 0 = auto-derived). */
+	storageBudgetBytes: t.Integer(),
+});
+
+export type TrickplayStats = typeof TrickplayStatsSchema.static;
