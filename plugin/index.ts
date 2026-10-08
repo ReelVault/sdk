@@ -179,6 +179,8 @@ export type {
 } from "./ui-schema";
 
 export type {
+	PluginCspDirective,
+	PluginCspDirectives,
 	PluginDialogSize,
 	PluginSchemaActionType,
 	PluginSchemaConditionOp,
@@ -188,6 +190,8 @@ export type {
 export {
 	PLUGIN_CAPABILITIES,
 	PLUGIN_CAPABILITY_SET,
+	PLUGIN_CSP_DIRECTIVES,
+	PLUGIN_CSP_DIRECTIVE_SET,
 	PLUGIN_DIALOG_SIZES,
 	PLUGIN_SCHEMA_ACTION_TYPES,
 	PLUGIN_SCHEMA_CONDITION_OPS,

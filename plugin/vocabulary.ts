@@ -53,6 +53,19 @@ export const PLUGIN_TAB_HOST_NAMES = ["details", "admin-plugin", "settings"] as 
 
 export type PluginTabHostName = (typeof PLUGIN_TAB_HOST_NAMES)[number];
 
+/**
+ * Content-Security-Policy directives a plugin may extend in the host web UI.
+ * Content directives only — a plugin can never widen script or style execution.
+ */
+export const PLUGIN_CSP_DIRECTIVES = ["img-src", "media-src", "connect-src", "font-src", "frame-src"] as const;
+
+export type PluginCspDirective = (typeof PLUGIN_CSP_DIRECTIVES)[number];
+
+export const PLUGIN_CSP_DIRECTIVE_SET: ReadonlySet<string> = new Set(PLUGIN_CSP_DIRECTIVES);
+
+/** Directive → origin sources the host appends to its web UI policy. */
+export type PluginCspDirectives = Partial<Record<PluginCspDirective, string[]>>;
+
 export const PLUGIN_DIALOG_SIZES = ["sm", "md", "lg", "xl"] as const;
 
 export type PluginDialogSize = (typeof PLUGIN_DIALOG_SIZES)[number];
