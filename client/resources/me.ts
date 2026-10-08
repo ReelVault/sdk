@@ -28,6 +28,11 @@ export class MeClient extends BaseResource {
 		return this._get("/me/continue-watching", { query: { limit } });
 	}
 
+	/** Removes a title from Continue Watching; resume positions are kept and playing the title again brings it back. */
+	dismissContinueWatching(metadataId: string): Promise<{ success: true }> {
+		return this._delete(`/me/continue-watching/${metadataId}`);
+	}
+
 	getPlaybackProgress(metadataId: string): Promise<MetadataPlaybackProgress> {
 		return this._get(`/me/playback-progress/${metadataId}`);
 	}
