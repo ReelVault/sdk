@@ -18,3 +18,11 @@ export const HealthResponseSchema = t.Object({
 });
 
 export type HealthStatus = typeof HealthResponseSchema.static;
+
+/** Liveness: the process is up and serving HTTP. No dependency is probed, so it never flaps. */
+export const HealthLiveResponseSchema = t.Object({
+	status: t.Literal("ok"),
+	uptime: t.Number(),
+});
+
+export type HealthLive = typeof HealthLiveResponseSchema.static;
