@@ -10,6 +10,8 @@ export const ProfilePreferencesSchema = t.Object({
 	autoSkipRecap: t.Boolean(),
 	audioLanguage: t.Nullable(t.String({ minLength: 2, maxLength: 16 })),
 	subtitleLanguage: t.Nullable(t.String({ minLength: 2, maxLength: 16 })),
+	/** Comma-separated language priority list tried after `subtitleLanguage` (e.g. "en,de"). */
+	subtitleFallbackLanguages: t.Nullable(t.String({ maxLength: 64 })),
 	subtitlesEnabled: t.Boolean(),
 	forcedSubtitlesOnly: t.Boolean(),
 	autoForcedSubtitles: t.Boolean(),
@@ -35,6 +37,7 @@ export const UpdateProfilePreferencesSchema = t.Partial(
 		// null (cleared), so clients can send raw form values.
 		audioLanguage: t.Nullable(t.String({ maxLength: 16 })),
 		subtitleLanguage: t.Nullable(t.String({ maxLength: 16 })),
+		subtitleFallbackLanguages: t.Nullable(t.String({ maxLength: 64 })),
 		subtitlesEnabled: t.Boolean(),
 		forcedSubtitlesOnly: t.Boolean(),
 		autoForcedSubtitles: t.Boolean(),
@@ -59,6 +62,7 @@ export const ProfilePreferenceDefaultsSchema = t.Object({
 	autoSkipRecap: t.Boolean(),
 	audioLanguage: t.Nullable(t.String()),
 	subtitleLanguage: t.Nullable(t.String()),
+	subtitleFallbackLanguages: t.Nullable(t.String()),
 	subtitlesEnabled: t.Boolean(),
 	forcedSubtitlesOnly: t.Boolean(),
 	autoForcedSubtitles: t.Boolean(),
