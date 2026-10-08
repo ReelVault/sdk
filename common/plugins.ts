@@ -73,3 +73,43 @@ export const PluginConfigDetailsSchema = t.Object({
 export type PluginConfigDetails = typeof PluginConfigDetailsSchema.static;
 
 export const UpdatePluginConfigBodySchema = t.Record(t.String(), t.Unknown());
+
+/** Kind of UI contribution an administrator can switch off. */
+export const PluginUiSurfaceKindSchema = t.Union([
+	t.Literal("page"),
+	t.Literal("dialog"),
+	t.Literal("tab"),
+	t.Literal("slot"),
+	t.Literal("searchProvider"),
+	t.Literal("playbackPreRoll"),
+]);
+
+export type PluginUiSurfaceKind = typeof PluginUiSurfaceKindSchema.static;
+
+/** One switchable piece of a plugin's UI. `key` is stable across restarts and is what overrides refer to. */
+export const PluginUiContributionSchema = t.Object({
+	key: t.String(),
+	surface: PluginUiSurfaceKindSchema,
+	label: t.String(),
+	adminOnly: t.Boolean(),
+	enabled: t.Boolean(),
+});
+
+export type PluginUiContribution = typeof PluginUiContributionSchema.static;
+
+/** Interface switches of one plugin. `enabled: false` hides the plugin's whole UI regardless of the contributions. */
+export const PluginUiSettingsSchema = t.Object({
+	pluginId: t.String(),
+	enabled: t.Boolean(),
+	contributions: t.Array(PluginUiContributionSchema),
+});
+
+export type PluginUiSettings = typeof PluginUiSettingsSchema.static;
+
+export const UpdatePluginUiSettingsBodySchema = t.Object({
+	enabled: t.Boolean(),
+	/** Keys of the contributions to hide; every other contribution stays visible. */
+	disabledKeys: t.Array(t.String({ minLength: 1 }), { maxItems: 500 }),
+});
+
+export type UpdatePluginUiSettingsBody = typeof UpdatePluginUiSettingsBodySchema.static;

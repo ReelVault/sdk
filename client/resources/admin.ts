@@ -33,6 +33,7 @@ import type {
 	PluginConfigDetails,
 	PluginRepository,
 	PluginRuntimeStatus,
+	PluginUiSettings,
 	PurgeWorkerHistoryOptions,
 	PurgeWorkerHistoryResponse,
 	ResetSystemSettings,
@@ -40,6 +41,7 @@ import type {
 	TaskTrigger,
 	TrickplayStats,
 	UpdatePluginRepositoryBody,
+	UpdatePluginUiSettingsBody,
 	UpdateSystemSettings,
 	WorkerCategory,
 	WorkerCategoryRunResponse,
@@ -382,6 +384,19 @@ export class AdminClient extends BaseResource {
 
 	disablePlugin(pluginId: string): Promise<PluginRuntimeStatus> {
 		return this._post(`/admin/plugins/${pluginId}/disable`, { body: undefined });
+	}
+
+	getPluginUiSettings(pluginId: string): Promise<PluginUiSettings> {
+		return this._get(`/admin/plugins/${pluginId}/ui`);
+	}
+
+	updatePluginUiSettings(pluginId: string, body: UpdatePluginUiSettingsBody): Promise<PluginUiSettings> {
+		return this._put(`/admin/plugins/${pluginId}/ui`, { body });
+	}
+
+	/** Clears every switch so the plugin's whole UI is visible again. */
+	resetPluginUiSettings(pluginId: string): Promise<PluginUiSettings> {
+		return this._delete(`/admin/plugins/${pluginId}/ui`);
 	}
 
 	reloadPlugin(pluginId: string): Promise<PluginRuntimeStatus> {
