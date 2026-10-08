@@ -1,5 +1,7 @@
 import type {
 	ActiveSessionsResponse,
+	ChangePasswordRequest,
+	ChangePasswordResponse,
 	LoginRequest,
 	LoginResponse,
 	LogoutResponse,
@@ -36,6 +38,11 @@ export class AuthClient extends BaseResource {
 
 	logout(): Promise<LogoutResponse> {
 		return this._post(`/auth/logout`, { body: undefined });
+	}
+
+	/** Revokes every other session and keeps the current one signed in. */
+	changePassword(body: ChangePasswordRequest): Promise<ChangePasswordResponse> {
+		return this._post("/auth/change-password", { body });
 	}
 
 	// Two-factor authentication (proxied to better-auth under /v1/auth/two-factor).

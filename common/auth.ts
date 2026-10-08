@@ -108,6 +108,21 @@ export const LoginResponseSchema = t.Object({
 
 export type LoginResponse = typeof LoginResponseSchema.static;
 
+export const ChangePasswordRequestSchema = t.Object({
+	currentPassword: t.String({ minLength: 1 }),
+	newPassword: t.String({ minLength: 8 }),
+});
+
+export type ChangePasswordRequest = typeof ChangePasswordRequestSchema.static;
+
+/** Every other session is revoked; the current one continues under the returned token. */
+export const ChangePasswordResponseSchema = t.Object({
+	token: t.Nullable(t.String()),
+	user: AuthUserSchema,
+});
+
+export type ChangePasswordResponse = typeof ChangePasswordResponseSchema.static;
+
 export const LogoutResponseSchema = t.Object({
 	success: t.Boolean(),
 });
