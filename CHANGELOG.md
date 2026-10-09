@@ -28,6 +28,7 @@
 - **Profile PIN status** — `profiles.getPinStatus(id)` returns `{ hasPin }` for the owner's profile (`ProfilePinStatusSchema` / `ProfilePinStatus`), so settings can offer removing the PIN without ever receiving it.
 - **Filtered marker list** — `media.getAllMarkers({ type, source, q, limit })` narrows the admin marker list on the server; `MediaMarkerFiltersSchema` / `MediaMarkerFilters` describe the filters. Calls without arguments behave as before.
 - **Subtitle text search** — `SubtitleFiltersSchema` takes `q` (up to 200 characters); `subtitles.getAll({ q })` matches it against the label, the language and the media file id.
+- **Mark all read by type** — `notifications.markAllRead(type?)` marks only the notifications of the given type when one is passed.
 - **Live activity capacity** — `AdminLiveActivityResponse` gains `capacity` (`{ limit, active }`): the server-wide stream limit and the number of slots in use.
 - **Remove notifications** — `notifications.delete(id)` and `notifications.deleteMany(ids)` (up to 200) remove notifications from the caller's list and return `{ deleted }`.
 - **Trickplay regeneration by scope** — `admin.regenerateTrickplay({ scope, id, force? })` (`scope` is `library`, `title` or `season`) returns `TrickplayRegenerationQueued` (`{ operationId?, matching, enqueued, remaining }`); `admin.getTrickplayRegenerationReport(operationId)` returns `TrickplayRegenerationReport` with the generated, budget-skipped, other-skipped, failed, cancelled and unfinished counts.

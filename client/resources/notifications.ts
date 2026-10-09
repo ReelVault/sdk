@@ -19,8 +19,9 @@ export class NotificationsClient extends BaseResource {
 		return this._patch(`/notifications/${id}`, { body: { read: true } });
 	}
 
-	markAllRead(): Promise<{ success: true }> {
-		return this._patch("/notifications", { body: { all: true } });
+	/** Marks the caller's notifications read; with `type`, only the notifications of that type. */
+	markAllRead(type?: string): Promise<{ success: true }> {
+		return this._patch("/notifications", { body: { all: true, type } });
 	}
 
 	/** Removes one notification from the caller's list. */
