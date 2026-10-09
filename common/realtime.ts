@@ -79,6 +79,12 @@ export interface RealtimeEventMap {
 		pluginId?: string | undefined;
 		[key: string]: unknown;
 	};
+	/** Sent to administrators when settings are saved or reset; `keys` lists the settings that changed. */
+	"settings:changed": {
+		keys: string[];
+		actorUserId?: string | undefined;
+		updatedAt: string;
+	};
 	"library:scan:completed": {
 		libraryId?: string | undefined;
 		libraryTitle?: string | undefined;

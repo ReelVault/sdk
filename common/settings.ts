@@ -29,6 +29,10 @@ export const SystemSettingItemViewSchema = t.Object({
 	/** The value is read only at startup or when a session begins: a change needs a restart. */
 	restartRequired: t.Optional(t.Boolean()),
 	isCustom: t.Boolean(),
+	/** When a custom value was last saved; absent for defaults. */
+	updatedAt: t.Optional(t.String({ format: "date-time" })),
+	/** The administrator who saved the custom value (null when none is known). */
+	lastModifiedBy: t.Optional(t.Nullable(t.String())),
 });
 
 export type SystemSettingItemView = Static<typeof SystemSettingItemViewSchema>;
