@@ -1,6 +1,6 @@
 import type { MetadataDetailsViewResponse } from "@sdk/common";
 import type { FieldsQuery, SelectFields } from "@sdk/common/fields";
-import type { GlobalSearchResponse } from "@sdk/common/metadata";
+import type { GlobalSearchResponse, MetadataStatusesResponse } from "@sdk/common/metadata";
 
 import type { MetadataFilters, MetadataSorting, MetadataWithRelation, UpdateMetadata } from "@sdk/common/metadata.types";
 import type { MetadataImageOption, SelectMetadataImage } from "@sdk/common/metadata-images";
@@ -84,5 +84,10 @@ export class MetadataClient extends BaseResource {
 
 	searchGlobal(query: string, limit = 6): Promise<GlobalSearchResponse> {
 		return this._get("/metadata/search/global", { query: { q: query, limit } });
+	}
+
+	/** Distinct catalog statuses, for the status filter. */
+	getStatuses(): Promise<MetadataStatusesResponse> {
+		return this._get("/metadata/statuses");
 	}
 }

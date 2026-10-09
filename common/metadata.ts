@@ -1,6 +1,13 @@
 import { t } from "elysia";
 import type { CatalogMediaType, ExternalIdentity } from "./media";
 
+/** Distinct non-empty catalog statuses, sorted, for the status filter. */
+export const MetadataStatusesResponseSchema = t.Object({
+	statuses: t.Array(t.String()),
+});
+
+export type MetadataStatusesResponse = typeof MetadataStatusesResponseSchema.static;
+
 export const GlobalSearchResponseSchema = t.Object({
 	titles: t.Array(
 		t.Object({
