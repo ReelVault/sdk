@@ -62,6 +62,8 @@ export const PluginAdminStatusSchema = t.Object({
 	 * (server start or install). A mismatch found at start is reported until the plugin is installed again.
 	 */
 	integrityOk: t.Optional(t.Boolean()),
+	/** Installer-managed plugins only: the administrator refuses the CSP sources the manifest declares. */
+	cspDisabled: t.Optional(t.Boolean()),
 	/** An enabled catalog offers a newer version of this plugin. */
 	updateAvailable: t.Boolean(),
 });
@@ -102,6 +104,11 @@ export const PluginConfigDetailsSchema = t.Object({
 export type PluginConfigDetails = typeof PluginConfigDetailsSchema.static;
 
 export const UpdatePluginConfigBodySchema = t.Record(t.String(), t.Unknown());
+
+/** Allows (`true`) or refuses (`false`) the CSP sources the plugin's manifest declares. */
+export const PluginCspUpdateBodySchema = t.Object({ enabled: t.Boolean() });
+
+export type PluginCspUpdateBody = typeof PluginCspUpdateBodySchema.static;
 
 /** Restores the defaults for the listed fields, or for every stored value when `keys` is omitted. */
 export const ResetPluginConfigBodySchema = t.Object({

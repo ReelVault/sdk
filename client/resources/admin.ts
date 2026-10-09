@@ -289,6 +289,10 @@ export class AdminClient extends BaseResource {
 		return this._put(`/admin/plugins/${pluginId}/config`, { body });
 	}
 
+	setPluginCsp(pluginId: string, enabled: boolean): Promise<PluginAdminStatus> {
+		return this._put(`/admin/plugins/${pluginId}/csp`, { body: { enabled } });
+	}
+
 	resetPluginConfig(pluginId: string, body: ResetPluginConfigBody = {}): Promise<PluginConfigDetails> {
 		return this._post(`/admin/plugins/${pluginId}/config/reset`, { body });
 	}
