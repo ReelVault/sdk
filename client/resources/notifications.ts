@@ -1,7 +1,12 @@
+import type { PaginatedResponse, PaginationQuery } from "@sdk/common/pagination";
 import type { Notification } from "@sdk/common/notification.types";
 import { BaseResource } from "../core/base-resource";
 
 export class NotificationsClient extends BaseResource {
+	getPage(query: PaginationQuery & { unreadOnly?: boolean; type?: string } = {}): Promise<PaginatedResponse<Notification>> {
+		return this._get("/notifications/page", { query });
+	}
+
 	getAll(query: { unreadOnly?: boolean } = {}): Promise<Notification[]> {
 		return this._get("/notifications", { query });
 	}
