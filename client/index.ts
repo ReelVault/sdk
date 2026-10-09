@@ -42,6 +42,7 @@ export { EventsClient } from "./resources/events";
 
 export { GenresClient } from "./resources/genres";
 
+export { CapabilitiesClient } from "./resources/capabilities";
 export { HealthClient } from "./resources/health";
 
 export { ImagesClient } from "./resources/images";

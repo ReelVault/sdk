@@ -7,6 +7,7 @@ import { DownloadsClient } from "../resources/downloads";
 import { EpisodesClient } from "../resources/episodes";
 import { EventsClient } from "../resources/events";
 import { GenresClient } from "../resources/genres";
+import { CapabilitiesClient } from "../resources/capabilities";
 import { HealthClient } from "../resources/health";
 import { ImagesClient } from "../resources/images";
 import { KeywordsClient } from "../resources/keywords";
@@ -69,6 +70,7 @@ export class ReelVaultClient {
 
 	// Utilities
 	public readonly health: HealthClient;
+	public readonly capabilities: CapabilitiesClient;
 
 	private readonly resourceConfig: ResourceConfig;
 	private readonly http: HttpClient;
@@ -129,6 +131,7 @@ export class ReelVaultClient {
 		this.events = this.createResource(EventsClient);
 
 		this.health = this.createResource(HealthClient);
+		this.capabilities = this.createResource(CapabilitiesClient);
 	}
 
 	setAccessToken(token: string | undefined): void {

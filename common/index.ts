@@ -27,6 +27,7 @@ export * from "./fields";
 
 export * from "./genre.types";
 
+export * from "./capabilities";
 export * from "./health";
 
 export * from "./image.types";
