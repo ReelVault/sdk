@@ -115,6 +115,30 @@ export const LibraryErrorsCheckRequestSchema = t.Object({
 
 export type LibraryErrorsCheckRequest = typeof LibraryErrorsCheckRequestSchema.static;
 
+export const LibraryErrorsCheckProblemSchema = t.Object({
+	filePath: t.String(),
+	/** FFmpeg's decode messages for the file, as it printed them. */
+	errors: t.String(),
+});
+
+export const LibraryErrorsCheckResultSchema = t.Object({
+	libraryPaths: t.Array(t.String()),
+	scannedFiles: t.Integer({ minimum: 0 }),
+	cleanFiles: t.Integer({ minimum: 0 }),
+	problematicFiles: t.Array(LibraryErrorsCheckProblemSchema),
+});
+
+export type LibraryErrorsCheckResult = typeof LibraryErrorsCheckResultSchema.static;
+
+/** Status of a check queued by `POST /libraries/check-errors`; `result` is set once the check has completed. */
+export const LibraryErrorsCheckStatusSchema = t.Object({
+	status: WorkerOperationStatusSchema,
+	progressPercent: t.Union([t.Number(), t.Null()]),
+	result: t.Union([LibraryErrorsCheckResultSchema, t.Null()]),
+});
+
+export type LibraryErrorsCheckStatus = typeof LibraryErrorsCheckStatusSchema.static;
+
 export const WorkerQueueStatsSchema = t.Object({
 	workerId: t.String(),
 	/** Effective concurrency; `0` means hardware-derived auto sizing. */

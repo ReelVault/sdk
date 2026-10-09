@@ -1,4 +1,11 @@
-import type { LibraryErrorsCheckRequest, LibraryScanAllResponse, LibraryScanCancelResponse, OperationQueuedResponse } from "@sdk/common";
+import type {
+	LibraryErrorsCheckRequest,
+	LibraryErrorsCheckStatus,
+	LibraryHealthResponse,
+	LibraryScanAllResponse,
+	LibraryScanCancelResponse,
+	OperationQueuedResponse,
+} from "@sdk/common";
 import type { FieldsQuery, SelectFields } from "@sdk/common/fields";
 import type { CreateLibrary, LibraryFilters, LibrarySorting, LibraryWithRelations, UpdateLibrary } from "@sdk/common/library.types";
 import type { PaginatedResponse, PaginationQuery } from "@sdk/common/pagination";
@@ -45,6 +52,16 @@ export class LibrariesClient extends BaseResource {
 
 	checkErrors(libraryPaths: LibraryErrorsCheckRequest["libraryPaths"]): Promise<OperationQueuedResponse> {
 		return this._post("/libraries/check-errors", { body: { libraryPaths } });
+	}
+
+	/** Status of a check queued by `checkErrors`; `result` is set once it has completed. */
+	getErrorsCheckStatus(operationId: string): Promise<LibraryErrorsCheckStatus> {
+		return this._get(`/libraries/check-errors/${encodeURIComponent(operationId)}`);
+	}
+
+	/** Every library's paths as they are now: whether each exists and whether the watcher covers it. */
+	getHealth(): Promise<LibraryHealthResponse> {
+		return this._get("/libraries/health");
 	}
 
 	getIgnoredAssets(libraryId: string): Promise<Array<{ path: string; fileName: string; reason: string }>> {

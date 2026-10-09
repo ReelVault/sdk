@@ -76,6 +76,36 @@ export const LibraryWithRelationsSchema = t.Composite([
 
 export type LibraryWithRelations = typeof LibraryWithRelationsSchema.static;
 
+/** One path as it is now: on disk, and whether the filesystem watcher covers it. */
+export const LibraryPathHealthSchema = t.Object({
+	pathId: t.String(),
+	path: t.String(),
+	exists: t.Boolean(),
+	isDirectory: t.Boolean(),
+	/** `unwatchable` means a fallback scan runs on the path instead of live file events. */
+	watchStatus: t.Union([t.Literal("watching"), t.Literal("unwatchable")]),
+	/** Stable code of why the watcher gave up on the path (e.g. `library.path_missing`); the reason's text is never sent. */
+	unwatchableCode: t.Optional(t.String()),
+	unwatchableSince: t.Optional(t.String({ format: "date-time" })),
+});
+
+export type LibraryPathHealth = typeof LibraryPathHealthSchema.static;
+
+export const LibraryHealthSchema = t.Object({
+	libraryId: t.String(),
+	/** Finished scan of the library, or null when it was never scanned. */
+	lastScanAt: t.Union([t.String({ format: "date-time" }), t.Null()]),
+	paths: t.Array(LibraryPathHealthSchema),
+});
+
+export type LibraryHealth = typeof LibraryHealthSchema.static;
+
+export const LibraryHealthResponseSchema = t.Object({
+	data: t.Array(LibraryHealthSchema),
+});
+
+export type LibraryHealthResponse = typeof LibraryHealthResponseSchema.static;
+
 /** GET /libraries/:libraryId — `siblings` is attached only when `?siblings=true` is passed. */
 export const LibraryDetailSchema = t.Composite([
 	LibraryWithRelationsSchema,
