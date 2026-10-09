@@ -64,6 +64,8 @@ export const PluginAdminStatusSchema = t.Object({
 	integrityOk: t.Optional(t.Boolean()),
 	/** Installer-managed plugins only: the administrator refuses the CSP sources the manifest declares. */
 	cspDisabled: t.Optional(t.Boolean()),
+	/** Installer-managed plugins only: the installed version is kept, so catalog updates are not offered. */
+	pinned: t.Optional(t.Boolean()),
 	/** An enabled catalog offers a newer version of this plugin. */
 	updateAvailable: t.Boolean(),
 });
@@ -104,6 +106,33 @@ export const PluginConfigDetailsSchema = t.Object({
 export type PluginConfigDetails = typeof PluginConfigDetailsSchema.static;
 
 export const UpdatePluginConfigBodySchema = t.Record(t.String(), t.Unknown());
+
+/** Enables or disables several plugins in one request. */
+export const PluginBulkStateBodySchema = t.Object({
+	enabled: t.Boolean(),
+	pluginIds: t.Array(t.String({ maxLength: 128 }), { minItems: 1, maxItems: 100 }),
+});
+
+export type PluginBulkStateBody = typeof PluginBulkStateBodySchema.static;
+
+/** One outcome per requested plugin, in request order. A failure does not stop the others. */
+export const PluginBulkStateResultSchema = t.Object({
+	results: t.Array(
+		t.Object({
+			pluginId: t.String(),
+			ok: t.Boolean(),
+			error: t.Optional(t.String()),
+			errorCode: t.Optional(t.String()),
+		}),
+	),
+});
+
+export type PluginBulkStateResult = typeof PluginBulkStateResultSchema.static;
+
+/** Keeps (`true`) or releases (`false`) the installed version of a plugin. */
+export const PluginPinUpdateBodySchema = t.Object({ pinned: t.Boolean() });
+
+export type PluginPinUpdateBody = typeof PluginPinUpdateBodySchema.static;
 
 /** Allows (`true`) or refuses (`false`) the CSP sources the plugin's manifest declares. */
 export const PluginCspUpdateBodySchema = t.Object({ enabled: t.Boolean() });

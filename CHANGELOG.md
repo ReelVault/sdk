@@ -20,6 +20,7 @@
 ### Features
 
 - **Plugin configuration reset, export and import** — `admin.resetPluginConfig(id, { keys? })`, `admin.exportPluginConfig(id)` and `admin.importPluginConfig(id, file)` with `ResetPluginConfigBodySchema` and `PluginConfigExportSchema`. Exports never contain secret fields.
+- **Bulk plugin state and version pinning** — `admin.setPluginsEnabled({ enabled, pluginIds })` returns an outcome per plugin; `admin.setPluginPinned(id, pinned)`; `PluginAdminStatus.pinned`.
 - **Refuse a plugin's CSP sources** — `PluginAdminStatus.cspDisabled` and `admin.setPluginCsp(id, enabled)` for `PUT /admin/plugins/:id/csp`.
 - **Setting metadata** — `SystemSettingItemView` reports the `unit` of a number setting and `restartRequired` for settings that take effect only after a restart.
 - **Server capabilities** — `ServerCapabilitiesSchema` / `ServerCapabilities` and `reelvault.capabilities.get()` for the public `GET /capabilities` endpoint (trickplay, downloads).

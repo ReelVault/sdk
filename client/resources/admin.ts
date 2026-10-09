@@ -32,6 +32,8 @@ import type {
 	PluginAdminStatus,
 	PluginCatalogEntry,
 	PluginConfigDetails,
+	PluginBulkStateBody,
+	PluginBulkStateResult,
 	PluginConfigExport,
 	PluginRepository,
 	PluginUiSettings,
@@ -287,6 +289,14 @@ export class AdminClient extends BaseResource {
 
 	updatePluginConfig(pluginId: string, body: Record<string, unknown>): Promise<PluginConfigDetails> {
 		return this._put(`/admin/plugins/${pluginId}/config`, { body });
+	}
+
+	setPluginsEnabled(body: PluginBulkStateBody): Promise<PluginBulkStateResult> {
+		return this._post("/admin/plugins/bulk", { body });
+	}
+
+	setPluginPinned(pluginId: string, pinned: boolean): Promise<PluginAdminStatus> {
+		return this._put(`/admin/plugins/${pluginId}/pin`, { body: { pinned } });
 	}
 
 	setPluginCsp(pluginId: string, enabled: boolean): Promise<PluginAdminStatus> {
