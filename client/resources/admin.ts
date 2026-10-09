@@ -576,8 +576,12 @@ export class AdminClient extends BaseResource {
 		return this._post(`/admin/plugins/${pluginId}/uninstall`, { body: undefined });
 	}
 
-	getDownloadJobs(): Promise<AdminDownloadsResponse> {
-		return this._get("/admin/downloads/jobs");
+	getDownloadJobs(query?: {
+		page?: number | undefined;
+		limit?: number | undefined;
+		status?: "pending" | "processing" | "completed" | "failed" | "cancelled" | undefined;
+	}): Promise<AdminDownloadsResponse> {
+		return this._get("/admin/downloads/jobs", { query });
 	}
 
 	deleteDownloadJob(jobId: string): Promise<{ success: boolean }> {

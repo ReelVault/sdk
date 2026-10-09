@@ -1,4 +1,5 @@
 import { t } from "elysia";
+import { PaginationMetaSchema } from "./pagination";
 
 export const DownloadJobSchema = t.Object({
 	id: t.String(),
@@ -44,6 +45,21 @@ export const AdminDownloadJobSchema = t.Composite([
 
 export type AdminDownloadJob = typeof AdminDownloadJobSchema.static;
 
-export const AdminDownloadsResponseSchema = t.Object({ jobs: t.Array(AdminDownloadJobSchema) });
+/** Downloads per status across every profile. */
+export const AdminDownloadStatusCountsSchema = t.Object({
+	pending: t.Integer({ minimum: 0 }),
+	processing: t.Integer({ minimum: 0 }),
+	completed: t.Integer({ minimum: 0 }),
+	failed: t.Integer({ minimum: 0 }),
+	cancelled: t.Integer({ minimum: 0 }),
+});
+
+export type AdminDownloadStatusCounts = typeof AdminDownloadStatusCountsSchema.static;
+
+export const AdminDownloadsResponseSchema = t.Object({
+	...PaginationMetaSchema.properties,
+	data: t.Array(AdminDownloadJobSchema),
+	counts: AdminDownloadStatusCountsSchema,
+});
 
 export type AdminDownloadsResponse = typeof AdminDownloadsResponseSchema.static;
