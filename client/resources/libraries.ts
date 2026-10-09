@@ -1,4 +1,4 @@
-import type { LibraryErrorsCheckRequest, OperationQueuedResponse } from "@sdk/common";
+import type { LibraryErrorsCheckRequest, LibraryScanAllResponse, LibraryScanCancelResponse, OperationQueuedResponse } from "@sdk/common";
 import type { FieldsQuery, SelectFields } from "@sdk/common/fields";
 import type { CreateLibrary, LibraryFilters, LibrarySorting, LibraryWithRelations, UpdateLibrary } from "@sdk/common/library.types";
 import type { PaginatedResponse, PaginationQuery } from "@sdk/common/pagination";
@@ -29,6 +29,14 @@ export class LibrariesClient extends BaseResource {
 
 	scan(libraryId: string): Promise<OperationQueuedResponse> {
 		return this._post(`/libraries/${libraryId}/scan`, { body: undefined });
+	}
+
+	scanAll(): Promise<LibraryScanAllResponse> {
+		return this._post("/libraries/scan", { body: undefined });
+	}
+
+	cancelScans(libraryId: string): Promise<LibraryScanCancelResponse> {
+		return this._post(`/libraries/${libraryId}/scan/cancel`, { body: undefined });
 	}
 
 	scanPath(libraryId: string, pathId: string): Promise<OperationQueuedResponse> {

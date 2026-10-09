@@ -110,4 +110,5 @@ export * from "./watched-history.types";
 
 export * from "./watchlist.types";
 
+export * from "./library-scan";
 export * from "./workers";
