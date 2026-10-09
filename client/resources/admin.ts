@@ -51,6 +51,7 @@ import type {
 	UpdateSystemSettings,
 	WorkerCategory,
 	WorkerCategoryRunResponse,
+	WorkerJob,
 	WorkerOperation,
 	WorkerOperationJobsResponse,
 	WorkerSummary,
@@ -130,6 +131,15 @@ export class AdminClient extends BaseResource {
 	}
 
 	// ─── Worker Jobs ──────────────────────────────────────────────────────────
+	getWorkerJobs(query?: {
+		page?: number | undefined;
+		limit?: number | undefined;
+		workerId?: string | undefined;
+		status?: "pending" | "running" | "completed" | "failed" | "cancelled" | undefined;
+	}): Promise<PaginatedResponse<WorkerJob>> {
+		return this._get("/admin/workers/jobs", { query });
+	}
+
 	cancelWorkerJob(jobId: string): Promise<{ success: boolean }> {
 		return this._post(`/admin/workers/jobs/${jobId}/cancel`, { body: undefined });
 	}
