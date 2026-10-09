@@ -25,6 +25,7 @@ import type {
 	AdminUser,
 	AdminUserProfile,
 	AdminUsersPage,
+	ImportSystemSettings,
 	InstallCatalogPluginBody,
 	InstallCatalogPluginResponse,
 	MetadataProviderConfiguration,
@@ -43,6 +44,7 @@ import type {
 	PurgeWorkerHistoryResponse,
 	ResetPluginConfigBody,
 	ResetSystemSettings,
+	SystemSettingsExport,
 	SystemSettingsGrouped,
 	TaskTrigger,
 	TrickplayStats,
@@ -74,6 +76,14 @@ export class AdminClient extends BaseResource {
 
 	updateSystemSettings(body: UpdateSystemSettings): Promise<SystemSettingsGrouped> {
 		return this._patch("/admin/settings", { body });
+	}
+
+	exportSystemSettings(): Promise<SystemSettingsExport> {
+		return this._get("/admin/settings/export");
+	}
+
+	importSystemSettings(body: ImportSystemSettings): Promise<SystemSettingsGrouped> {
+		return this._post("/admin/settings/import", { body });
 	}
 
 	resetSystemSettings(body?: ResetSystemSettings): Promise<SystemSettingsGrouped> {

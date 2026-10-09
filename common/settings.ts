@@ -53,6 +53,29 @@ export const UpdateSystemSettingsSchema = t.Record(t.String(), t.Any());
 
 export type UpdateSystemSettings = Static<typeof UpdateSystemSettingsSchema>;
 
+/** `GET /admin/settings/export` — the current value of every setting, versioned so an import can refuse other formats. */
+export const SystemSettingsExportSchema = t.Object({
+	format: t.Literal("reelvault.settings"),
+	formatVersion: t.Literal(1),
+	exportedAt: t.String({ format: "date-time" }),
+	settings: t.Record(t.String(), t.Any()),
+});
+
+export type SystemSettingsExport = Static<typeof SystemSettingsExportSchema>;
+
+/** `POST /admin/settings/import` — an export file. Listed settings are validated and applied; the others keep their values. */
+export const ImportSystemSettingsSchema = t.Object(
+	{
+		format: t.Literal("reelvault.settings"),
+		formatVersion: t.Literal(1),
+		exportedAt: t.Optional(t.String()),
+		settings: t.Record(t.String(), t.Any()),
+	},
+	{ additionalProperties: false },
+);
+
+export type ImportSystemSettings = Static<typeof ImportSystemSettingsSchema>;
+
 export const ResetSystemSettingsSchema = t.Object({
 	keys: t.Optional(t.Array(t.String())),
 });

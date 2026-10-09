@@ -31,6 +31,7 @@
 - **Worker job list** — `admin.getWorkerJobs({ page, limit, workerId, status })` returns one page of worker jobs (`PaginatedResponse<WorkerJob>`).
 - **Watchlist bulk changes and clear** — `me.bulkUpdateWatchlist({ add, remove })` (`WatchlistBulkBodySchema`) and `me.clearWatchlist()`, with `WatchlistBulkResponse` and `WatchlistClearResponse`.
 - **Log filters** — `admin.getLogs({ module, exclude, from, to })` takes the same filters as the server query.
+- **Settings export and import** — `admin.exportSystemSettings()` (`SystemSettingsExportSchema`) and `admin.importSystemSettings(body)` (`ImportSystemSettingsSchema`).
 - **Change password** — `auth.changePassword({ currentPassword, newPassword })` with `ChangePasswordRequestSchema` / `ChangePasswordResponseSchema`. Every other session is revoked while the current one stays signed in.
 - **Subtitle language priority list** — `subtitleFallbackLanguages` on profile preferences and preference defaults: a comma-separated list (e.g. `en,de`) tried after `subtitleLanguage`.
 - **Remove from Continue Watching** — `me.dismissContinueWatching(metadataId)` hides a title without discarding resume positions.
