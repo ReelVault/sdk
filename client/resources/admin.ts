@@ -31,6 +31,7 @@ import type {
 	OperationQueuedResponse,
 	PluginAdminStatus,
 	PluginCatalogEntry,
+	PluginCatalogResult,
 	PluginConfigDetails,
 	PluginBulkStateBody,
 	PluginBulkStateResult,
@@ -453,7 +454,7 @@ export class AdminClient extends BaseResource {
 		return this._post(`/admin/plugins/repositories/${repositoryId}/refresh`, { body: undefined });
 	}
 
-	getPluginCatalog(): Promise<PluginCatalogEntry[]> {
+	getPluginCatalog(): Promise<PluginCatalogResult> {
 		return this._get("/admin/plugins/catalog");
 	}
 

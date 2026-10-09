@@ -62,6 +62,24 @@ export const PluginCatalogEntrySchema = t.Object({
 
 export type PluginCatalogEntry = typeof PluginCatalogEntrySchema.static;
 
+/** A catalog repository that could not be read; its plugins are missing from the catalog. */
+export const PluginCatalogUnavailableRepositorySchema = t.Object({
+	repositoryId: t.String(),
+	repositoryName: t.String(),
+	/** Stable code for why the repository could not be read (for example `plugin.repository_unavailable`). */
+	errorCode: t.String(),
+});
+
+export type PluginCatalogUnavailableRepository = typeof PluginCatalogUnavailableRepositorySchema.static;
+
+/** The aggregated catalog plus the repositories that did not contribute to it. */
+export const PluginCatalogResultSchema = t.Object({
+	plugins: t.Array(PluginCatalogEntrySchema),
+	unavailableRepositories: t.Array(PluginCatalogUnavailableRepositorySchema),
+});
+
+export type PluginCatalogResult = typeof PluginCatalogResultSchema.static;
+
 export const CreatePluginRepositoryBodySchema = t.Object({
 	name: t.String({ minLength: 1, maxLength: 100 }),
 	url: t.String({ minLength: 8, maxLength: 2048 }),
