@@ -21,6 +21,9 @@ export const SystemSettingItemViewSchema = t.Object({
 	value: t.Any(),
 	default: t.Any(),
 	options: t.Optional(t.Array(t.String())),
+	/** Inclusive bounds of a number setting. */
+	min: t.Optional(t.Number()),
+	max: t.Optional(t.Number()),
 	isCustom: t.Boolean(),
 });
 

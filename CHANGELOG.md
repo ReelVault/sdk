@@ -25,3 +25,4 @@
 - **Rewind on resume** — `resumeRewindSeconds` (0–30) on profile preferences and preference defaults.
 - **Plugin UI switches** — `admin.getPluginUiSettings` / `updatePluginUiSettings` / `resetPluginUiSettings` with `PluginUiSettingsSchema` and `UpdatePluginUiSettingsBodySchema`: list the switchable parts of a plugin's UI (pages, dialogs, tabs, slot entries, search provider, pre-roll) and hide them individually or all at once.
 - **Liveness and readiness probes** — `health.live()` and `health.ready()` for `GET /health/live` and `GET /health/ready` (`HealthLiveResponseSchema`).
+- **Number setting bounds** — `SystemSettingItemView` carries `min` and `max` for number settings.
