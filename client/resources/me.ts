@@ -14,7 +14,14 @@ import type { CursorPaginatedResponse, CursorPaginationQuery, PaginatedResponse,
 import type { StreamPrefs, UpdatePlaybackProgress } from "@sdk/common/playback-progress.types";
 import type { CreateUserRatingRequest, UserRating, UserRatingFilters, UserRatingSorting } from "@sdk/common/user-ratings.types";
 import type { CreateWatchedHistory, WatchedHistoryWithRelations } from "@sdk/common/watched-history.types";
-import type { Watchlist, WatchlistFilters, WatchlistSorting } from "@sdk/common/watchlist.types";
+import type {
+	Watchlist,
+	WatchlistBulkBody,
+	WatchlistBulkResponse,
+	WatchlistClearResponse,
+	WatchlistFilters,
+	WatchlistSorting,
+} from "@sdk/common/watchlist.types";
 import { BaseResource } from "../core/base-client";
 
 export class MeClient extends BaseResource {
@@ -77,6 +84,16 @@ export class MeClient extends BaseResource {
 
 	removeFromWatchlist(metadataId: string): Promise<{ success: true; removed: true }> {
 		return this._delete(`/me/watchlist/${metadataId}`);
+	}
+
+	/** Adds and removes several titles of the active profile in one request. */
+	bulkUpdateWatchlist(body: WatchlistBulkBody): Promise<WatchlistBulkResponse> {
+		return this._post("/me/watchlist/bulk", { body });
+	}
+
+	/** Removes every title from the watchlist of the active profile. */
+	clearWatchlist(): Promise<WatchlistClearResponse> {
+		return this._delete("/me/watchlist");
 	}
 
 	isInWatchlist(metadataId: string): Promise<{ inWatchlist: boolean }> {

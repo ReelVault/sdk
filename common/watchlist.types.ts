@@ -35,6 +35,30 @@ export const WatchlistStatusesResponseSchema = t.Object({
 
 export type WatchlistStatusesResponse = typeof WatchlistStatusesResponseSchema.static;
 
+/** `POST /me/watchlist/bulk` — titles to add and to remove in one request (up to 500 of each). */
+export const WatchlistBulkBodySchema = t.Object({
+	add: t.Optional(t.Array(t.String({ minLength: 1, maxLength: 128 }), { maxItems: 500 })),
+	remove: t.Optional(t.Array(t.String({ minLength: 1, maxLength: 128 }), { maxItems: 500 })),
+});
+
+export type WatchlistBulkBody = typeof WatchlistBulkBodySchema.static;
+
+export const WatchlistBulkResponseSchema = t.Object({
+	success: t.Literal(true),
+	added: t.Integer({ minimum: 0 }),
+	removed: t.Integer({ minimum: 0 }),
+});
+
+export type WatchlistBulkResponse = typeof WatchlistBulkResponseSchema.static;
+
+/** `DELETE /me/watchlist` — empties the watchlist of the active profile. */
+export const WatchlistClearResponseSchema = t.Object({
+	success: t.Literal(true),
+	removed: t.Integer({ minimum: 0 }),
+});
+
+export type WatchlistClearResponse = typeof WatchlistClearResponseSchema.static;
+
 export const WatchlistFiltersSchema = t.Object({
 	profileId: t.Optional(t.String()),
 	metadataId: t.Optional(t.String()),

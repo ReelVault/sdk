@@ -29,6 +29,7 @@
 - **Filtered marker list** — `media.getAllMarkers({ type, source, q, limit })` narrows the admin marker list on the server; `MediaMarkerFiltersSchema` / `MediaMarkerFilters` describe the filters. Calls without arguments behave as before.
 - **Subtitle text search** — `SubtitleFiltersSchema` takes `q` (up to 200 characters); `subtitles.getAll({ q })` matches it against the label, the language and the media file id.
 - **Worker job list** — `admin.getWorkerJobs({ page, limit, workerId, status })` returns one page of worker jobs (`PaginatedResponse<WorkerJob>`).
+- **Watchlist bulk changes and clear** — `me.bulkUpdateWatchlist({ add, remove })` (`WatchlistBulkBodySchema`) and `me.clearWatchlist()`, with `WatchlistBulkResponse` and `WatchlistClearResponse`.
 - **Change password** — `auth.changePassword({ currentPassword, newPassword })` with `ChangePasswordRequestSchema` / `ChangePasswordResponseSchema`. Every other session is revoked while the current one stays signed in.
 - **Subtitle language priority list** — `subtitleFallbackLanguages` on profile preferences and preference defaults: a comma-separated list (e.g. `en,de`) tried after `subtitleLanguage`.
 - **Remove from Continue Watching** — `me.dismissContinueWatching(metadataId)` hides a title without discarding resume positions.
