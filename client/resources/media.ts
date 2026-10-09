@@ -50,7 +50,7 @@ export class MediaFileClient extends BaseResource {
 		return this._post("/media-files/markers/import", { body: ndjson, headers: { "content-type": "text/plain; charset=utf-8" } });
 	}
 
-	getAllMarkers(query?: MediaMarkerFilters & { limit?: number }): Promise<MediaMarker[]> {
+	getAllMarkers(query?: MediaMarkerFilters & { page?: number; limit?: number }): Promise<PaginatedResponse<MediaMarker>> {
 		return this._get("/media-files/markers", { query });
 	}
 
