@@ -87,6 +87,8 @@ export const AdminLiveWarningSchema = t.Object({
 export const AdminLiveActivityResponseSchema = t.Object({
 	activeStreams: t.Array(AdminLiveStreamItemSchema),
 	activeDevices: t.Array(AdminActiveDeviceItemSchema),
+	/** Stream slots: `active` sessions hold one now, `limit` is the server-wide maximum. */
+	capacity: t.Object({ limit: t.Integer({ minimum: 0 }), active: t.Integer({ minimum: 0 }) }),
 	canSafelyUpdate: t.Boolean(),
 	/** Machine code + params — the frontend renders the warning text. */
 	warning: t.Optional(t.Nullable(AdminLiveWarningSchema)),
