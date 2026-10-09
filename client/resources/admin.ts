@@ -537,6 +537,14 @@ export class AdminClient extends BaseResource {
 		return this._post("/admin/database/backups", { body: undefined });
 	}
 
+	/** Stores an uploaded SQLite backup; the server refuses it unless backup upload is turned on in system settings. */
+	uploadDatabaseBackup(file: Blob): Promise<AdminDatabaseBackup> {
+		const body = new FormData();
+		body.set("file", file, "backup.sqlite");
+
+		return this._post("/admin/database/backups/upload", { body });
+	}
+
 	/** Runs SQLite's quick consistency check on the live database. */
 	getDatabaseIntegrity(): Promise<DatabaseIntegrity> {
 		return this._get("/admin/database/integrity");
