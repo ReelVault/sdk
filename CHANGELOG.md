@@ -41,6 +41,7 @@
 - **Marker import** — `media.importMarkers(ndjson)` sends the NDJSON file as text/plain and returns `MarkerImportResult` (`mediaFiles` and `markers` replaced).
 - **Setting change tracking** — `SystemSettingItemView` carries `updatedAt` and `lastModifiedBy`; the realtime event map has `settings:changed` (`keys`, `actorUserId`, `updatedAt`).
 - **API key rotation and editing** — `admin.rotateApiKey(id)` and `admin.updateApiKey(id, { name, expiresAtDays })`; `ApiKey` carries `createdByName`.
+- **Trickplay removal** — `admin.deleteTrickplay(mediaFileId)` and `admin.deleteTrickplayMany(mediaFileIds)` return `TrickplayDeleteResultSchema`; `admin.getArtifactStats()` reads the artifact rows per owner and kind.
 - **Bulk stream termination** — `admin.terminateLiveStreams({ sessionIds, reason })` returns `BulkTerminateSessionsResult`: the `terminated` and `failed` counts and one result per session.
 - **Change password** — `auth.changePassword({ currentPassword, newPassword })` with `ChangePasswordRequestSchema` / `ChangePasswordResponseSchema`. Every other session is revoked while the current one stays signed in.
 - **Subtitle language priority list** — `subtitleFallbackLanguages` on profile preferences and preference defaults: a comma-separated list (e.g. `en,de`) tried after `subtitleLanguage`.
