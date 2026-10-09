@@ -19,6 +19,7 @@
 
 ### Features
 
+- **Backup code count** — `auth.getBackupCodesStatus()` for `GET /auth/two-factor/backup-codes`, typed by `TwoFactorBackupCodesStatusSchema` / `TwoFactorBackupCodesStatus` (`{ remaining: number | null }`).
 - **Rating badge preference** — `hideRatingOverlay` in `ProfilePreferencesSchema`, `UpdateProfilePreferencesSchema` and `ProfilePreferenceDefaultsSchema`. It hides the rating badge on poster cards and defaults to off.
 - **Catalog statuses** — `metadata.getStatuses()` for `GET /metadata/statuses`, with `MetadataStatusesResponseSchema` / `MetadataStatusesResponse` (`{ statuses: string[] }`).
 - **Dry runs for log cleanup and trickplay deletes** — `admin.cleanupLogs(retentionDays, { dryRun })` and `admin.deleteTrickplayMany(ids, { dryRun })`. `TrickplayDeleteResult` and the log cleanup result carry `dryRun`; a dry run reports what would be removed and removes nothing.

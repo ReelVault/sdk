@@ -10,6 +10,7 @@ import type {
 	QuickConnectInitiateResponse,
 	RegisterRequest,
 	RegisterResponse,
+	TwoFactorBackupCodesStatus,
 } from "@sdk/common";
 
 import type { PaginationQuery } from "@sdk/common/pagination";
@@ -64,6 +65,11 @@ export class AuthClient extends BaseResource {
 
 	generateBackupCodes(password: string): Promise<{ backupCodes: string[] }> {
 		return this._post("/auth/two-factor/generate-backup-codes", { body: { password } });
+	}
+
+	/** How many backup codes the signed-in account can still use. The codes themselves are never returned. */
+	getBackupCodesStatus(): Promise<TwoFactorBackupCodesStatus> {
+		return this._get("/auth/two-factor/backup-codes");
 	}
 
 	// Quick Connect / Quick Login

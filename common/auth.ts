@@ -168,3 +168,10 @@ export type QuickConnectGenerateResponse = typeof QuickConnectGenerateResponseSc
 export const QuickConnectRedeemRequestSchema = t.Object({
 	code: t.String({ minLength: 4, maxLength: 32 }),
 });
+
+/** Backup codes the signed-in account can still use. `remaining` is null when the record cannot be read; the codes themselves are never returned. */
+export const TwoFactorBackupCodesStatusSchema = t.Object({
+	remaining: t.Nullable(t.Integer({ minimum: 0 })),
+});
+
+export type TwoFactorBackupCodesStatus = typeof TwoFactorBackupCodesStatusSchema.static;
