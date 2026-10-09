@@ -34,6 +34,7 @@ import type {
 	PluginConfigDetails,
 	PluginRepository,
 	PluginUiSettings,
+	PluginValidationResult,
 	PurgeWorkerHistoryOptions,
 	PurgeWorkerHistoryResponse,
 	ResetSystemSettings,
@@ -438,6 +439,14 @@ export class AdminClient extends BaseResource {
 	 * exposes no upload-progress events; `onProgress` reports byte counts while
 	 * the request body is being sent.
 	 */
+	/** Dry run of an archive install: reports what would change, installs nothing. */
+	validatePluginArchive(file: File): Promise<PluginValidationResult> {
+		const form = new FormData();
+		form.append("file", file);
+
+		return this._post("/admin/plugins/validate", { body: form });
+	}
+
 	installPluginArchive(
 		file: File,
 		onProgress?: (uploadedBytes: number, totalBytes: number) => void,

@@ -111,6 +111,28 @@ export const PluginInstallStateSchema = t.Union([
 
 export type PluginInstallState = typeof PluginInstallStateSchema.static;
 
+/** One finding of a dry-run check. `error` blocks the install; `warning` does not. */
+export const PluginValidationIssueSchema = t.Object({
+	severity: t.Union([t.Literal("error"), t.Literal("warning")]),
+	code: t.String(),
+	/** Raw diagnostic from the validator, for the administrator reading the report. Translate `code`, not this. */
+	message: t.String(),
+});
+
+export type PluginValidationIssue = typeof PluginValidationIssueSchema.static;
+
+/** What installing an uploaded archive would do, decided without installing it. */
+export const PluginValidationResultSchema = t.Object({
+	valid: t.Boolean(),
+	pluginId: t.Optional(t.String()),
+	version: t.Optional(t.String()),
+	installedVersion: t.Optional(t.String()),
+	direction: t.Optional(PluginInstallDirectionSchema),
+	issues: t.Array(PluginValidationIssueSchema),
+});
+
+export type PluginValidationResult = typeof PluginValidationResultSchema.static;
+
 export const InstallCatalogPluginResponseSchema = t.Object({
 	pluginId: t.String(),
 	version: t.String(),
