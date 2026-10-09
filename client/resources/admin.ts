@@ -29,10 +29,10 @@ import type {
 	InstallCatalogPluginResponse,
 	MetadataProviderConfiguration,
 	OperationQueuedResponse,
+	PluginAdminStatus,
 	PluginCatalogEntry,
 	PluginConfigDetails,
 	PluginRepository,
-	PluginRuntimeStatus,
 	PluginUiSettings,
 	PurgeWorkerHistoryOptions,
 	PurgeWorkerHistoryResponse,
@@ -370,19 +370,19 @@ export class AdminClient extends BaseResource {
 		return this._delete(`/admin/api-keys/${id}`);
 	}
 
-	getPlugins(): Promise<PluginRuntimeStatus[]> {
+	getPlugins(): Promise<PluginAdminStatus[]> {
 		return this._get("/admin/plugins");
 	}
 
-	reloadPlugins(): Promise<PluginRuntimeStatus[]> {
+	reloadPlugins(): Promise<PluginAdminStatus[]> {
 		return this._post("/admin/plugins/reload", { body: undefined });
 	}
 
-	enablePlugin(pluginId: string): Promise<PluginRuntimeStatus> {
+	enablePlugin(pluginId: string): Promise<PluginAdminStatus> {
 		return this._post(`/admin/plugins/${pluginId}/enable`, { body: undefined });
 	}
 
-	disablePlugin(pluginId: string): Promise<PluginRuntimeStatus> {
+	disablePlugin(pluginId: string): Promise<PluginAdminStatus> {
 		return this._post(`/admin/plugins/${pluginId}/disable`, { body: undefined });
 	}
 
@@ -399,7 +399,7 @@ export class AdminClient extends BaseResource {
 		return this._delete(`/admin/plugins/${pluginId}/ui`);
 	}
 
-	reloadPlugin(pluginId: string): Promise<PluginRuntimeStatus> {
+	reloadPlugin(pluginId: string): Promise<PluginAdminStatus> {
 		return this._post(`/admin/plugins/${pluginId}/reload`, { body: undefined });
 	}
 
