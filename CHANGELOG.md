@@ -28,6 +28,7 @@
 - **Profile PIN status** — `profiles.getPinStatus(id)` returns `{ hasPin }` for the owner's profile (`ProfilePinStatusSchema` / `ProfilePinStatus`), so settings can offer removing the PIN without ever receiving it.
 - **Filtered marker list** — `media.getAllMarkers({ type, source, q, limit })` narrows the admin marker list on the server; `MediaMarkerFiltersSchema` / `MediaMarkerFilters` describe the filters. Calls without arguments behave as before.
 - **Subtitle text search** — `SubtitleFiltersSchema` takes `q` (up to 200 characters); `subtitles.getAll({ q })` matches it against the label, the language and the media file id.
+- **Safer database restore** — `admin.restoreDatabase(fileName, { force? })` sends the optional `force`, and `AdminDatabaseRestoreResponse` carries `preRestoreBackup`, the copy taken just before the swap.
 - **Subtitle extractability** — `Subtitle.extractable` is `false` for image-based embedded tracks (PGS, VobSub), which cannot be served as text.
 - **Migration status** — `admin.getDatabaseMigrations()` returns `DatabaseMigrationStatus` (`total`, `applied`, `pending`, `latest`, `migrations`).
 - **Paginated marker list** — `media.getAllMarkers(query)` takes `page` next to `limit` and returns `PaginatedResponse<MediaMarker>` (`data`, `total`, `totalPages`) instead of a bare array.

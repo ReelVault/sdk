@@ -400,6 +400,8 @@ export const AdminDatabaseRestoreResponseSchema = t.Object({
 	success: t.Boolean(),
 	restarting: t.Boolean(),
 	restoredFrom: t.String(),
+	/** Copy of the database taken just before the swap; restoring it undoes this restore. */
+	preRestoreBackup: t.String(),
 });
 
 export type AdminDatabaseRestoreResponse = typeof AdminDatabaseRestoreResponseSchema.static;

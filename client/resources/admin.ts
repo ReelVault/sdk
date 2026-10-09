@@ -496,8 +496,8 @@ export class AdminClient extends BaseResource {
 		return this._delete(`/admin/database/backups/${fileName}`);
 	}
 
-	restoreDatabase(fileName: string): Promise<AdminDatabaseRestoreResponse> {
-		return this._post("/admin/database/restore", { body: { fileName } });
+	restoreDatabase(fileName: string, options: { force?: boolean | undefined } = {}): Promise<AdminDatabaseRestoreResponse> {
+		return this._post("/admin/database/restore", { body: { fileName, force: options.force } });
 	}
 
 	getApiKeys(): Promise<ApiKey[]> {
