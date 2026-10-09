@@ -496,3 +496,38 @@ export const TrickplayDeleteResultSchema = t.Object({
 });
 
 export type TrickplayDeleteResult = typeof TrickplayDeleteResultSchema.static;
+
+export const TrickplayRegenerateRequestSchema = t.Object({
+	scope: t.Union([t.Literal("library"), t.Literal("title"), t.Literal("season")]),
+	id: t.String({ minLength: 1, maxLength: 128 }),
+	/** Regenerate files that already have previews too; without it only files with none are queued. */
+	force: t.Optional(t.Boolean()),
+});
+
+export type TrickplayRegenerateRequest = typeof TrickplayRegenerateRequestSchema.static;
+
+export const TrickplayRegenerationQueuedSchema = t.Object({
+	operationId: t.Optional(t.String()),
+	/** Files in the scope that match, before the per-request cap. */
+	matching: t.Integer({ minimum: 0 }),
+	enqueued: t.Integer({ minimum: 0 }),
+	/** Matching files a later request has to queue, because this one stopped at the cap. */
+	remaining: t.Integer({ minimum: 0 }),
+});
+
+export type TrickplayRegenerationQueued = typeof TrickplayRegenerationQueuedSchema.static;
+
+export const TrickplayRegenerationReportSchema = t.Object({
+	operationId: t.String(),
+	total: t.Integer({ minimum: 0 }),
+	generated: t.Integer({ minimum: 0 }),
+	/** Completed jobs the artifact storage budget skipped. */
+	skippedStorageBudget: t.Integer({ minimum: 0 }),
+	/** Completed jobs skipped for another reason, such as a file without a duration. */
+	skippedOther: t.Integer({ minimum: 0 }),
+	failed: t.Integer({ minimum: 0 }),
+	cancelled: t.Integer({ minimum: 0 }),
+	unfinished: t.Integer({ minimum: 0 }),
+});
+
+export type TrickplayRegenerationReport = typeof TrickplayRegenerationReportSchema.static;

@@ -53,6 +53,9 @@ import type {
 	SystemSettingsGrouped,
 	TaskTrigger,
 	TrickplayDeleteResult,
+	TrickplayRegenerateRequest,
+	TrickplayRegenerationQueued,
+	TrickplayRegenerationReport,
 	TrickplayStats,
 	UpdatePluginRepositoryBody,
 	UpdatePluginUiSettingsBody,
@@ -434,6 +437,14 @@ export class AdminClient extends BaseResource {
 
 	getTrickplayStats(): Promise<TrickplayStats> {
 		return this._get("/admin/trickplay/stats");
+	}
+
+	regenerateTrickplay(body: TrickplayRegenerateRequest): Promise<TrickplayRegenerationQueued> {
+		return this._post("/admin/trickplay/regenerate", { body });
+	}
+
+	getTrickplayRegenerationReport(operationId: string): Promise<TrickplayRegenerationReport> {
+		return this._get(`/admin/trickplay/operations/${operationId}/report`);
 	}
 
 	generateAllTrickplay(): Promise<{ enqueued: number }> {
