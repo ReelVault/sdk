@@ -43,6 +43,18 @@ export const PluginRuntimeStatusSchema = t.Object({
 
 export type PluginRuntimeStatus = typeof PluginRuntimeStatusSchema.static;
 
+/** Administrator view of one plugin: the runtime status plus what the server found on disk for it. */
+export const PluginAdminStatusSchema = t.Object({
+	...PluginRuntimeStatusSchema.properties,
+	/**
+	 * Stable code (`plugin.config_unreadable`) when the plugin's `config.json` exists but cannot be read.
+	 * The plugin then runs on its defaults, so an absent value here is not the same as a saved one.
+	 */
+	configReadError: t.Optional(t.String()),
+});
+
+export type PluginAdminStatus = typeof PluginAdminStatusSchema.static;
+
 /** Redacted plugin configuration values exposed to administrators. */
 
 export const PluginConfigFieldOptionSchema = t.Object({
