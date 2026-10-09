@@ -16,7 +16,12 @@ export const CreateProfileSchema = t.Object({
 
 export type CreateProfile = typeof CreateProfileSchema.static;
 
-export const UpdateProfileSchema = t.Partial(CreateProfileSchema);
+/** Omitted fields stay as they are; `null` removes the PIN or the avatar. */
+export const UpdateProfileSchema = t.Object({
+	name: t.Optional(t.String({ minLength: 1 })),
+	pin: t.Optional(t.Union([t.String({ minLength: 4, maxLength: 8 }), t.Null()])),
+	avatarUrl: t.Optional(t.Union([t.String(), t.Null()])),
+});
 
 export type UpdateProfile = typeof UpdateProfileSchema.static;
 
