@@ -14,6 +14,8 @@ export const SubtitleSchema = t.Object({
 	type: SubtitleTypeSchema,
 	streamIndex: t.Nullable(t.Integer()),
 	contentUrl: t.Optional(t.String()),
+	/** `false` for image-based embedded tracks (PGS, VobSub): they cannot be served as text. */
+	extractable: t.Optional(t.Boolean()),
 	isDefault: t.Boolean(),
 	isForced: t.Boolean(),
 	isHearingImpaired: t.Boolean(),
