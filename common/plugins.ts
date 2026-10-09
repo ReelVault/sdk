@@ -51,6 +51,19 @@ export const PluginAdminStatusSchema = t.Object({
 	 * The plugin then runs on its defaults, so an absent value here is not the same as a saved one.
 	 */
 	configReadError: t.Optional(t.String()),
+	/** Capabilities the plugin's manifest declares; empty when the manifest cannot be read. */
+	capabilities: t.Array(t.String()),
+	/** Installer-managed plugins only: when the installed package was written. */
+	installedAt: t.Optional(t.String()),
+	/** Installer-managed plugins only: where the package came from (`upload` or a catalog reference). */
+	source: t.Optional(t.String()),
+	/**
+	 * Installer-managed plugins only: the package on disk matched its recorded integrity at the last check
+	 * (server start or install). A mismatch found at start is reported until the plugin is installed again.
+	 */
+	integrityOk: t.Optional(t.Boolean()),
+	/** An enabled catalog offers a newer version of this plugin. */
+	updateAvailable: t.Boolean(),
 });
 
 export type PluginAdminStatus = typeof PluginAdminStatusSchema.static;

@@ -31,3 +31,4 @@
 - **Unreadable plugin configuration is visible** — `PluginAdminStatus` (returned by the admin plugin endpoints) carries `configReadError` (`plugin.config_unreadable`) when a plugin's `config.json` exists but cannot be read. Previously the plugin silently ran on its defaults.
 .
 - **Secret presence in plugin configuration** — `PluginConfigField.hasValue` (optional) on secret fields tells whether a value is stored, so an interface can show "set" without ever receiving the secret.
+- **Plugin package details** — `PluginAdminStatus` gains `capabilities` (declared in the manifest), `installedAt`, `source`, `integrityOk` (package matched its recorded integrity at the last check) and `updateAvailable` (an enabled catalog offers a newer version).
