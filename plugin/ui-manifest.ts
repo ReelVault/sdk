@@ -45,6 +45,12 @@ export type PluginSlotAction =
  * or `element` (inline custom element) must be present.
  */
 export interface PluginSlotContribution {
+	/**
+	 * Stable id of the entry within its slot. Administrator interface switches
+	 * are keyed by it, so they survive reordering. Without one the key is derived
+	 * from the entry's action or element.
+	 */
+	id?: string | undefined;
 	label: PluginLocalizedText;
 	/** Lucide icon name from the host allowlist. */
 	icon?: string | undefined;
