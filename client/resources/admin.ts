@@ -114,12 +114,14 @@ export class AdminClient extends BaseResource {
 		return this._post("/admin/update/check", { body: undefined });
 	}
 
-	installUpdate(target: AdminUpdateTarget): Promise<AdminUpdateInstallResponse> {
-		return this._post("/admin/update/install", { body: { target } });
+	/** A server install waits while streams play (`update.blocked_active_streams`); `force` restarts anyway, ending them. */
+	installUpdate(target: AdminUpdateTarget, options: { force?: boolean | undefined } = {}): Promise<AdminUpdateInstallResponse> {
+		return this._post("/admin/update/install", { body: { target, force: options.force } });
 	}
 
-	rollbackUpdate(target: AdminUpdateTarget): Promise<AdminUpdateInstallResponse> {
-		return this._post("/admin/update/rollback", { body: { target } });
+	/** Same stream guard as `installUpdate` for a server rollback. */
+	rollbackUpdate(target: AdminUpdateTarget, options: { force?: boolean | undefined } = {}): Promise<AdminUpdateInstallResponse> {
+		return this._post("/admin/update/rollback", { body: { target, force: options.force } });
 	}
 
 	getUpdateHistory(query?: { page?: number | undefined; limit?: number | undefined }): Promise<AdminUpdateHistoryPage> {
