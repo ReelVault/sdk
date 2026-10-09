@@ -22,4 +22,14 @@ export class NotificationsClient extends BaseResource {
 	markAllRead(): Promise<{ success: true }> {
 		return this._patch("/notifications", { body: { all: true } });
 	}
+
+	/** Removes one notification from the caller's list. */
+	delete(id: string): Promise<{ deleted: number }> {
+		return this._delete(`/notifications/${id}`);
+	}
+
+	/** Removes up to 200 notifications from the caller's list in one request. */
+	deleteMany(ids: string[]): Promise<{ deleted: number }> {
+		return this._post("/notifications/delete", { body: { ids } });
+	}
 }
