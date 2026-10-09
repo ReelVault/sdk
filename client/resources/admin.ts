@@ -7,6 +7,7 @@ import type {
 	AdminCreateUserProfile,
 	AdminDatabaseBackup,
 	DatabaseIntegrity,
+	DatabaseMigrationStatus,
 	AdminDatabaseRestoreResponse,
 	ApiKey,
 	ApiKeyCreated,
@@ -479,6 +480,11 @@ export class AdminClient extends BaseResource {
 	/** Runs SQLite's quick consistency check on the live database. */
 	getDatabaseIntegrity(): Promise<DatabaseIntegrity> {
 		return this._get("/admin/database/integrity");
+	}
+
+	/** Lists the migrations this server ships and how many the database has applied. */
+	getDatabaseMigrations(): Promise<DatabaseMigrationStatus> {
+		return this._get("/admin/database/migrations");
 	}
 
 	/** Refreshes SQLite's planner statistics (`PRAGMA optimize`). */

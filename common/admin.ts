@@ -381,6 +381,19 @@ export const DatabaseIntegritySchema = t.Object({
 
 export type DatabaseIntegrity = typeof DatabaseIntegritySchema.static;
 
+export const DatabaseMigrationStatusSchema = t.Object({
+	/** Migrations shipped with the server. */
+	total: t.Integer({ minimum: 0 }),
+	/** Migrations the database has recorded as applied. */
+	applied: t.Integer({ minimum: 0 }),
+	pending: t.Integer({ minimum: 0 }),
+	/** Tag of the newest applied migration; `null` before any was recorded. */
+	latest: t.Nullable(t.String()),
+	migrations: t.Array(t.Object({ tag: t.String(), applied: t.Boolean() })),
+});
+
+export type DatabaseMigrationStatus = typeof DatabaseMigrationStatusSchema.static;
+
 /** Restore queues a detached process: it waits for server exit, swaps the
  * database file and relaunches — the caller always gets an ack, not a result. */
 export const AdminDatabaseRestoreResponseSchema = t.Object({
