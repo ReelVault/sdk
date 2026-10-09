@@ -20,6 +20,7 @@
 ### Features
 
 - **Plugin configuration reset, export and import** — `admin.resetPluginConfig(id, { keys? })`, `admin.exportPluginConfig(id)` and `admin.importPluginConfig(id, file)` with `ResetPluginConfigBodySchema` and `PluginConfigExportSchema`. Exports never contain secret fields.
+- **Setting metadata** — `SystemSettingItemView` reports the `unit` of a number setting and `restartRequired` for settings that take effect only after a restart.
 - **Server capabilities** — `ServerCapabilitiesSchema` / `ServerCapabilities` and `reelvault.capabilities.get()` for the public `GET /capabilities` endpoint (trickplay, downloads).
 - **Profile PIN status** — `profiles.getPinStatus(id)` returns `{ hasPin }` for the owner's profile (`ProfilePinStatusSchema` / `ProfilePinStatus`), so settings can offer removing the PIN without ever receiving it.
 - **Filtered marker list** — `media.getAllMarkers({ type, source, q, limit })` narrows the admin marker list on the server; `MediaMarkerFiltersSchema` / `MediaMarkerFilters` describe the filters. Calls without arguments behave as before.

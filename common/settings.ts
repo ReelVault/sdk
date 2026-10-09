@@ -24,6 +24,10 @@ export const SystemSettingItemViewSchema = t.Object({
 	/** Inclusive bounds of a number setting. */
 	min: t.Optional(t.Number()),
 	max: t.Optional(t.Number()),
+	/** Display unit of a number setting (`ms`, `s`, `days`, ...). */
+	unit: t.Optional(t.String()),
+	/** The value is read only at startup or when a session begins: a change needs a restart. */
+	restartRequired: t.Optional(t.Boolean()),
 	isCustom: t.Boolean(),
 });
 
