@@ -274,6 +274,10 @@ export type AdminLogEntry = typeof AdminLogEntrySchema.static;
 
 export const AdminLogsPageSchema = t.Object({
 	...PaginationMetaSchema.properties,
+	/** True when the requested file is larger than the served tail window. */
+	truncated: t.Boolean(),
+	/** Size of the served tail window in bytes (the server reads only the end of the file). */
+	windowBytes: t.Integer({ minimum: 0 }),
 	data: t.Array(AdminLogEntrySchema),
 });
 
