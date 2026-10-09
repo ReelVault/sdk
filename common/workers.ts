@@ -159,10 +159,44 @@ export const WorkerSummarySchema = t.Object({
 	timeoutMs: t.Integer({ minimum: 1 }),
 	stats: WorkerQueueStatsSchema,
 	triggers: t.Array(TaskTriggerSchema),
+	/** False while the scheduled runs are paused; manual runs still work. */
+	scheduleEnabled: t.Boolean(),
+	/** Next scheduled run; absent while none is armed or the schedule is paused. */
+	nextRunAt: t.Optional(t.String({ format: "date-time" })),
 	lastExecution: t.Optional(TaskLastExecutionSchema),
 });
 
 export type WorkerSummary = typeof WorkerSummarySchema.static;
+
+export const WorkerScheduleEnabledRequestSchema = t.Object({ enabled: t.Boolean() });
+
+export const WorkerScheduleStateSchema = t.Object({
+	workerId: t.String(),
+	enabled: t.Boolean(),
+	nextRunAt: t.Nullable(t.String({ format: "date-time" })),
+});
+
+export type WorkerScheduleState = typeof WorkerScheduleStateSchema.static;
+
+export const WorkerRetryResponseSchema = t.Object({
+	success: t.Literal(true),
+	jobId: t.String(),
+});
+
+export type WorkerRetryResponse = typeof WorkerRetryResponseSchema.static;
+
+export const WorkerWatchdogStateSchema = t.Object({
+	running: t.Boolean(),
+	consecutiveFailures: t.Integer({ minimum: 0 }),
+	restarts: t.Integer({ minimum: 0 }),
+	elapsedSinceLastPollMs: t.Integer(),
+	lastPollAt: t.String({ format: "date-time" }),
+	/** Orphaned running jobs this process requeued since it started. */
+	recoveredJobs: t.Integer({ minimum: 0 }),
+	lastRecoveredAt: t.Optional(t.String({ format: "date-time" })),
+});
+
+export type WorkerWatchdogState = typeof WorkerWatchdogStateSchema.static;
 
 export type WorkerBackoffType = "fixed" | "exponential";
 

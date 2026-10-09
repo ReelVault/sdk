@@ -28,6 +28,7 @@
 - **Profile PIN status** — `profiles.getPinStatus(id)` returns `{ hasPin }` for the owner's profile (`ProfilePinStatusSchema` / `ProfilePinStatus`), so settings can offer removing the PIN without ever receiving it.
 - **Filtered marker list** — `media.getAllMarkers({ type, source, q, limit })` narrows the admin marker list on the server; `MediaMarkerFiltersSchema` / `MediaMarkerFilters` describe the filters. Calls without arguments behave as before.
 - **Subtitle text search** — `SubtitleFiltersSchema` takes `q` (up to 200 characters); `subtitles.getAll({ q })` matches it against the label, the language and the media file id.
+- **Worker schedule pause, job retry and watchdog state** — `admin.setWorkerScheduleEnabled(workerId, enabled)` returns `WorkerScheduleState` (`{ workerId, enabled, nextRunAt }`); `admin.retryWorkerJob(jobId)` returns `WorkerRetryResponse` (`{ success, jobId }` of the new job); `admin.getWorkerWatchdog()` returns `WorkerWatchdogState` with `recoveredJobs` and `lastRecoveredAt`. `WorkerSummary` gains `scheduleEnabled` and an optional `nextRunAt`.
 - **Worker job list** — `admin.getWorkerJobs({ page, limit, workerId, status })` returns one page of worker jobs (`PaginatedResponse<WorkerJob>`).
 - **Watchlist bulk changes and clear** — `me.bulkUpdateWatchlist({ add, remove })` (`WatchlistBulkBodySchema`) and `me.clearWatchlist()`, with `WatchlistBulkResponse` and `WatchlistClearResponse`.
 - **Log filters** — `admin.getLogs({ module, exclude, from, to })` takes the same filters as the server query.

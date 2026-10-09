@@ -62,7 +62,10 @@ import type {
 	WorkerJob,
 	WorkerOperation,
 	WorkerOperationJobsResponse,
+	WorkerRetryResponse,
+	WorkerScheduleState,
 	WorkerSummary,
+	WorkerWatchdogState,
 } from "@sdk/common";
 import type { PaginatedResponse } from "@sdk/common/pagination";
 import type { ProfilePreferences, UpdateProfilePreferences } from "@sdk/common/profile-preferences.types";
@@ -142,6 +145,10 @@ export class AdminClient extends BaseResource {
 		return this._put(`/admin/workers/${workerId}/triggers`, { body: { triggers } });
 	}
 
+	setWorkerScheduleEnabled(workerId: string, enabled: boolean): Promise<WorkerScheduleState> {
+		return this._put(`/admin/workers/${workerId}/enabled`, { body: { enabled } });
+	}
+
 	purgeWorkerHistory(options?: PurgeWorkerHistoryOptions): Promise<PurgeWorkerHistoryResponse> {
 		return this._post("/admin/workers/purge-history", { body: options ?? {} });
 	}
@@ -158,6 +165,14 @@ export class AdminClient extends BaseResource {
 
 	cancelWorkerJob(jobId: string): Promise<{ success: boolean }> {
 		return this._post(`/admin/workers/jobs/${jobId}/cancel`, { body: undefined });
+	}
+
+	retryWorkerJob(jobId: string): Promise<WorkerRetryResponse> {
+		return this._post(`/admin/workers/jobs/${jobId}/retry`, { body: undefined });
+	}
+
+	getWorkerWatchdog(): Promise<WorkerWatchdogState> {
+		return this._get("/admin/workers/watchdog");
 	}
 
 	// ─── Worker Operations (Batches) ──────────────────────────────────────────
