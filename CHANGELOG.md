@@ -32,3 +32,4 @@
 .
 - **Secret presence in plugin configuration** — `PluginConfigField.hasValue` (optional) on secret fields tells whether a value is stored, so an interface can show "set" without ever receiving the secret.
 - **Plugin package details** — `PluginAdminStatus` gains `capabilities` (declared in the manifest), `installedAt`, `source`, `integrityOk` (package matched its recorded integrity at the last check) and `updateAvailable` (an enabled catalog offers a newer version).
+- **Plugin install outcome** — `InstallCatalogPluginResponse` reports `previousVersion`, `direction` (`install` / `upgrade` / `downgrade` / `reinstall`) and `state` (`enabled` / `disabled` / `rolled_back` / `failed`), with `error` and `errorCode` when the new version did not load. An install no longer reports success while the plugin is not running.

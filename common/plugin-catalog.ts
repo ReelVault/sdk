@@ -87,10 +87,41 @@ export const InstallCatalogPluginBodySchema = t.Object({
 
 export type InstallCatalogPluginBody = typeof InstallCatalogPluginBodySchema.static;
 
+/** What the install changed: a first install, a newer version, an older one, or the same version again. */
+export const PluginInstallDirectionSchema = t.Union([
+	t.Literal("install"),
+	t.Literal("upgrade"),
+	t.Literal("downgrade"),
+	t.Literal("reinstall"),
+]);
+
+export type PluginInstallDirection = typeof PluginInstallDirectionSchema.static;
+
+/**
+ * Where the plugin ended up. `enabled`: running. `disabled`: installed, and it stays disabled as it was.
+ * `rolled_back`: the new version did not load and the previous one was restored (`version` is the restored one).
+ * `failed`: the new version did not load and could not be undone; the plugin keeps the recorded failure.
+ */
+export const PluginInstallStateSchema = t.Union([
+	t.Literal("enabled"),
+	t.Literal("disabled"),
+	t.Literal("rolled_back"),
+	t.Literal("failed"),
+]);
+
+export type PluginInstallState = typeof PluginInstallStateSchema.static;
+
 export const InstallCatalogPluginResponseSchema = t.Object({
 	pluginId: t.String(),
 	version: t.String(),
 	upgraded: t.Boolean(),
+	previousVersion: t.Optional(t.String()),
+	direction: PluginInstallDirectionSchema,
+	state: PluginInstallStateSchema,
+	/** Raw message of the load failure, when there was one. */
+	error: t.Optional(t.String()),
+	/** Stable code for `error`, the same one the plugin status reports. */
+	errorCode: t.Optional(t.String()),
 });
 
 export type InstallCatalogPluginResponse = typeof InstallCatalogPluginResponseSchema.static;
