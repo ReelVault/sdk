@@ -20,6 +20,18 @@ export class DownloadsClient extends BaseResource {
 		return new URL(`/v1/downloads/${jobId}/file`, this.getBaseUrl()).toString();
 	}
 
+	cancel(jobId: string): Promise<{ success: boolean }> {
+		if (!jobId) return Promise.reject(new Error("jobId is required"));
+
+		return this._post<{ success: boolean }>(`/downloads/${jobId}/cancel`, { body: undefined });
+	}
+
+	retry(jobId: string): Promise<DownloadJob> {
+		if (!jobId) return Promise.reject(new Error("jobId is required"));
+
+		return this._post<DownloadJob>(`/downloads/${jobId}/retry`, { body: undefined });
+	}
+
 	remove(jobId: string): Promise<{ success: boolean }> {
 		if (!jobId) return Promise.reject(new Error("jobId is required"));
 

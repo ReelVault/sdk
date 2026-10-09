@@ -16,7 +16,15 @@ export const DownloadJobSchema = t.Object({
 
 export type DownloadJob = typeof DownloadJobSchema.static;
 
-export const MyDownloadsResponseSchema = t.Object({ jobs: t.Array(DownloadJobSchema) });
+/** Storage the profile's finished downloads use; `maxBytes` 0 means no limit. */
+export const DownloadQuotaSchema = t.Object({
+	usedBytes: t.Integer({ minimum: 0 }),
+	maxBytes: t.Integer({ minimum: 0 }),
+});
+
+export type DownloadQuota = typeof DownloadQuotaSchema.static;
+
+export const MyDownloadsResponseSchema = t.Object({ jobs: t.Array(DownloadJobSchema), quota: DownloadQuotaSchema });
 
 export type MyDownloadsResponse = typeof MyDownloadsResponseSchema.static;
 
