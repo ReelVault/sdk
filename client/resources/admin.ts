@@ -292,8 +292,8 @@ export class AdminClient extends BaseResource {
 		return this._delete(`/admin/live-activity/${sessionId}`, { query: reason ? { reason } : undefined });
 	}
 
-	getResources(): Promise<AdminResourcesResponse> {
-		return this._get("/admin/resources");
+	getResources(query?: { hours?: number | undefined }): Promise<AdminResourcesResponse> {
+		return this._get("/admin/resources", { query });
 	}
 
 	getFfmpegCapabilities(): Promise<AdminFfmpegCapabilities> {
