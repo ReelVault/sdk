@@ -1,4 +1,6 @@
 import type {
+	BulkSubtitleDelete,
+	BulkSubtitleDeleteResult,
 	CreateSubtitleRequest,
 	Subtitle,
 	SubtitleFilters,
@@ -32,6 +34,11 @@ export class SubtitlesClient extends BaseResource {
 
 	delete(id: string): Promise<{ success: true }> {
 		return this._delete(`/subtitles/${id}`);
+	}
+
+	/** Removes several subtitles one after another; the outcome of each id comes back in `results`. */
+	bulkDelete(subtitleIds: string[]): Promise<BulkSubtitleDeleteResult> {
+		return this._post("/subtitles/bulk-delete", { body: { ids: subtitleIds } });
 	}
 
 	listProviders(): Promise<SubtitleProviderStatus[]> {

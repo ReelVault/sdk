@@ -1,5 +1,20 @@
 import { SortQuerySchema } from "@sdk/common/sorting";
 import { t } from "elysia";
+import { BulkRefreshItemSchema } from "./bulk-refresh";
+
+/** `POST /subtitles/bulk-delete` — at most 200 subtitle ids per request. */
+export const BulkSubtitleDeleteSchema = t.Object({
+	ids: t.Array(t.String({ minLength: 1, maxLength: 64 }), { minItems: 1, maxItems: 200 }),
+});
+
+export type BulkSubtitleDelete = typeof BulkSubtitleDeleteSchema.static;
+
+/** One outcome per subtitle id: `code` is set only when that subtitle was not deleted. */
+export const BulkSubtitleDeleteResultSchema = t.Object({
+	results: t.Array(BulkRefreshItemSchema),
+});
+
+export type BulkSubtitleDeleteResult = typeof BulkSubtitleDeleteResultSchema.static;
 
 export const SubtitleTypeSchema = t.Union([t.Literal("embedded"), t.Literal("external")]);
 
