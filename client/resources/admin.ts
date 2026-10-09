@@ -1,6 +1,7 @@
 import type {
 	AdminAnalytics,
 	AdminAuditPage,
+	AdminAuditSummary,
 	AdminCacheStats,
 	AdminCreateUser,
 	AdminCreateUserProfile,
@@ -358,6 +359,20 @@ export class AdminClient extends BaseResource {
 		page?: number;
 	}): Promise<AdminLogsPage> {
 		return this._get("/admin/logs", { query });
+	}
+
+	getAuditSummary(query?: {
+		action?: "create" | "update" | "delete" | undefined;
+		resourceType?: string | undefined;
+		actorUserId?: string | undefined;
+		ipAddress?: string | undefined;
+		requestId?: string | undefined;
+		q?: string | undefined;
+		from?: string | undefined;
+		to?: string | undefined;
+		limit?: number | undefined;
+	}): Promise<AdminAuditSummary> {
+		return this._get("/admin/audit/summary", { query });
 	}
 
 	getAudit(query?: {

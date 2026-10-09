@@ -326,6 +326,26 @@ export const AdminAuditPageSchema = t.Object({
 
 export type AdminAuditPage = typeof AdminAuditPageSchema.static;
 
+/** Activity of one administrator for the audit filters; `actorUserId` is null for entries without an actor. */
+export const AdminAuditActorSummarySchema = t.Object({
+	actorUserId: t.Nullable(t.String()),
+	name: t.Nullable(t.String()),
+	total: t.Integer({ minimum: 0 }),
+	creates: t.Integer({ minimum: 0 }),
+	updates: t.Integer({ minimum: 0 }),
+	deletes: t.Integer({ minimum: 0 }),
+	lastAt: t.Nullable(t.String({ format: "date-time" })),
+});
+
+export type AdminAuditActorSummary = typeof AdminAuditActorSummarySchema.static;
+
+export const AdminAuditSummarySchema = t.Object({
+	total: t.Integer({ minimum: 0 }),
+	actors: t.Array(AdminAuditActorSummarySchema),
+});
+
+export type AdminAuditSummary = typeof AdminAuditSummarySchema.static;
+
 export const AdminFilesystemDirectorySchema = t.Object({
 	name: t.String(),
 	path: t.String(),

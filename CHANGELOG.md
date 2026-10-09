@@ -36,6 +36,7 @@
 - **Audit search** — `admin.getAudit({ q })` matches one term against the resource id and the summary of each entry.
 - **Download retry, cancel and quota** — `downloads.retry(jobId)` and `downloads.cancel(jobId)`; `MyDownloadsResponseSchema` carries `quota` (`DownloadQuotaSchema`).
 - **Notification pages** — `notifications.getPage({ page, limit, unreadOnly, type })` returns `PaginatedResponse<Notification>`.
+- **Audit summary** — `admin.getAuditSummary(query)` returns `AdminAuditSummary`: the `total` and one `actors` entry per administrator with `total`, `creates`, `updates`, `deletes`, `lastAt` and `name`.
 - **Bulk stream termination** — `admin.terminateLiveStreams({ sessionIds, reason })` returns `BulkTerminateSessionsResult`: the `terminated` and `failed` counts and one result per session.
 - **Change password** — `auth.changePassword({ currentPassword, newPassword })` with `ChangePasswordRequestSchema` / `ChangePasswordResponseSchema`. Every other session is revoked while the current one stays signed in.
 - **Subtitle language priority list** — `subtitleFallbackLanguages` on profile preferences and preference defaults: a comma-separated list (e.g. `en,de`) tried after `subtitleLanguage`.
