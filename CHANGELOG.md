@@ -19,6 +19,7 @@
 
 ### Features
 
+- **Dry runs for log cleanup and trickplay deletes** — `admin.cleanupLogs(retentionDays, { dryRun })` and `admin.deleteTrickplayMany(ids, { dryRun })`. `TrickplayDeleteResult` and the log cleanup result carry `dryRun`; a dry run reports what would be removed and removes nothing.
 - **Worker history purge dry run** — `PurgeWorkerHistoryOptions.dryRun` and `PurgeWorkerHistoryResponse.dryRun`; a dry run reports the counts a purge would delete and removes nothing.
 - **Cancel an update** — `admin.cancelUpdate(target)` for `POST /admin/update/cancel`. `AdminUpdateCancelResponseSchema` / `AdminUpdateCancelResponse` describe the reply, and an update history entry may now have status `cancelled`.
 - **Forced server updates** — `admin.installUpdate(target, { force })` and `admin.rollbackUpdate(target, { force })`. A server install or rollback is refused with `update.blocked_active_streams` while streams play, unless `force` is set.

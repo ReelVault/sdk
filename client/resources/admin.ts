@@ -440,8 +440,14 @@ export class AdminClient extends BaseResource {
 		return this._delete("/admin/logs", { query: { fileId } });
 	}
 
-	cleanupLogs(retentionDays?: number): Promise<{ scannedCount: number; deletedCount: number; freedBytes: number; retentionDays: number }> {
-		return this._delete("/admin/logs/cleanup", { query: retentionDays ? { retentionDays } : undefined });
+	/** With `dryRun` the call only counts the log files that would be removed. */
+	cleanupLogs(
+		retentionDays?: number,
+		options: { dryRun?: boolean | undefined } = {},
+	): Promise<{ scannedCount: number; deletedCount: number; freedBytes: number; retentionDays: number; dryRun: boolean }> {
+		const query = { ...(retentionDays ? { retentionDays } : {}), ...(options.dryRun ? { dryRun: true } : {}) };
+
+		return this._delete("/admin/logs/cleanup", { query: Object.keys(query).length > 0 ? query : undefined });
 	}
 
 	// ─── Trickplay ────────────────────────────────────────────────────────────
@@ -451,8 +457,8 @@ export class AdminClient extends BaseResource {
 	}
 
 	/** Removes the core trickplay previews of up to 500 media files at once. */
-	deleteTrickplayMany(mediaFileIds: string[]): Promise<TrickplayDeleteResult> {
-		return this._post("/admin/trickplay/media/delete", { body: { mediaFileIds } });
+	deleteTrickplayMany(mediaFileIds: string[], options: { dryRun?: boolean | undefined } = {}): Promise<TrickplayDeleteResult> {
+		return this._post("/admin/trickplay/media/delete", { body: { mediaFileIds, dryRun: options.dryRun } });
 	}
 
 	/** Artifact rows per owner (core or plugin) and kind. */

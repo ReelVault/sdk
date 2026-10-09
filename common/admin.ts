@@ -553,7 +553,9 @@ export const TrickplayStatsSchema = t.Object({
 export type TrickplayStats = typeof TrickplayStatsSchema.static;
 
 /** What removing trickplay previews took away: the media files that had them and the artifact rows deleted. */
+/** `dryRun` is true when the request only counted: nothing was removed. */
 export const TrickplayDeleteResultSchema = t.Object({
+	dryRun: t.Boolean(),
 	mediaFiles: t.Integer({ minimum: 0 }),
 	artifacts: t.Integer({ minimum: 0 }),
 });
