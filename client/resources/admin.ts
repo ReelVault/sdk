@@ -218,7 +218,13 @@ export class AdminClient extends BaseResource {
 		return this._get("/admin/processes");
 	}
 
-	getUsers(query?: { search?: string; page?: number; limit?: number }): Promise<AdminUsersPage> {
+	getUsers(query?: {
+		search?: string | undefined;
+		role?: "admin" | "user" | undefined;
+		status?: "active" | "blocked" | undefined;
+		page?: number | undefined;
+		limit?: number | undefined;
+	}): Promise<AdminUsersPage> {
 		return this._get("/admin/users", { query });
 	}
 
