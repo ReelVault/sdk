@@ -1,6 +1,14 @@
 import type { FieldsQuery, SelectFields } from "@sdk/common/fields";
 import type { PaginatedResponse, PaginationQuery } from "@sdk/common/pagination";
-import type { CreateProfile, Profile, ProfileFilters, ProfileSorting, SwitchProfile, UpdateProfile } from "@sdk/common/profile.types";
+import type {
+	CreateProfile,
+	ProfileFilters,
+	ProfilePinStatus,
+	ProfileSorting,
+	SwitchProfile,
+	UpdateProfile,
+	Profile,
+} from "@sdk/common/profile.types";
 import type { ProfilePreferenceDefaults, ProfilePreferences, UpdateProfilePreferences } from "@sdk/common/profile-preferences.types";
 import { BaseResource } from "../core/base-client";
 
@@ -29,6 +37,10 @@ export class ProfilesClient extends BaseResource {
 
 	switch(body: SwitchProfile): Promise<{ success: boolean }> {
 		return this._post("/profiles/switch", { body });
+	}
+
+	getPinStatus(id: string): Promise<ProfilePinStatus> {
+		return this._get(`/profiles/${id}/pin`);
 	}
 
 	getPreferences(id: string): Promise<ProfilePreferences> {

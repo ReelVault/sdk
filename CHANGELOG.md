@@ -19,6 +19,7 @@
 
 ### Features
 
+- **Profile PIN status** — `profiles.getPinStatus(id)` returns `{ hasPin }` for the owner's profile (`ProfilePinStatusSchema` / `ProfilePinStatus`), so settings can offer removing the PIN without ever receiving it.
 - **Filtered marker list** — `media.getAllMarkers({ type, source, q, limit })` narrows the admin marker list on the server; `MediaMarkerFiltersSchema` / `MediaMarkerFilters` describe the filters. Calls without arguments behave as before.
 - **Change password** — `auth.changePassword({ currentPassword, newPassword })` with `ChangePasswordRequestSchema` / `ChangePasswordResponseSchema`. Every other session is revoked while the current one stays signed in.
 - **Subtitle language priority list** — `subtitleFallbackLanguages` on profile preferences and preference defaults: a comma-separated list (e.g. `en,de`) tried after `subtitleLanguage`.

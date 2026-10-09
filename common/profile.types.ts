@@ -25,6 +25,11 @@ export const UpdateProfileSchema = t.Object({
 
 export type UpdateProfile = typeof UpdateProfileSchema.static;
 
+/** Whether the owner's profile has a PIN set; the PIN itself is never returned. */
+export const ProfilePinStatusSchema = t.Object({ hasPin: t.Boolean() });
+
+export type ProfilePinStatus = typeof ProfilePinStatusSchema.static;
+
 export const SwitchProfileSchema = t.Object({
 	profileId: t.String(),
 	pin: t.Optional(t.String({ minLength: 4, maxLength: 8 })),
