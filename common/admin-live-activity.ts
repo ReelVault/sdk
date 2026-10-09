@@ -134,7 +134,7 @@ export const AdminEndedLiveSessionItemSchema = t.Object({
 
 /** `GET /admin/live-activity/history` — the most recently ended playback sessions, newest first. */
 export const AdminEndedLiveSessionsResponseSchema = t.Object({
-	sessions: t.Array(AdminEndedLiveSessionItemSchema),
+	data: t.Array(AdminEndedLiveSessionItemSchema),
 });
 
 export type AdminEndedLiveSessionsResponse = Static<typeof AdminEndedLiveSessionsResponseSchema>;

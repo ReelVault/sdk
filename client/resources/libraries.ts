@@ -51,7 +51,7 @@ export class LibrariesClient extends BaseResource {
 		return this._get(`/libraries/${libraryId}/metadata-sidecars/assets`);
 	}
 
-	getScanFindings(libraryId: string): Promise<{ items: Array<{ filePath: string; fileName: string; reason: string }> }> {
+	getScanFindings(libraryId: string): Promise<{ data: Array<{ filePath: string; fileName: string; reason: string }> }> {
 		return this._get(`/libraries/${libraryId}/scan-findings`);
 	}
 }

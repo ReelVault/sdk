@@ -126,7 +126,7 @@ export const ContinueWatchingItemSchema = t.Object({
 export type ContinueWatchingItem = typeof ContinueWatchingItemSchema.static;
 
 export const ContinueWatchingResponseSchema = t.Object({
-	items: t.Array(ContinueWatchingItemSchema),
+	data: t.Array(ContinueWatchingItemSchema),
 });
 
 export type ContinueWatchingResponse = typeof ContinueWatchingResponseSchema.static;

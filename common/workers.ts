@@ -46,7 +46,7 @@ export const WorkerOperationItemsSummarySchema = t.Object({
 });
 
 export const WorkerOperationJobsResponseSchema = t.Object({
-	items: t.Array(WorkerJobSchema),
+	data: t.Array(WorkerJobSchema),
 	summary: WorkerOperationItemsSummarySchema,
 	...PaginationMetaSchema.properties,
 });

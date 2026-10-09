@@ -213,7 +213,7 @@ export class AdminClient extends BaseResource {
 			page?: number | undefined;
 			limit?: number | undefined;
 			status?: "pending" | "running" | "completed" | "failed" | "cancelled" | undefined;
-			search?: string | undefined;
+			q?: string | undefined;
 		},
 	): Promise<WorkerOperationJobsResponse> {
 		return this._get(`/admin/workers/operations/${operationId}/jobs`, { query });
@@ -233,7 +233,7 @@ export class AdminClient extends BaseResource {
 	}
 
 	getUsers(query?: {
-		search?: string | undefined;
+		q?: string | undefined;
 		role?: "admin" | "user" | undefined;
 		status?: "active" | "blocked" | undefined;
 		page?: number | undefined;
@@ -400,7 +400,7 @@ export class AdminClient extends BaseResource {
 	getLogs(query?: {
 		fileId?: string;
 		level?: string;
-		search?: string;
+		q?: string;
 		module?: string;
 		exclude?: string;
 		from?: string;

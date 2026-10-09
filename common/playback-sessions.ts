@@ -67,7 +67,7 @@ export const PlaybackSessionSummarySchema = t.Object({
 export type PlaybackSessionSummary = typeof PlaybackSessionSummarySchema.static;
 
 export const MyPlaybackSessionsResponseSchema = t.Object({
-	sessions: t.Array(PlaybackSessionSummarySchema),
+	data: t.Array(PlaybackSessionSummarySchema),
 });
 
 export type MyPlaybackSessionsResponse = typeof MyPlaybackSessionsResponseSchema.static;

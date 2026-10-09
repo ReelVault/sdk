@@ -27,7 +27,7 @@ export const DownloadQuotaSchema = t.Object({
 
 export type DownloadQuota = typeof DownloadQuotaSchema.static;
 
-export const MyDownloadsResponseSchema = t.Object({ jobs: t.Array(DownloadJobSchema), quota: DownloadQuotaSchema });
+export const MyDownloadsResponseSchema = t.Object({ data: t.Array(DownloadJobSchema), quota: DownloadQuotaSchema });
 
 export type MyDownloadsResponse = typeof MyDownloadsResponseSchema.static;
 
