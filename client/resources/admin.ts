@@ -330,7 +330,17 @@ export class AdminClient extends BaseResource {
 		return this._get("/admin/logs/files");
 	}
 
-	getLogs(query?: { fileId?: string; level?: string; search?: string; limit?: number; page?: number }): Promise<AdminLogsPage> {
+	getLogs(query?: {
+		fileId?: string;
+		level?: string;
+		search?: string;
+		module?: string;
+		exclude?: string;
+		from?: string;
+		to?: string;
+		limit?: number;
+		page?: number;
+	}): Promise<AdminLogsPage> {
 		return this._get("/admin/logs", { query });
 	}
 
