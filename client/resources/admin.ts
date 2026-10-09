@@ -51,6 +51,7 @@ import type {
 	SystemSettingsExport,
 	SystemSettingsGrouped,
 	TaskTrigger,
+	TrickplayDeleteResult,
 	TrickplayStats,
 	UpdatePluginRepositoryBody,
 	UpdatePluginUiSettingsBody,
@@ -400,6 +401,21 @@ export class AdminClient extends BaseResource {
 	}
 
 	// ─── Trickplay ────────────────────────────────────────────────────────────
+	/** Removes the core trickplay previews of one media file. */
+	deleteTrickplay(mediaFileId: string): Promise<TrickplayDeleteResult> {
+		return this._delete(`/admin/trickplay/media/${mediaFileId}`);
+	}
+
+	/** Removes the core trickplay previews of up to 500 media files at once. */
+	deleteTrickplayMany(mediaFileIds: string[]): Promise<TrickplayDeleteResult> {
+		return this._post("/admin/trickplay/media/delete", { body: { mediaFileIds } });
+	}
+
+	/** Artifact rows per owner (core or plugin) and kind. */
+	getArtifactStats(): Promise<{ artifacts: Array<{ pluginId: string; kind: string; count: number }> }> {
+		return this._get("/admin/trickplay/artifacts/stats");
+	}
+
 	getTrickplayStats(): Promise<TrickplayStats> {
 		return this._get("/admin/trickplay/stats");
 	}

@@ -480,3 +480,11 @@ export const TrickplayStatsSchema = t.Object({
 });
 
 export type TrickplayStats = typeof TrickplayStatsSchema.static;
+
+/** What removing trickplay previews took away: the media files that had them and the artifact rows deleted. */
+export const TrickplayDeleteResultSchema = t.Object({
+	mediaFiles: t.Integer({ minimum: 0 }),
+	artifacts: t.Integer({ minimum: 0 }),
+});
+
+export type TrickplayDeleteResult = typeof TrickplayDeleteResultSchema.static;
