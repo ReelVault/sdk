@@ -32,6 +32,28 @@ export const UpdatePlaybackProgressSchema = t.Object({
 	subtitleLanguage: t.Optional(t.Nullable(t.String())),
 });
 
+/**
+ * What a reset of playback progress covers: only the given file (`file`), or every
+ * file of its title (`title` — all versions of a movie, all episodes of a series).
+ */
+export const WatchStateScopeSchema = t.Union([t.Literal("file"), t.Literal("title")]);
+
+export type WatchStateScope = typeof WatchStateScopeSchema.static;
+
+/** Request body of `POST /me/watch-state/bulk`: mark the files watched (finished) or unwatched. */
+export const WatchStateBulkSchema = t.Object({
+	mediaFileIds: t.Array(t.String({ minLength: 1, maxLength: 128 }), { minItems: 1, maxItems: 500 }),
+	watched: t.Boolean(),
+});
+
+export type WatchStateBulk = typeof WatchStateBulkSchema.static;
+
+export const WatchStateBulkResultSchema = t.Object({
+	updated: t.Integer({ minimum: 0 }),
+});
+
+export type WatchStateBulkResult = typeof WatchStateBulkResultSchema.static;
+
 /** Per-title/series language preferences resolved for a media file. */
 export interface StreamPrefs {
 	audioLanguage: string | null;

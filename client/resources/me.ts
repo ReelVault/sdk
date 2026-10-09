@@ -11,7 +11,13 @@ import type {
 } from "@sdk/common";
 import type { FieldsQuery, SelectFields } from "@sdk/common/fields";
 import type { CursorPaginatedResponse, CursorPaginationQuery, PaginatedResponse, PaginationQuery } from "@sdk/common/pagination";
-import type { StreamPrefs, UpdatePlaybackProgress } from "@sdk/common/playback-progress.types";
+import type {
+	StreamPrefs,
+	UpdatePlaybackProgress,
+	WatchStateBulk,
+	WatchStateBulkResult,
+	WatchStateScope,
+} from "@sdk/common/playback-progress.types";
 import type { CreateUserRatingRequest, UserRating, UserRatingFilters, UserRatingSorting } from "@sdk/common/user-ratings.types";
 import type { CreateWatchedHistory, WatchedHistoryWithRelations } from "@sdk/common/watched-history.types";
 import type {
@@ -48,8 +54,15 @@ export class MeClient extends BaseResource {
 		return this._put(`/me/media-files/${mediaFileId}/playback-progress`, { body });
 	}
 
-	resetPlaybackProgress(mediaFileId: string): Promise<{ success: true }> {
-		return this._delete(`/me/media-files/${mediaFileId}/playback-progress`);
+	/** `scope` defaults to `title` on the server: every file of the title, not just this one. */
+	resetPlaybackProgress(mediaFileId: string, options?: { scope?: WatchStateScope | undefined }): Promise<{ success: true }> {
+		return this._delete(`/me/media-files/${mediaFileId}/playback-progress`, {
+			query: options?.scope ? { scope: options.scope } : undefined,
+		});
+	}
+
+	setWatchStateBulk(body: WatchStateBulk): Promise<WatchStateBulkResult> {
+		return this._post("/me/watch-state/bulk", { body });
 	}
 
 	getStreamPrefs(mediaFileId: string): Promise<StreamPrefs> {
