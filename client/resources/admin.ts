@@ -26,6 +26,7 @@ import type {
 	AdminSetUserPassword,
 	AdminDashboardViewResponse,
 	AdminStats,
+	AdminUpdateHistoryPage,
 	AdminUpdateInstallResponse,
 	AdminUpdateStatus,
 	AdminUpdateTarget,
@@ -119,6 +120,10 @@ export class AdminClient extends BaseResource {
 
 	rollbackUpdate(target: AdminUpdateTarget): Promise<AdminUpdateInstallResponse> {
 		return this._post("/admin/update/rollback", { body: { target } });
+	}
+
+	getUpdateHistory(query?: { page?: number | undefined; limit?: number | undefined }): Promise<AdminUpdateHistoryPage> {
+		return this._get("/admin/update/history", { query });
 	}
 
 	// ─── Workers & Schedules ──────────────────────────────────────────────────

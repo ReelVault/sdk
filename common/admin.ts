@@ -455,6 +455,15 @@ export const AdminUpdateJobStateSchema = t.Object({
 
 export type AdminUpdateJobState = typeof AdminUpdateJobStateSchema.static;
 
+/** Where the server runs: a container engine (if any), whether it runs without root, and how systemd manages it. */
+export const AdminUpdateEnvironmentSchema = t.Object({
+	container: t.Nullable(t.Union([t.Literal("docker"), t.Literal("podman")])),
+	rootless: t.Boolean(),
+	systemd: t.Nullable(t.Union([t.Literal("user"), t.Literal("system")])),
+});
+
+export type AdminUpdateEnvironment = typeof AdminUpdateEnvironmentSchema.static;
+
 export const AdminUpdateStatusSchema = t.Object({
 	serverVersion: t.String(),
 	webVersion: t.Nullable(t.String()),
@@ -465,6 +474,7 @@ export const AdminUpdateStatusSchema = t.Object({
 	webLatest: t.Nullable(AdminUpdateReleaseSchema),
 	installType: t.Union([t.Literal("archive"), t.Literal("docker"), t.Literal("dev")]),
 	flavor: t.Nullable(t.Union([t.Literal("default"), t.Literal("full")])),
+	environment: AdminUpdateEnvironmentSchema,
 	serverRollbackAvailable: t.Boolean(),
 	webRollbackAvailable: t.Boolean(),
 	lastCheckedAt: t.Nullable(t.String({ format: "date-time" })),
@@ -474,6 +484,29 @@ export const AdminUpdateStatusSchema = t.Object({
 });
 
 export type AdminUpdateStatus = typeof AdminUpdateStatusSchema.static;
+
+/** One install or rollback run; `finishedAt` stays null while it runs. */
+export const AdminUpdateHistoryEntrySchema = t.Object({
+	id: t.String(),
+	action: t.Union([t.Literal("install"), t.Literal("rollback")]),
+	target: AdminUpdateTargetSchema,
+	status: t.Union([t.Literal("running"), t.Literal("succeeded"), t.Literal("failed")]),
+	fromVersion: t.Nullable(t.String()),
+	toVersion: t.String(),
+	errorMessage: t.Nullable(t.String()),
+	actorUserId: t.Nullable(t.String()),
+	startedAt: t.String({ format: "date-time" }),
+	finishedAt: t.Nullable(t.String({ format: "date-time" })),
+});
+
+export type AdminUpdateHistoryEntry = typeof AdminUpdateHistoryEntrySchema.static;
+
+export const AdminUpdateHistoryPageSchema = t.Object({
+	...PaginationMetaSchema.properties,
+	data: t.Array(AdminUpdateHistoryEntrySchema),
+});
+
+export type AdminUpdateHistoryPage = typeof AdminUpdateHistoryPageSchema.static;
 
 /**
  * Composite view for the admin dashboard: everything the page previously

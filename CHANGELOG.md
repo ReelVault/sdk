@@ -31,6 +31,7 @@
 - **Safer database restore** — `admin.restoreDatabase(fileName, { force? })` sends the optional `force`, and `AdminDatabaseRestoreResponse` carries `preRestoreBackup`, the copy taken just before the swap.
 - **Audit filter options** — `admin.getAuditOptions()` returns the resource types in the audit log and the administrators who wrote entries (`AdminAuditOptionsSchema` / `AdminAuditOptions`), for the filter dropdowns. `name` is null when the account no longer exists.
 - **User list filters** — `admin.getUsers({ role, status })` narrows the account list by role (`admin` or `user`) and by status (`active` or `blocked`), next to the search.
+- **Update history and environment** — `admin.getUpdateHistory({ page, limit })` pages through the installs and rollbacks (`AdminUpdateHistoryPageSchema` / `AdminUpdateHistoryPage`). `AdminUpdateStatus.environment` reports the container engine (`docker`, `podman` or none), whether the server runs without root and whether systemd manages it as a `user` or `system` unit (`AdminUpdateEnvironmentSchema`).
 - **Subtitle extractability** — `Subtitle.extractable` is `false` for image-based embedded tracks (PGS, VobSub), which cannot be served as text.
 - **Migration status** — `admin.getDatabaseMigrations()` returns `DatabaseMigrationStatus` (`total`, `applied`, `pending`, `latest`, `migrations`).
 - **Paginated marker list** — `media.getAllMarkers(query)` takes `page` next to `limit` and returns `PaginatedResponse<MediaMarker>` (`data`, `total`, `totalPages`) instead of a bare array.
