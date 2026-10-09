@@ -1,4 +1,4 @@
-import type { DownloadJob, MyDownloadsResponse, PrepareDownload } from "@sdk/common";
+import type { DownloadJob, DownloadSeasonQueueResult, MyDownloadsResponse, PrepareDownload, QueueSeasonDownload } from "@sdk/common";
 import { BaseResource } from "../core/base-client";
 
 export class DownloadsClient extends BaseResource {
@@ -8,6 +8,11 @@ export class DownloadsClient extends BaseResource {
 
 	prepare(body: PrepareDownload): Promise<DownloadJob> {
 		return this._post("/downloads/prepare", { body });
+	}
+
+	/** Queues every episode of a season; the outcome of each episode comes back in `results`. */
+	queueSeason(body: QueueSeasonDownload): Promise<DownloadSeasonQueueResult> {
+		return this._post("/downloads/seasons", { body });
 	}
 
 	getStatus(jobId: string): Promise<DownloadJob | null> {

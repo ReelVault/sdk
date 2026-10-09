@@ -1,4 +1,5 @@
 import { t } from "elysia";
+import { BulkRefreshItemSchema } from "./bulk-refresh";
 import { PaginationMetaSchema } from "./pagination";
 
 export const DownloadJobSchema = t.Object({
@@ -37,6 +38,22 @@ export const PrepareDownloadSchema = t.Object({
 });
 
 export type PrepareDownload = typeof PrepareDownloadSchema.static;
+
+/** `POST /downloads/seasons` — every episode of a season is queued; `force` queues a season larger than the free storage. */
+export const QueueSeasonDownloadSchema = t.Object({
+	seasonId: t.String({ minLength: 1, maxLength: 64 }),
+	quality: t.Optional(t.String()),
+	force: t.Optional(t.Boolean()),
+});
+
+export type QueueSeasonDownload = typeof QueueSeasonDownloadSchema.static;
+
+/** One outcome per episode of the season: `id` is the episode id, `code` is set only when that episode was not queued. */
+export const DownloadSeasonQueueResultSchema = t.Object({
+	results: t.Array(BulkRefreshItemSchema),
+});
+
+export type DownloadSeasonQueueResult = typeof DownloadSeasonQueueResultSchema.static;
 
 export const AdminDownloadJobSchema = t.Composite([
 	DownloadJobSchema,
