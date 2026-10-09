@@ -261,12 +261,16 @@ export interface AddWorkerItemOptions {
 export const PurgeWorkerHistoryOptionsSchema = t.Object({
 	status: t.Optional(t.Union([t.Literal("all_terminal"), t.Literal("completed"), t.Literal("failed"), t.Literal("cancelled")])),
 	olderThanDays: t.Optional(t.Integer({ minimum: 0 })),
+	/** Counts what the purge would delete and removes nothing. */
+	dryRun: t.Optional(t.Boolean()),
 });
 
 export type PurgeWorkerHistoryOptions = typeof PurgeWorkerHistoryOptionsSchema.static;
 
+/** With `dryRun` the counts are what a purge would delete; nothing was removed. */
 export const PurgeWorkerHistoryResponseSchema = t.Object({
 	success: t.Literal(true),
+	dryRun: t.Boolean(),
 	deletedJobsCount: t.Integer({ minimum: 0 }),
 	deletedOperationsCount: t.Integer({ minimum: 0 }),
 });
