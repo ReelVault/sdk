@@ -36,6 +36,8 @@ export const PluginRuntimeStatusSchema = t.Object({
 	subtitleProviders: t.Integer({ minimum: 0 }),
 	jobs: t.Integer({ minimum: 0 }),
 	error: t.Optional(t.String()),
+	/** Stable code for `error` (for example `plugin.manifest_invalid`); translate this, not the message. */
+	errorCode: t.Optional(t.String()),
 	failurePhase: t.Optional(PluginLoadPhaseSchema),
 });
 

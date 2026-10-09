@@ -615,6 +615,7 @@ export interface PluginRuntime {
 	analyzerIds: string[];
 	jobNames: string[];
 	error?: string | undefined;
+	errorCode?: string | undefined;
 	failurePhase?: PluginLoadPhase | undefined;
 }
 
@@ -628,6 +629,7 @@ export interface PluginStatus {
 	subtitleProviders: number;
 	jobs: number;
 	error?: string;
+	errorCode?: string;
 	failurePhase?: PluginLoadPhase;
 }
 

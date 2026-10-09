@@ -27,3 +27,4 @@
 - **Liveness and readiness probes** — `health.live()` and `health.ready()` for `GET /health/live` and `GET /health/ready` (`HealthLiveResponseSchema`).
 - **Number setting bounds** — `SystemSettingItemView` carries `min` and `max` for number settings.
 - **Stable slot entry ids** — `PluginSlotContribution.id` (optional) keys an entry in administrator interface switches, so the switch survives reordering and edits of the other entries in the same slot.
+- **Plugin failure codes** — `PluginRuntimeStatus.errorCode` (optional) carries a stable code for `error`: `plugin.manifest_invalid`, `plugin.load_failed`, `plugin.already_installed` or a domain code.
