@@ -41,6 +41,14 @@ export const CreateMediaMarkerSchema = t.Object({
 
 export type CreateMediaMarker = typeof CreateMediaMarkerSchema.static;
 
+/** What a marker import replaced: the media files it named and the markers written. */
+export const MarkerImportResultSchema = t.Object({
+	mediaFiles: t.Integer({ minimum: 0 }),
+	markers: t.Integer({ minimum: 0 }),
+});
+
+export type MarkerImportResult = typeof MarkerImportResultSchema.static;
+
 export const SetMediaMarkersSchema = t.Object({
 	markers: t.Array(CreateMediaMarkerSchema),
 });

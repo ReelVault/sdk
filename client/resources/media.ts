@@ -1,4 +1,11 @@
-import type { CreateMediaMarker, MediaMarker, MediaMarkerFilters, OperationQueuedResponse, PlaybackArtifact } from "@sdk/common";
+import type {
+	CreateMediaMarker,
+	MarkerImportResult,
+	MediaMarker,
+	MediaMarkerFilters,
+	OperationQueuedResponse,
+	PlaybackArtifact,
+} from "@sdk/common";
 import type { FieldsQuery, SelectFields } from "@sdk/common/fields";
 import type {
 	MediaFileAuditStatus,
@@ -36,6 +43,11 @@ export class MediaFileClient extends BaseResource {
 
 	getArtifact(mediaFileId: string, artifactId: string): Promise<Blob | string> {
 		return this._get(`/media-files/${mediaFileId}/artifacts/${artifactId}`);
+	}
+
+	/** Replaces the markers of every media file named in an NDJSON body (sent as text/plain). */
+	importMarkers(ndjson: string): Promise<MarkerImportResult> {
+		return this._post("/media-files/markers/import", { body: ndjson, headers: { "content-type": "text/plain; charset=utf-8" } });
 	}
 
 	getAllMarkers(query?: MediaMarkerFilters & { limit?: number }): Promise<MediaMarker[]> {
