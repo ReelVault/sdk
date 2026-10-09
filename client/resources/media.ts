@@ -1,4 +1,4 @@
-import type { CreateMediaMarker, MediaMarker, OperationQueuedResponse, PlaybackArtifact } from "@sdk/common";
+import type { CreateMediaMarker, MediaMarker, MediaMarkerFilters, OperationQueuedResponse, PlaybackArtifact } from "@sdk/common";
 import type { FieldsQuery, SelectFields } from "@sdk/common/fields";
 import type {
 	MediaFileAuditStatus,
@@ -38,8 +38,8 @@ export class MediaFileClient extends BaseResource {
 		return this._get(`/media-files/${mediaFileId}/artifacts/${artifactId}`);
 	}
 
-	getAllMarkers(): Promise<MediaMarker[]> {
-		return this._get("/media-files/markers");
+	getAllMarkers(query?: MediaMarkerFilters & { limit?: number }): Promise<MediaMarker[]> {
+		return this._get("/media-files/markers", { query });
 	}
 
 	getMarkers(mediaFileId: string): Promise<MediaMarker[]> {

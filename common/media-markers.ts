@@ -21,6 +21,15 @@ export const MediaMarkerSchema = t.Object({
 
 export type MediaMarker = typeof MediaMarkerSchema.static;
 
+/** Filters of the admin marker list; each one narrows the result on the server. `q` matches label, file id, plugin id and type. */
+export const MediaMarkerFiltersSchema = t.Object({
+	type: t.Optional(MediaMarkerSchema.properties.type),
+	source: t.Optional(MediaMarkerSchema.properties.source),
+	q: t.Optional(t.String({ maxLength: 200 })),
+});
+
+export type MediaMarkerFilters = typeof MediaMarkerFiltersSchema.static;
+
 export const CreateMediaMarkerSchema = t.Object({
 	type: t.Union([t.Literal("intro"), t.Literal("credits"), t.Literal("recap"), t.Literal("chapter"), t.Literal("highlight")]),
 	startSeconds: t.Number({ minimum: 0 }),
