@@ -23,6 +23,8 @@ export const ProfilePreferencesSchema = t.Object({
 	watchlistAutoRemoveWatched: t.Boolean(),
 	/** Hides the rating badge on poster cards, for a lighter grid. */
 	hideRatingOverlay: t.Boolean(),
+	/** Comma-separated notification types this profile does not want to see in its list or as live alerts. */
+	mutedNotificationTypes: t.String({ maxLength: 512 }),
 	subtitleSize: t.Union([t.Literal("small"), t.Literal("normal"), t.Literal("large"), t.Literal("extra-large")]),
 	subtitlePosition: t.Union([t.Literal("bottom"), t.Literal("top"), t.Literal("middle")]),
 	subtitleColor: t.Union([t.Literal("white"), t.Literal("yellow"), t.Literal("cyan"), t.Literal("green")]),
@@ -52,6 +54,8 @@ export const UpdateProfilePreferencesSchema = t.Partial(
 		resumeRewindSeconds: t.Number({ minimum: 0, maximum: 30 }),
 		watchlistAutoRemoveWatched: t.Boolean(),
 	hideRatingOverlay: t.Boolean(),
+	/** Comma-separated notification types this profile does not want to see in its list or as live alerts. */
+	mutedNotificationTypes: t.String({ maxLength: 512 }),
 		subtitleSize: t.Union([t.Literal("small"), t.Literal("normal"), t.Literal("large"), t.Literal("extra-large")]),
 		subtitlePosition: t.Union([t.Literal("bottom"), t.Literal("top"), t.Literal("middle")]),
 		subtitleColor: t.Union([t.Literal("white"), t.Literal("yellow"), t.Literal("cyan"), t.Literal("green")]),
@@ -80,6 +84,8 @@ export const ProfilePreferenceDefaultsSchema = t.Object({
 	resumeRewindSeconds: t.Number(),
 	watchlistAutoRemoveWatched: t.Boolean(),
 	hideRatingOverlay: t.Boolean(),
+	/** Comma-separated notification types this profile does not want to see in its list or as live alerts. */
+	mutedNotificationTypes: t.String({ maxLength: 512 }),
 	subtitleSize: t.Union([t.Literal("small"), t.Literal("normal"), t.Literal("large"), t.Literal("extra-large")]),
 	subtitlePosition: t.Union([t.Literal("bottom"), t.Literal("top"), t.Literal("middle")]),
 	subtitleColor: t.Union([t.Literal("white"), t.Literal("yellow"), t.Literal("cyan"), t.Literal("green")]),
