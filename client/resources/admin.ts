@@ -16,6 +16,7 @@ import type {
 	AdminDownloadsResponse,
 	AdminFfmpegCapabilities,
 	AdminFilesystemBrowse,
+	AdminEndedLiveSessionsResponse,
 	AdminLiveActivityResponse,
 	BulkTerminateSessions,
 	BulkTerminateSessionsResult,
@@ -327,6 +328,13 @@ export class AdminClient extends BaseResource {
 
 	getAnalytics(days?: number): Promise<AdminAnalytics> {
 		return this._get("/admin/analytics", { query: days ? { days } : undefined });
+	}
+
+	/** The most recently ended playback sessions, newest first; `limit` caps how many come back. */
+	getEndedLiveSessions(options: { limit?: number } = {}): Promise<AdminEndedLiveSessionsResponse> {
+		return this._get("/admin/live-activity/history", {
+			query: options.limit === undefined ? undefined : { limit: String(options.limit) },
+		});
 	}
 
 	getLiveActivity(): Promise<AdminLiveActivityResponse> {

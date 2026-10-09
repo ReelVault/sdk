@@ -118,3 +118,23 @@ export const BulkTerminateSessionsResultSchema = t.Object({
 });
 
 export type BulkTerminateSessionsResult = Static<typeof BulkTerminateSessionsResultSchema>;
+
+/** One ended playback session: who watched what, when, and why it ended as the server recorded it. */
+export const AdminEndedLiveSessionItemSchema = t.Object({
+	sessionId: t.String(),
+	mediaFileId: t.String(),
+	title: t.Nullable(t.String()),
+	profileId: t.String(),
+	profileName: t.Nullable(t.String()),
+	reason: t.String(),
+	startedAt: t.String(),
+	endedAt: t.String(),
+	durationSeconds: t.Integer({ minimum: 0 }),
+});
+
+/** `GET /admin/live-activity/history` — the most recently ended playback sessions, newest first. */
+export const AdminEndedLiveSessionsResponseSchema = t.Object({
+	sessions: t.Array(AdminEndedLiveSessionItemSchema),
+});
+
+export type AdminEndedLiveSessionsResponse = Static<typeof AdminEndedLiveSessionsResponseSchema>;
