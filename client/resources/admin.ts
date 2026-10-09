@@ -6,6 +6,7 @@ import type {
 	AdminCreateUser,
 	AdminCreateUserProfile,
 	AdminDatabaseBackup,
+	DatabaseIntegrity,
 	AdminDatabaseRestoreResponse,
 	ApiKey,
 	ApiKeyCreated,
@@ -447,6 +448,16 @@ export class AdminClient extends BaseResource {
 
 	createDatabaseBackup(): Promise<AdminDatabaseBackup> {
 		return this._post("/admin/database/backups", { body: undefined });
+	}
+
+	/** Runs SQLite's quick consistency check on the live database. */
+	getDatabaseIntegrity(): Promise<DatabaseIntegrity> {
+		return this._get("/admin/database/integrity");
+	}
+
+	/** Refreshes SQLite's planner statistics (`PRAGMA optimize`). */
+	optimizeDatabase(): Promise<{ success: true }> {
+		return this._post("/admin/database/optimize", { body: undefined });
 	}
 
 	deleteDatabaseBackup(fileName: string): Promise<{ success: boolean }> {

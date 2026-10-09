@@ -373,6 +373,14 @@ export type AdminDatabaseBackup = typeof AdminDatabaseBackupSchema.static;
 
 export const AdminDatabaseBackupListSchema = t.Array(AdminDatabaseBackupSchema);
 
+/** Result of SQLite's quick check: `ok` only when the database reports nothing but the healthy answer. */
+export const DatabaseIntegritySchema = t.Object({
+	ok: t.Boolean(),
+	messages: t.Array(t.String()),
+});
+
+export type DatabaseIntegrity = typeof DatabaseIntegritySchema.static;
+
 /** Restore queues a detached process: it waits for server exit, swaps the
  * database file and relaunches — the caller always gets an ack, not a result. */
 export const AdminDatabaseRestoreResponseSchema = t.Object({
