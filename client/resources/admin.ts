@@ -9,6 +9,7 @@ import type {
 	AdminDatabaseRestoreResponse,
 	ApiKey,
 	ApiKeyCreated,
+	UpdateApiKeyRequest,
 	AdminDownloadsResponse,
 	AdminFfmpegCapabilities,
 	AdminFilesystemBrowse,
@@ -446,6 +447,14 @@ export class AdminClient extends BaseResource {
 
 	createApiKey(body: { name: string; scope: "read_only" | "full"; expiresAtDays?: number }): Promise<ApiKeyCreated> {
 		return this._post("/admin/api-keys", { body });
+	}
+
+	updateApiKey(id: string, body: UpdateApiKeyRequest): Promise<ApiKey> {
+		return this._patch(`/admin/api-keys/${id}`, { body });
+	}
+
+	rotateApiKey(id: string): Promise<ApiKeyCreated> {
+		return this._post(`/admin/api-keys/${id}/rotate`, { body: undefined });
 	}
 
 	revokeApiKey(id: string): Promise<{ success: boolean }> {

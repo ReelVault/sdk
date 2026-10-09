@@ -18,7 +18,8 @@ export const ApiKeyCreatedSchema = t.Object({
 
 export type ApiKeyCreated = typeof ApiKeyCreatedSchema.static;
 
-export const ApiKeySchema = t.Omit(ApiKeyCreatedSchema, ["key"]);
+/** `createdByName` is the administrator who created the key; null when that account no longer exists. */
+export const ApiKeySchema = t.Composite([t.Omit(ApiKeyCreatedSchema, ["key"]), t.Object({ createdByName: t.Nullable(t.String()) })]);
 
 export type ApiKey = typeof ApiKeySchema.static;
 
@@ -31,3 +32,12 @@ export const CreateApiKeyRequestSchema = t.Object({
 });
 
 export type CreateApiKeyRequest = typeof CreateApiKeyRequestSchema.static;
+
+/** Renames a key or changes its expiry; the secret itself only changes through rotation. */
+export const UpdateApiKeyRequestSchema = t.Object({
+	name: t.Optional(t.String({ minLength: 1, maxLength: 100 })),
+	/** Days from now until the key expires; null removes the expiry. */
+	expiresAtDays: t.Optional(t.Union([t.Integer({ minimum: 1, maximum: 3650 }), t.Null()])),
+});
+
+export type UpdateApiKeyRequest = typeof UpdateApiKeyRequestSchema.static;
