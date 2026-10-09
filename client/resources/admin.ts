@@ -34,7 +34,10 @@ import type {
 	AdminUpdateTarget,
 	AdminUser,
 	AdminUserProfile,
+	AdminUserSessionsPage,
 	AdminUsersPage,
+	RevokeUsersSessions,
+	RevokeUsersSessionsResult,
 	ImportSystemSettings,
 	InstallCatalogPluginBody,
 	InstallCatalogPluginResponse,
@@ -240,6 +243,19 @@ export class AdminClient extends BaseResource {
 		limit?: number | undefined;
 	}): Promise<AdminUsersPage> {
 		return this._get("/admin/users", { query });
+	}
+
+	/** A user's sessions that have not expired, newest first; tokens are never included. */
+	getUserSessions(userId: string, query?: { page?: number; limit?: number }): Promise<AdminUserSessionsPage> {
+		return this._get(`/admin/users/${userId}/sessions`, { query });
+	}
+
+	revokeUserSession(userId: string, sessionId: string): Promise<{ success: boolean }> {
+		return this._delete(`/admin/users/${userId}/sessions/${sessionId}`);
+	}
+
+	revokeUsersSessions(body: RevokeUsersSessions): Promise<RevokeUsersSessionsResult> {
+		return this._post("/admin/users/sessions/revoke", { body });
 	}
 
 	getUser(userId: string): Promise<AdminUser> {

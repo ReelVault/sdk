@@ -13,6 +13,10 @@ export const AdminUserSchema = t.Object({
 	banReason: t.Nullable(t.String()),
 	banExpires: t.Nullable(t.String({ format: "date-time" })),
 	twoFactorEnabled: t.Boolean(),
+	/** When the user's most recent session was last used; null when the user has no session. */
+	lastActiveAt: t.Nullable(t.String({ format: "date-time" })),
+	/** Sessions of the user that have not expired yet. */
+	activeSessionCount: t.Integer({ minimum: 0 }),
 	createdAt: t.String({ format: "date-time" }),
 	updatedAt: t.String({ format: "date-time" }),
 });
@@ -37,6 +41,35 @@ export const AdminUsersPageSchema = t.Object({
 });
 
 export type AdminUsersPage = typeof AdminUsersPageSchema.static;
+
+/** One signed-in session of a user, as the admin session preview shows it (never the token). */
+export const AdminUserSessionSchema = t.Object({
+	id: t.String(),
+	ipAddress: t.Nullable(t.String()),
+	userAgent: t.Nullable(t.String()),
+	createdAt: t.String({ format: "date-time" }),
+	updatedAt: t.String({ format: "date-time" }),
+	expiresAt: t.String({ format: "date-time" }),
+});
+
+export type AdminUserSession = typeof AdminUserSessionSchema.static;
+
+export const AdminUserSessionsPageSchema = PaginatedResponseSchema(AdminUserSessionSchema);
+
+export type AdminUserSessionsPage = typeof AdminUserSessionsPageSchema.static;
+
+/** `POST /admin/users/sessions/revoke` — every session of the listed users ends. */
+export const RevokeUsersSessionsSchema = t.Object({
+	userIds: t.Array(t.String({ minLength: 1, maxLength: 64 }), { minItems: 1, maxItems: 100 }),
+});
+
+export type RevokeUsersSessions = typeof RevokeUsersSessionsSchema.static;
+
+export const RevokeUsersSessionsResultSchema = t.Object({
+	revokedSessions: t.Integer({ minimum: 0 }),
+});
+
+export type RevokeUsersSessionsResult = typeof RevokeUsersSessionsResultSchema.static;
 
 export const AdminCreateUserSchema = t.Object({
 	name: t.String({ minLength: 1, maxLength: 100 }),
