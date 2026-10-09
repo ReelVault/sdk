@@ -4,6 +4,8 @@ import { PaginationMetaSchema } from "./pagination";
 export const DownloadJobSchema = t.Object({
 	id: t.String(),
 	mediaFileId: t.String(),
+	/** Title the download's media file belongs to; null when the file is no longer linked to one. */
+	metadataId: t.Nullable(t.String()),
 	quality: t.String(),
 	status: t.String(),
 	progressPercent: t.Number(),
