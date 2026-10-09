@@ -5,6 +5,7 @@ import type { GlobalSearchResponse, MetadataStatusesResponse } from "@sdk/common
 import type { MetadataFilters, MetadataSorting, MetadataWithRelation, UpdateMetadata } from "@sdk/common/metadata.types";
 import type { MetadataImageOption, SelectMetadataImage } from "@sdk/common/metadata-images";
 import type { CursorPaginatedResponse, CursorPaginationQuery, PaginatedResponse, PaginationQuery } from "@sdk/common/pagination";
+import type { BulkRefreshResult } from "@sdk/common/bulk-refresh";
 import { BaseResource } from "../core/base-client";
 
 export class MetadataClient extends BaseResource {
@@ -65,6 +66,11 @@ export class MetadataClient extends BaseResource {
 
 	refreshImages(metadataId: string, body?: { force?: boolean }): Promise<{ success: boolean }> {
 		return this._post(`/metadata/${metadataId}/refresh-images`, { body });
+	}
+
+	/** Force-refreshes the artwork of several titles in turn; the outcome of each id comes back in `results`. */
+	bulkRefreshImages(metadataIds: string[]): Promise<BulkRefreshResult> {
+		return this._post("/metadata/bulk-refresh-images", { body: { ids: metadataIds } });
 	}
 
 	merge(metadataId: string, sourceMetadataId: string): Promise<{ success: true; targetId: string }> {

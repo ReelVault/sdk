@@ -181,6 +181,13 @@ export const AdminCacheStatsSchema = t.Object({
 
 export type AdminCacheStats = typeof AdminCacheStatsSchema.static;
 
+export const ImageCachePurgeResultSchema = t.Object({
+	removedFiles: t.Integer({ minimum: 0 }),
+	freedBytes: t.Integer({ minimum: 0 }),
+});
+
+export type ImageCachePurgeResult = typeof ImageCachePurgeResultSchema.static;
+
 export const AdminResourceAlertSchema = t.Object({
 	type: t.String(),
 	code: t.String(),

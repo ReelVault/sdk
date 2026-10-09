@@ -4,6 +4,7 @@ import type {
 	AdminAuditPage,
 	AdminAuditSummary,
 	AdminCacheStats,
+	ImageCachePurgeResult,
 	AdminCreateUser,
 	AdminCreateUserProfile,
 	AdminDatabaseBackup,
@@ -340,6 +341,11 @@ export class AdminClient extends BaseResource {
 
 	getCacheStats(): Promise<AdminCacheStats> {
 		return this._get("/admin/cache-stats");
+	}
+
+	/** Deletes the optimized image copies; the originals stay. */
+	purgeImageCache(): Promise<ImageCachePurgeResult> {
+		return this._post("/admin/image-cache/purge", { body: undefined });
 	}
 
 	getAnalytics(days?: number): Promise<AdminAnalytics> {

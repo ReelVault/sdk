@@ -91,3 +91,4 @@
 - **Copy profile preferences** — `profiles.copyPreferences(id, sourceProfileId)` for `POST /profiles/:id/preferences/copy` (`CopyProfilePreferencesSchema`); `CreateProfile` takes `copyPreferencesFromProfileId`.
 - **Muted notification types** — `mutedNotificationTypes` (comma-separated) in `ProfilePreferencesSchema`, `UpdateProfilePreferencesSchema` and `ProfilePreferenceDefaultsSchema`.
 - **Hidden menu pages** — `hiddenPages` (comma-separated) in `ProfilePreferencesSchema`, `UpdateProfilePreferencesSchema` and `ProfilePreferenceDefaultsSchema`.
+- **Bulk artwork refresh and image cache purge** — `metadata.bulkRefreshImages(ids)` for `POST /metadata/bulk-refresh-images` (up to 50 titles, one `{ id, ok, code? }` result per id) and `admin.purgeImageCache()` for `POST /admin/image-cache/purge`, typed by `ImageCachePurgeResultSchema` / `ImageCachePurgeResult` (`removedFiles`, `freedBytes`).
