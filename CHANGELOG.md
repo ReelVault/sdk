@@ -90,3 +90,4 @@
 - **Bulk subtitle delete** — `subtitles.bulkDelete(ids)` for `POST /subtitles/bulk-delete`, typed by `BulkSubtitleDeleteSchema` / `BulkSubtitleDeleteResultSchema` (one outcome per id).
 - **Copy profile preferences** — `profiles.copyPreferences(id, sourceProfileId)` for `POST /profiles/:id/preferences/copy` (`CopyProfilePreferencesSchema`); `CreateProfile` takes `copyPreferencesFromProfileId`.
 - **Muted notification types** — `mutedNotificationTypes` (comma-separated) in `ProfilePreferencesSchema`, `UpdateProfilePreferencesSchema` and `ProfilePreferenceDefaultsSchema`.
+- **Hidden menu pages** — `hiddenPages` (comma-separated) in `ProfilePreferencesSchema`, `UpdateProfilePreferencesSchema` and `ProfilePreferenceDefaultsSchema`.

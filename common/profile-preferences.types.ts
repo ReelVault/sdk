@@ -25,6 +25,8 @@ export const ProfilePreferencesSchema = t.Object({
 	hideRatingOverlay: t.Boolean(),
 	/** Comma-separated notification types this profile does not want to see in its list or as live alerts. */
 	mutedNotificationTypes: t.String({ maxLength: 512 }),
+	/** Comma-separated optional pages (collections, discovery, insights, devices, remote) hidden from the menus. */
+	hiddenPages: t.String({ maxLength: 512 }),
 	subtitleSize: t.Union([t.Literal("small"), t.Literal("normal"), t.Literal("large"), t.Literal("extra-large")]),
 	subtitlePosition: t.Union([t.Literal("bottom"), t.Literal("top"), t.Literal("middle")]),
 	subtitleColor: t.Union([t.Literal("white"), t.Literal("yellow"), t.Literal("cyan"), t.Literal("green")]),
@@ -53,9 +55,11 @@ export const UpdateProfilePreferencesSchema = t.Partial(
 		continueWatchingMinutes: t.Number({ minimum: 0, maximum: 240 }),
 		resumeRewindSeconds: t.Number({ minimum: 0, maximum: 30 }),
 		watchlistAutoRemoveWatched: t.Boolean(),
-	hideRatingOverlay: t.Boolean(),
-	/** Comma-separated notification types this profile does not want to see in its list or as live alerts. */
-	mutedNotificationTypes: t.String({ maxLength: 512 }),
+		hideRatingOverlay: t.Boolean(),
+		/** Comma-separated notification types this profile does not want to see in its list or as live alerts. */
+		mutedNotificationTypes: t.String({ maxLength: 512 }),
+		/** Comma-separated optional pages (collections, discovery, insights, devices, remote) hidden from the menus. */
+		hiddenPages: t.String({ maxLength: 512 }),
 		subtitleSize: t.Union([t.Literal("small"), t.Literal("normal"), t.Literal("large"), t.Literal("extra-large")]),
 		subtitlePosition: t.Union([t.Literal("bottom"), t.Literal("top"), t.Literal("middle")]),
 		subtitleColor: t.Union([t.Literal("white"), t.Literal("yellow"), t.Literal("cyan"), t.Literal("green")]),
@@ -86,6 +90,8 @@ export const ProfilePreferenceDefaultsSchema = t.Object({
 	hideRatingOverlay: t.Boolean(),
 	/** Comma-separated notification types this profile does not want to see in its list or as live alerts. */
 	mutedNotificationTypes: t.String({ maxLength: 512 }),
+	/** Comma-separated optional pages (collections, discovery, insights, devices, remote) hidden from the menus. */
+	hiddenPages: t.String({ maxLength: 512 }),
 	subtitleSize: t.Union([t.Literal("small"), t.Literal("normal"), t.Literal("large"), t.Literal("extra-large")]),
 	subtitlePosition: t.Union([t.Literal("bottom"), t.Literal("top"), t.Literal("middle")]),
 	subtitleColor: t.Union([t.Literal("white"), t.Literal("yellow"), t.Literal("cyan"), t.Literal("green")]),
