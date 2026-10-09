@@ -346,6 +346,14 @@ export const AdminAuditSummarySchema = t.Object({
 
 export type AdminAuditSummary = typeof AdminAuditSummarySchema.static;
 
+/** Values for the audit filter dropdowns: the resource types in the log and the administrators who wrote entries. */
+export const AdminAuditOptionsSchema = t.Object({
+	resourceTypes: t.Array(t.String()),
+	actors: t.Array(t.Object({ actorUserId: t.String(), name: t.Nullable(t.String()) })),
+});
+
+export type AdminAuditOptions = typeof AdminAuditOptionsSchema.static;
+
 export const AdminFilesystemDirectorySchema = t.Object({
 	name: t.String(),
 	path: t.String(),

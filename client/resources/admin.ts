@@ -1,5 +1,6 @@
 import type {
 	AdminAnalytics,
+	AdminAuditOptions,
 	AdminAuditPage,
 	AdminAuditSummary,
 	AdminCacheStats,
@@ -410,6 +411,10 @@ export class AdminClient extends BaseResource {
 		to?: string | undefined;
 	}): Promise<AdminAuditPage> {
 		return this._get("/admin/audit", { query });
+	}
+
+	getAuditOptions(): Promise<AdminAuditOptions> {
+		return this._get("/admin/audit/options");
 	}
 
 	deleteLogFile(fileId: string): Promise<{ success: boolean }> {
