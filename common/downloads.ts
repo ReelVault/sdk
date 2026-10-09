@@ -12,7 +12,7 @@ export const DownloadJobSchema = t.Object({
 	sizeBytes: t.Nullable(t.Number()),
 	fileName: t.Nullable(t.String()),
 	downloadUrl: t.Nullable(t.String()),
-	errorText: t.Nullable(t.String()),
+	errorCode: t.Nullable(t.String()),
 	createdAt: t.String(),
 	updatedAt: t.String(),
 });

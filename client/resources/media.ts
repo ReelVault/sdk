@@ -84,9 +84,9 @@ export class MediaFileClient extends BaseResource {
 		readable: boolean;
 		sizeBytes: number | null;
 		probeSuccess: boolean;
-		probeError: string | null;
+		probeErrorCode: string | null;
 		decodeSuccess: boolean;
-		decodeError: string | null;
+		decodeErrorCode: string | null;
 		isEnabled: boolean;
 	}> {
 		return this._post(`/media-files/${mediaFileId}/scan`, { body: options });

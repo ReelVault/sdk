@@ -19,7 +19,7 @@ export const PluginRepositorySchema = t.Object({
 	enabled: t.Boolean(),
 	hasToken: t.Boolean(),
 	lastRefreshedAt: t.Nullable(t.String({ format: "date-time" })),
-	lastError: t.Nullable(t.String()),
+	lastErrorCode: t.Nullable(t.String()),
 	createdAt: t.String({ format: "date-time" }),
 	updatedAt: t.String({ format: "date-time" }),
 });

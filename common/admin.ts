@@ -478,8 +478,8 @@ export const AdminUpdateStatusSchema = t.Object({
 	serverRollbackAvailable: t.Boolean(),
 	webRollbackAvailable: t.Boolean(),
 	lastCheckedAt: t.Nullable(t.String({ format: "date-time" })),
-	serverLastError: t.Nullable(t.String()),
-	webLastError: t.Nullable(t.String()),
+	serverLastErrorCode: t.Nullable(t.String()),
+	webLastErrorCode: t.Nullable(t.String()),
 	job: t.Nullable(AdminUpdateJobStateSchema),
 });
 
