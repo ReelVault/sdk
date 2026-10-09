@@ -27,6 +27,7 @@ import type {
 	AdminDashboardViewResponse,
 	AdminStats,
 	AdminUpdateHistoryPage,
+	AdminUpdateCancelResponse,
 	AdminUpdateInstallResponse,
 	AdminUpdateStatus,
 	AdminUpdateTarget,
@@ -122,6 +123,11 @@ export class AdminClient extends BaseResource {
 	/** Same stream guard as `installUpdate` for a server rollback. */
 	rollbackUpdate(target: AdminUpdateTarget, options: { force?: boolean | undefined } = {}): Promise<AdminUpdateInstallResponse> {
 		return this._post("/admin/update/rollback", { body: { target, force: options.force } });
+	}
+
+	/** Stops an install that is still downloading, verifying or extracting; refused once files are being replaced. */
+	cancelUpdate(target: AdminUpdateTarget): Promise<AdminUpdateCancelResponse> {
+		return this._post("/admin/update/cancel", { body: { target } });
 	}
 
 	getUpdateHistory(query?: { page?: number | undefined; limit?: number | undefined }): Promise<AdminUpdateHistoryPage> {

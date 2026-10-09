@@ -490,7 +490,7 @@ export const AdminUpdateHistoryEntrySchema = t.Object({
 	id: t.String(),
 	action: t.Union([t.Literal("install"), t.Literal("rollback")]),
 	target: AdminUpdateTargetSchema,
-	status: t.Union([t.Literal("running"), t.Literal("succeeded"), t.Literal("failed")]),
+	status: t.Union([t.Literal("running"), t.Literal("succeeded"), t.Literal("failed"), t.Literal("cancelled")]),
 	fromVersion: t.Nullable(t.String()),
 	toVersion: t.String(),
 	errorMessage: t.Nullable(t.String()),
@@ -531,6 +531,13 @@ export const AdminUpdateInstallResponseSchema = t.Object({
 });
 
 export type AdminUpdateInstallResponse = typeof AdminUpdateInstallResponseSchema.static;
+
+/** Acknowledges a cancel request; the install stops at its next checkpoint, so the job may still show for a moment. */
+export const AdminUpdateCancelResponseSchema = t.Object({
+	target: AdminUpdateTargetSchema,
+});
+
+export type AdminUpdateCancelResponse = typeof AdminUpdateCancelResponseSchema.static;
 
 /** Coverage and storage usage of built-in (core) trickplay artifacts. */
 export const TrickplayStatsSchema = t.Object({

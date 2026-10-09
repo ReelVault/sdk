@@ -19,6 +19,7 @@
 
 ### Features
 
+- **Cancel an update** — `admin.cancelUpdate(target)` for `POST /admin/update/cancel`. `AdminUpdateCancelResponseSchema` / `AdminUpdateCancelResponse` describe the reply, and an update history entry may now have status `cancelled`.
 - **Forced server updates** — `admin.installUpdate(target, { force })` and `admin.rollbackUpdate(target, { force })`. A server install or rollback is refused with `update.blocked_active_streams` while streams play, unless `force` is set.
 - **Plugin configuration reset, export and import** — `admin.resetPluginConfig(id, { keys? })`, `admin.exportPluginConfig(id)` and `admin.importPluginConfig(id, file)` with `ResetPluginConfigBodySchema` and `PluginConfigExportSchema`. Exports never contain secret fields.
 - **Catalog reports unavailable repositories** — `admin.getPluginCatalog()` returns `{ plugins, unavailableRepositories }`; each unavailable repository has its `repositoryId`, `repositoryName` and an `errorCode`. `PluginCatalogResultSchema` / `PluginCatalogResult` describe it.
