@@ -32,11 +32,13 @@ import type {
 	PluginAdminStatus,
 	PluginCatalogEntry,
 	PluginConfigDetails,
+	PluginConfigExport,
 	PluginRepository,
 	PluginUiSettings,
 	PluginValidationResult,
 	PurgeWorkerHistoryOptions,
 	PurgeWorkerHistoryResponse,
+	ResetPluginConfigBody,
 	ResetSystemSettings,
 	SystemSettingsGrouped,
 	TaskTrigger,
@@ -285,6 +287,18 @@ export class AdminClient extends BaseResource {
 
 	updatePluginConfig(pluginId: string, body: Record<string, unknown>): Promise<PluginConfigDetails> {
 		return this._put(`/admin/plugins/${pluginId}/config`, { body });
+	}
+
+	resetPluginConfig(pluginId: string, body: ResetPluginConfigBody = {}): Promise<PluginConfigDetails> {
+		return this._post(`/admin/plugins/${pluginId}/config/reset`, { body });
+	}
+
+	exportPluginConfig(pluginId: string): Promise<PluginConfigExport> {
+		return this._get(`/admin/plugins/${pluginId}/config/export`);
+	}
+
+	importPluginConfig(pluginId: string, body: PluginConfigExport): Promise<PluginConfigDetails> {
+		return this._post(`/admin/plugins/${pluginId}/config/import`, { body });
 	}
 
 	getLogFiles(): Promise<AdminLogFileInfo[]> {

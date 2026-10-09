@@ -103,6 +103,26 @@ export type PluginConfigDetails = typeof PluginConfigDetailsSchema.static;
 
 export const UpdatePluginConfigBodySchema = t.Record(t.String(), t.Unknown());
 
+/** Restores the defaults for the listed fields, or for every stored value when `keys` is omitted. */
+export const ResetPluginConfigBodySchema = t.Object({
+	keys: t.Optional(t.Array(t.String({ maxLength: 128 }), { maxItems: 256 })),
+});
+
+export type ResetPluginConfigBody = typeof ResetPluginConfigBodySchema.static;
+
+/**
+ * A plugin configuration as exported by an administrator. Secret fields are never part of an export,
+ * and an import ignores them, so a file can be moved between installations without moving credentials.
+ */
+export const PluginConfigExportSchema = t.Object({
+	format: t.Literal("reelvault.plugin-config"),
+	formatVersion: t.Literal(1),
+	pluginId: t.String(),
+	values: t.Record(t.String(), t.Unknown()),
+});
+
+export type PluginConfigExport = typeof PluginConfigExportSchema.static;
+
 /** Kind of UI contribution an administrator can switch off. */
 export const PluginUiSurfaceKindSchema = t.Union([
 	t.Literal("page"),
