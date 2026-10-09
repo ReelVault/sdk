@@ -93,3 +93,4 @@
 - **Hidden menu pages** — `hiddenPages` (comma-separated) in `ProfilePreferencesSchema`, `UpdateProfilePreferencesSchema` and `ProfilePreferenceDefaultsSchema`.
 - **Bulk artwork refresh and image cache purge** — `metadata.bulkRefreshImages(ids)` for `POST /metadata/bulk-refresh-images` (up to 50 titles, one `{ id, ok, code? }` result per id) and `admin.purgeImageCache()` for `POST /admin/image-cache/purge`, typed by `ImageCachePurgeResultSchema` / `ImageCachePurgeResult` (`removedFiles`, `freedBytes`).
 - **Database backup upload** — `admin.uploadDatabaseBackup(file)` posts a SQLite backup to `POST /admin/database/backups/upload` and returns the stored `AdminDatabaseBackup`.
+- **Subtitle upload** — `subtitles.upload({ mediaFileId, language, label?, file, fileName })` posts an SRT, WebVTT or ASS file to `POST /subtitles/upload`; the server returns the new `Subtitle`.

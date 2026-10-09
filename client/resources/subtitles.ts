@@ -20,6 +20,17 @@ export class SubtitlesClient extends BaseResource {
 		return this._get(`/subtitles`, { query });
 	}
 
+	/** Stores an SRT, WebVTT or ASS file as an external subtitle track of the media file (admin). */
+	upload(body: { mediaFileId: string; language: string; label?: string | undefined; file: Blob; fileName: string }): Promise<Subtitle> {
+		const form = new FormData();
+		form.set("mediaFileId", body.mediaFileId);
+		form.set("language", body.language);
+		if (body.label !== undefined) form.set("label", body.label);
+		form.set("file", body.file, body.fileName);
+
+		return this._post("/subtitles/upload", { body: form });
+	}
+
 	create(body: CreateSubtitleRequest): Promise<Subtitle> {
 		return this._post(`/subtitles`, { body });
 	}
