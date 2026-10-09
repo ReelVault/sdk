@@ -12,6 +12,8 @@ import type {
 	AdminFfmpegCapabilities,
 	AdminFilesystemBrowse,
 	AdminLiveActivityResponse,
+	BulkTerminateSessions,
+	BulkTerminateSessionsResult,
 	AdminLogFileInfo,
 	AdminLogsPage,
 	AdminProcessesResponse,
@@ -286,6 +288,10 @@ export class AdminClient extends BaseResource {
 
 	getLiveActivity(): Promise<AdminLiveActivityResponse> {
 		return this._get("/admin/live-activity");
+	}
+
+	terminateLiveStreams(body: BulkTerminateSessions): Promise<BulkTerminateSessionsResult> {
+		return this._post("/admin/live-activity/terminate", { body });
 	}
 
 	terminateLiveStream(sessionId: string, reason?: string): Promise<{ success: boolean }> {

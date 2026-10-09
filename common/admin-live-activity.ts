@@ -93,3 +93,26 @@ export const AdminLiveActivityResponseSchema = t.Object({
 });
 
 export type AdminLiveActivityResponse = Static<typeof AdminLiveActivityResponseSchema>;
+
+/** `POST /admin/live-activity/terminate` — sessions to stop, with the reason shown to their clients and kept in the audit log. */
+export const BulkTerminateSessionsSchema = t.Object({
+	sessionIds: t.Array(t.String({ minLength: 1, maxLength: 128 }), { minItems: 1, maxItems: 100 }),
+	reason: t.Optional(t.String({ maxLength: 200 })),
+});
+
+export type BulkTerminateSessions = Static<typeof BulkTerminateSessionsSchema>;
+
+export const BulkTerminateSessionsResultSchema = t.Object({
+	terminated: t.Integer({ minimum: 0 }),
+	failed: t.Integer({ minimum: 0 }),
+	results: t.Array(
+		t.Object({
+			sessionId: t.String(),
+			success: t.Boolean(),
+			/** Stable code of the failure (e.g. `stream.session_not_found`); absent on success. */
+			errorCode: t.Optional(t.String()),
+		}),
+	),
+});
+
+export type BulkTerminateSessionsResult = Static<typeof BulkTerminateSessionsResultSchema>;
