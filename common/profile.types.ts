@@ -8,7 +8,16 @@ export const ProfileSchema = EntitySchema(
 
 export type Profile = typeof ProfileSchema.static;
 
+/** `POST /profiles/:id/preferences/copy` — the profile takes over another profile's preference overrides. */
+export const CopyProfilePreferencesSchema = t.Object({
+	sourceProfileId: t.String({ minLength: 1 }),
+});
+
+export type CopyProfilePreferences = typeof CopyProfilePreferencesSchema.static;
+
 export const CreateProfileSchema = t.Object({
+	/** Copies this profile's preference overrides from another profile of the same account, when given. */
+	copyPreferencesFromProfileId: t.Optional(t.String({ minLength: 1 })),
 	name: t.String({ minLength: 1 }),
 	pin: t.Optional(t.Union([t.String({ minLength: 4, maxLength: 8 }), t.Undefined()])),
 	avatarUrl: t.Optional(t.Union([t.String(), t.Undefined()])),

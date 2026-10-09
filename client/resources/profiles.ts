@@ -59,6 +59,11 @@ export class ProfilesClient extends BaseResource {
 		return this._delete(`/profiles/${id}/preferences`);
 	}
 
+	/** Replaces this profile's preference overrides with a copy of another profile's (same account). */
+	copyPreferences(id: string, sourceProfileId: string): Promise<ProfilePreferences> {
+		return this._post(`/profiles/${id}/preferences/copy`, { body: { sourceProfileId } });
+	}
+
 	uploadAvatar(id: string, file: Blob): Promise<{ avatarUrl: string }> {
 		const body = new FormData();
 		body.set("file", file, "avatar.upload");
