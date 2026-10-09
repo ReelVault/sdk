@@ -27,6 +27,7 @@
 - **Server capabilities** — `ServerCapabilitiesSchema` / `ServerCapabilities` and `reelvault.capabilities.get()` for the public `GET /capabilities` endpoint (trickplay, downloads).
 - **Profile PIN status** — `profiles.getPinStatus(id)` returns `{ hasPin }` for the owner's profile (`ProfilePinStatusSchema` / `ProfilePinStatus`), so settings can offer removing the PIN without ever receiving it.
 - **Filtered marker list** — `media.getAllMarkers({ type, source, q, limit })` narrows the admin marker list on the server; `MediaMarkerFiltersSchema` / `MediaMarkerFilters` describe the filters. Calls without arguments behave as before.
+- **Subtitle text search** — `SubtitleFiltersSchema` takes `q` (up to 200 characters); `subtitles.getAll({ q })` matches it against the label, the language and the media file id.
 - **Change password** — `auth.changePassword({ currentPassword, newPassword })` with `ChangePasswordRequestSchema` / `ChangePasswordResponseSchema`. Every other session is revoked while the current one stays signed in.
 - **Subtitle language priority list** — `subtitleFallbackLanguages` on profile preferences and preference defaults: a comma-separated list (e.g. `en,de`) tried after `subtitleLanguage`.
 - **Remove from Continue Watching** — `me.dismissContinueWatching(metadataId)` hides a title without discarding resume positions.

@@ -43,6 +43,8 @@ export const UpdateSubtitleRequestSchema = t.Partial(CreateSubtitleRequestSchema
 export type UpdateSubtitleRequest = typeof UpdateSubtitleRequestSchema.static;
 
 export const SubtitleFiltersSchema = t.Object({
+	/** Text search over the label, the language and the media file id. */
+	q: t.Optional(t.String({ maxLength: 200 })),
 	mediaFileId: t.Optional(t.String()),
 	language: t.Optional(t.String()),
 	label: t.Optional(t.String()),
