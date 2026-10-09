@@ -69,6 +69,8 @@ export const PluginConfigFieldSchema = t.Object({
 	description: t.Optional(t.String()),
 	default: t.Optional(t.Unknown()),
 	required: t.Optional(t.Boolean()),
+	/** Secret fields only: whether a value is stored. The value itself is never returned. */
+	hasValue: t.Optional(t.Boolean()),
 	min: t.Optional(t.Number()),
 	max: t.Optional(t.Number()),
 	step: t.Optional(t.Number()),
