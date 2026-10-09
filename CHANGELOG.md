@@ -33,6 +33,7 @@
 - **Log filters** — `admin.getLogs({ module, exclude, from, to })` takes the same filters as the server query.
 - **Settings export and import** — `admin.exportSystemSettings()` (`SystemSettingsExportSchema`) and `admin.importSystemSettings(body)` (`ImportSystemSettingsSchema`).
 - **Resource history window** — `admin.getResources({ hours })` takes the history window in hours (1–168, default 24).
+- **Audit search** — `admin.getAudit({ q })` matches one term against the resource id and the summary of each entry.
 - **Change password** — `auth.changePassword({ currentPassword, newPassword })` with `ChangePasswordRequestSchema` / `ChangePasswordResponseSchema`. Every other session is revoked while the current one stays signed in.
 - **Subtitle language priority list** — `subtitleFallbackLanguages` on profile preferences and preference defaults: a comma-separated list (e.g. `en,de`) tried after `subtitleLanguage`.
 - **Remove from Continue Watching** — `me.dismissContinueWatching(metadataId)` hides a title without discarding resume positions.

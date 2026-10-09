@@ -362,6 +362,7 @@ export class AdminClient extends BaseResource {
 		actorUserId?: string | undefined;
 		ipAddress?: string | undefined;
 		requestId?: string | undefined;
+		q?: string | undefined;
 		from?: string | undefined;
 		to?: string | undefined;
 	}): Promise<AdminAuditPage> {
