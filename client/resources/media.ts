@@ -6,6 +6,7 @@ import type {
 	OperationQueuedResponse,
 	PlaybackArtifact,
 } from "@sdk/common";
+import type { BulkRefreshResult } from "@sdk/common/bulk-refresh";
 import type { FieldsQuery, SelectFields } from "@sdk/common/fields";
 import type {
 	MediaFileAuditStatus,
@@ -94,6 +95,11 @@ export class MediaFileClient extends BaseResource {
 
 	refreshAll(): Promise<OperationQueuedResponse> {
 		return this._post("/media-files/refresh", { body: undefined });
+	}
+
+	/** Queues a technical refresh for several media files in turn; the outcome of each id comes back in `results`. */
+	bulkRefresh(mediaFileIds: string[]): Promise<BulkRefreshResult> {
+		return this._post("/media-files/bulk-refresh", { body: { ids: mediaFileIds } });
 	}
 
 	update<F extends string>(

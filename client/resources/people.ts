@@ -1,3 +1,4 @@
+import type { BulkRefreshResult } from "@sdk/common/bulk-refresh";
 import type { FieldsQuery, SelectFields } from "@sdk/common/fields";
 import type { PaginatedResponse, PaginationQuery } from "@sdk/common/pagination";
 import type { PersonFilters, PersonSorting, PersonWithRelations } from "@sdk/common/people.types";
@@ -20,5 +21,10 @@ export class PeopleClient extends BaseResource {
 
 	refreshImage<F extends string>(personId: string): Promise<SelectFields<PersonWithRelations, F>> {
 		return this._post(`/people/${personId}/refresh-image`);
+	}
+
+	/** Refreshes several people in turn; the outcome of each id comes back in `results`. */
+	bulkRefresh(personIds: string[]): Promise<BulkRefreshResult> {
+		return this._post("/people/bulk-refresh", { body: { ids: personIds } });
 	}
 }
