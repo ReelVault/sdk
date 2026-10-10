@@ -335,4 +335,45 @@ describe("1.3.0 admin and resource request contracts", () => {
 			{ method: "POST", url: `${BASE_URL}/downloads/job-1/retry`, body: undefined },
 		]);
 	});
+
+	test("the worker watchdog state is read from its route", async () => {
+		const { client, sent } = recordingClient();
+
+		await client.admin.getWorkerWatchdog();
+
+		expect(sent).toEqual([{ method: "GET", url: `${BASE_URL}/admin/workers/watchdog`, body: undefined }]);
+	});
+
+	test("a database backup is sent as a form to the upload route", async () => {
+		const { client, sent } = recordingClient();
+
+		await client.admin.uploadDatabaseBackup(new Blob(["sqlite"]));
+
+		expect(sent).toEqual([{ method: "POST", url: `${BASE_URL}/admin/database/backups/upload`, body: undefined }]);
+	});
+
+	test("a subtitle file is sent as a form to the subtitle upload route", async () => {
+		const { client, sent } = recordingClient();
+
+		await client.subtitles.upload({ mediaFileId: "file-1", language: "en", file: new Blob(["WEBVTT"]), fileName: "en.vtt" });
+
+		expect(sent).toEqual([{ method: "POST", url: `${BASE_URL}/subtitles/upload`, body: undefined }]);
+	});
+
+	test("marker lines are imported as plain text", async () => {
+		const requests: Array<{ url: string; method: string | undefined; contentType: string | null; body: unknown }> = [];
+		const fetcher: Fetcher = async (url, options) => {
+			requests.push({ url, method: options.method, contentType: new Headers(options.headers).get("content-type"), body: options.body });
+
+			return Response.json({ ok: true });
+		};
+		const client = new ReelVaultClient({ baseUrl: BASE_URL, fetcher });
+		const lines = '{"mediaFileId":"file-1","type":"intro","startSeconds":0,"endSeconds":30}';
+
+		await client.media.importMarkers(lines);
+
+		expect(requests).toEqual([
+			{ url: `${BASE_URL}/media-files/markers/import`, method: "POST", contentType: "text/plain; charset=utf-8", body: lines },
+		]);
+	});
 });
