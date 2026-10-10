@@ -133,6 +133,8 @@ export type PluginInstallState = typeof PluginInstallStateSchema.static;
 export const PluginValidationIssueSchema = t.Object({
 	severity: t.Union([t.Literal("error"), t.Literal("warning")]),
 	code: t.String(),
+	/** Values the translation of `code` interpolates, such as the invalid field. */
+	params: t.Optional(t.Record(t.String(), t.Union([t.String(), t.Number(), t.Boolean(), t.Null()]))),
 	/** Raw diagnostic from the validator, for the administrator reading the report. Translate `code`, not this. */
 	message: t.String(),
 });
