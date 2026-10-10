@@ -11,7 +11,7 @@ import { UpdateProfilePreferencesSchema } from "./profile-preferences.types";
 import { ProfilePinStatusSchema } from "./profile.types";
 import { SystemSettingItemViewSchema } from "./settings";
 import { SubtitleFiltersSchema } from "./subtitles";
-import { DownloadQuotaSchema } from "./downloads";
+import { DownloadJobSchema, DownloadQuotaSchema } from "./downloads";
 import { LibraryHealthResponseSchema } from "./library.types";
 import { PluginCatalogResultSchema } from "./plugin-catalog";
 import { PluginAdminStatusSchema, PluginConfigFieldSchema, PluginUiSettingsSchema } from "./plugins";
@@ -249,5 +249,27 @@ describe("ended live sessions and downloads", () => {
 	test("the download quota reports the bytes used of the allowance", () => {
 		expect(Value.Check(DownloadQuotaSchema, { usedBytes: 10, maxBytes: 100 })).toBe(true);
 		expect(Value.Check(DownloadQuotaSchema, { usedBytes: -1, maxBytes: 100 })).toBe(false);
+	});
+
+	test("a download job names the title it belongs to, or null once its file is unlinked", () => {
+		const job = {
+			id: "job-1",
+			mediaFileId: "file-1",
+			metadataId: "meta-1",
+			quality: "original",
+			status: "completed",
+			progressPercent: 100,
+			sizeBytes: 1024,
+			fileName: "movie.mp4",
+			downloadUrl: "/v1/downloads/job-1/file",
+			errorCode: null,
+			createdAt: "2026-10-10T10:00:00.000Z",
+			updatedAt: "2026-10-10T10:05:00.000Z",
+		};
+
+		expect(Value.Check(DownloadJobSchema, job)).toBe(true);
+		expect(Value.Check(DownloadJobSchema, { ...job, metadataId: null })).toBe(true);
+		const { metadataId: _omitted, ...withoutTitle } = job;
+		expect(Value.Check(DownloadJobSchema, withoutTitle)).toBe(false);
 	});
 });
