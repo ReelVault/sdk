@@ -19,6 +19,7 @@
 
 ### Features
 
+- **Playback view limits** — `PlaybackViewResponse.effectivePreferences` reports the bitrate cap that applies to the profile's streams (the lower of the profile and server caps, `null` when neither is set) and the HDR mode.
 - **Overwrite locked fields on rematch** — the rematch body accepts `overwriteLocked` (default `false`). Locked fields keep their values unless it is `true`.
 - **Notify every administrator** — `host.notifications.createForAdmins({ type, title, message?, data?, link? })` sends one notification to each administrator. Each recipient counts against the plugin's daily notification limit.
 - **Code block for plugin UI** — a `code` schema node shows read-only, preformatted text that keeps its line breaks and scrolls. Plugin authors get the `code()` helper from `@reelvault/sdk/ui/schema`.

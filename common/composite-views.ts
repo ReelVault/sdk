@@ -30,6 +30,11 @@ export const PlaybackViewResponseSchema = t.Object({
 	subtitles: t.Array(SubtitleSchema),
 	progress: t.Nullable(PlaybackProgressItemSchema),
 	nextEpisode: t.Nullable(SmartPlaySuggestionSchema),
+	/** Limits the profile's streams run under: the lowest of the profile and server bitrate caps (null when neither is set) and the HDR mode. */
+	effectivePreferences: t.Object({
+		maxStreamingBitrateKbps: t.Nullable(t.Integer({ minimum: 0 })),
+		hdrMode: t.Union([t.Literal("auto"), t.Literal("toneMapToSdr")]),
+	}),
 });
 
 export type PlaybackViewResponse = typeof PlaybackViewResponseSchema.static;
