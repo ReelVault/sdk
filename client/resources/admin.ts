@@ -353,6 +353,11 @@ export class AdminClient extends BaseResource {
 	}
 
 	/** The most recently ended playback sessions, newest first; `limit` caps how many come back. */
+	/** Link to a session's log archive (ZIP). The browser opens it with the session cookie, as it does for the log bundle. */
+	getLiveSessionLogUrl(sessionId: string): string {
+		return new URL(`/v1/admin/live-activity/${encodeURIComponent(sessionId)}/log`, this.getBaseUrl()).toString();
+	}
+
 	getEndedLiveSessions(options: { limit?: number } = {}): Promise<AdminEndedLiveSessionsResponse> {
 		return this._get("/admin/live-activity/history", {
 			query: options.limit === undefined ? undefined : { limit: String(options.limit) },
