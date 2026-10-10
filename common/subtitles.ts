@@ -104,6 +104,11 @@ export const SubtitleProviderStatusSchema = t.Object({
 
 export type SubtitleProviderStatus = typeof SubtitleProviderStatusSchema.static;
 
+/** A registered subtitle provider with the admin's switch: an off provider is not searched or downloaded from. */
+export const SubtitleProviderInfoSchema = t.Intersect([SubtitleProviderStatusSchema, t.Object({ enabled: t.Boolean() })]);
+
+export type SubtitleProviderInfo = typeof SubtitleProviderInfoSchema.static;
+
 export const SubtitleProviderSearchRequestSchema = t.Object({
 	mediaFileId: t.String(),
 	languages: t.Optional(t.Array(t.String({ minLength: 2, maxLength: 16 }), { maxItems: 20 })),

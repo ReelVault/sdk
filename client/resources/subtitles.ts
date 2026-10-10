@@ -7,7 +7,7 @@ import type {
 	SubtitleProviderDownloadRequest,
 	SubtitleProviderSearchRequest,
 	SubtitleProviderSearchResponse,
-	SubtitleProviderStatus,
+	SubtitleProviderInfo,
 	SubtitleSorting,
 	UpdateSubtitleRequest,
 } from "@sdk/common";
@@ -52,8 +52,13 @@ export class SubtitlesClient extends BaseResource {
 		return this._post("/subtitles/bulk-delete", { body: { ids: subtitleIds } });
 	}
 
-	listProviders(): Promise<SubtitleProviderStatus[]> {
+	listProviders(): Promise<SubtitleProviderInfo[]> {
 		return this._get(`/subtitles/providers`);
+	}
+
+	/** Turns a subtitle provider on or off (admin). */
+	setProviderEnabled(providerId: string, enabled: boolean): Promise<SubtitleProviderInfo> {
+		return this._patch(`/subtitles/providers/${providerId}`, { body: { enabled } });
 	}
 
 	searchProviders(body: SubtitleProviderSearchRequest): Promise<SubtitleProviderSearchResponse[]> {
