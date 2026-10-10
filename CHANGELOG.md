@@ -19,6 +19,7 @@
 
 ### Features
 
+- **Trickplay regeneration for several titles** — `admin.regenerateTrickplay({ scope: "titles", ids, force })` queues the previews of up to 50 titles as one operation. `TrickplayRegenerateRequestSchema` accepts that shape next to the single library, title and season scopes.
 - **Live session log link** — `admin.getLiveSessionLogUrl(sessionId)` returns the URL of a playback session's log archive (ZIP), served by `GET /admin/live-activity/:sessionId/log`.
 - **Library scan progress** — `libraries.getScanProgress()` for `GET /libraries/scan-progress` lists the queued and running library scans with `progressPercent`, which is null while a scan discovers files. `LibraryScanProgressResponseSchema` / `LibraryScanProgressResponse` describe the reply.
 - **Scan findings can be ignored** — `libraries.getScanFindings(libraryId, status)` lists the `active` or `ignored` findings and returns `counts` for both. `libraries.setScanFindingIgnored(libraryId, { filePath, ignored })` ignores a finding until it is restored, and a rescan keeps it ignored. `libraries.getScanFindingCandidates(libraryId, filePath)` searches the providers for the title parsed from the file name; a scan never runs that search. The `ScanFinding*` schemas and types describe the replies.

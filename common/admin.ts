@@ -602,12 +602,22 @@ export const TrickplayDeleteResultSchema = t.Object({
 
 export type TrickplayDeleteResult = typeof TrickplayDeleteResultSchema.static;
 
-export const TrickplayRegenerateRequestSchema = t.Object({
-	scope: t.Union([t.Literal("library"), t.Literal("title"), t.Literal("season")]),
-	id: t.String({ minLength: 1, maxLength: 128 }),
-	/** Regenerate files that already have previews too; without it only files with none are queued. */
-	force: t.Optional(t.Boolean()),
-});
+/**
+ * One library, title or season, or several titles at once (`scope: "titles"` with `ids`), queued as one operation.
+ * Regenerate files that already have previews too; without `force` only files with none are queued.
+ */
+export const TrickplayRegenerateRequestSchema = t.Union([
+	t.Object({
+		scope: t.Union([t.Literal("library"), t.Literal("title"), t.Literal("season")]),
+		id: t.String({ minLength: 1, maxLength: 128 }),
+		force: t.Optional(t.Boolean()),
+	}),
+	t.Object({
+		scope: t.Literal("titles"),
+		ids: t.Array(t.String({ minLength: 1, maxLength: 128 }), { minItems: 1, maxItems: 50 }),
+		force: t.Optional(t.Boolean()),
+	}),
+]);
 
 export type TrickplayRegenerateRequest = typeof TrickplayRegenerateRequestSchema.static;
 
