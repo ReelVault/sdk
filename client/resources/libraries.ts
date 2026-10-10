@@ -5,6 +5,7 @@ import type {
 	LibraryScanAllResponse,
 	LibraryScanCancelResponse,
 	OperationQueuedResponse,
+	LibraryScanProgressResponse,
 	ScanFindingCandidatesResponse,
 	ScanFindingIgnoredResponse,
 	ScanFindingsResponse,
@@ -71,6 +72,11 @@ export class LibrariesClient extends BaseResource {
 
 	getIgnoredAssets(libraryId: string): Promise<Array<{ path: string; fileName: string; reason: string }>> {
 		return this._get(`/libraries/${libraryId}/metadata-sidecars/assets`);
+	}
+
+	/** Libraries whose scan is queued or running, with its progress; empty when no scan is active. */
+	getScanProgress(): Promise<LibraryScanProgressResponse> {
+		return this._get("/libraries/scan-progress");
 	}
 
 	/** Findings the scans could not ingest, in one status; `counts` covers both statuses. */

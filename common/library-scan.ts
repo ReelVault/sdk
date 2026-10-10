@@ -74,3 +74,22 @@ export const ScanFindingCandidatesResponseSchema = t.Object({
 });
 
 export type ScanFindingCandidatesResponse = Static<typeof ScanFindingCandidatesResponseSchema>;
+
+/**
+ * One library whose scan is queued (`pending`) or running. `progressPercent` is null while the scan discovers
+ * files; once it enqueues the work it is the share of that work already handed to the queues.
+ */
+export const LibraryScanProgressSchema = t.Object({
+	libraryId: t.String(),
+	status: t.Union([t.Literal("pending"), t.Literal("running")]),
+	progressPercent: t.Nullable(t.Integer({ minimum: 0, maximum: 100 })),
+});
+
+export type LibraryScanProgress = Static<typeof LibraryScanProgressSchema>;
+
+/** `GET /libraries/scan-progress` — the libraries with a queued or running scan; empty when none is active. */
+export const LibraryScanProgressResponseSchema = t.Object({
+	data: t.Array(LibraryScanProgressSchema),
+});
+
+export type LibraryScanProgressResponse = Static<typeof LibraryScanProgressResponseSchema>;
