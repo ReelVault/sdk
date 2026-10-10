@@ -1,7 +1,8 @@
 import { describe, expect, test } from "bun:test";
 import { Value } from "@sinclair/typebox/value";
 import { AdminAnalyticsSchema } from "./activity";
-import { TrickplayDeleteResultSchema, DatabaseIntegritySchema } from "./admin";
+import { AdminUpdateEnvironmentSchema, TrickplayDeleteResultSchema, DatabaseIntegritySchema } from "./admin";
+import { AdminEndedLiveSessionItemSchema } from "./admin-live-activity";
 import { TwoFactorBackupCodesStatusSchema, ChangePasswordRequestSchema } from "./auth";
 import { ServerCapabilitiesSchema } from "./capabilities";
 import { MetadataStatusesResponseSchema } from "./metadata";
@@ -10,7 +11,10 @@ import { UpdateProfilePreferencesSchema } from "./profile-preferences.types";
 import { ProfilePinStatusSchema } from "./profile.types";
 import { SystemSettingItemViewSchema } from "./settings";
 import { SubtitleFiltersSchema } from "./subtitles";
-import { PluginConfigFieldSchema } from "./plugins";
+import { DownloadQuotaSchema } from "./downloads";
+import { LibraryHealthResponseSchema } from "./library.types";
+import { PluginCatalogResultSchema } from "./plugin-catalog";
+import { PluginAdminStatusSchema, PluginConfigFieldSchema, PluginUiSettingsSchema } from "./plugins";
 import { PurgeWorkerHistoryResponseSchema } from "./workers";
 
 /**
@@ -159,5 +163,91 @@ describe("plugin configuration and settings metadata", () => {
 
 		expect(Value.Check(SystemSettingItemViewSchema, setting)).toBe(true);
 		expect(Value.Check(SystemSettingItemViewSchema, { ...setting, restartRequired: "no" })).toBe(false);
+	});
+});
+
+describe("update environment, catalog and library health", () => {
+	test("the update environment names the container engine and the root and systemd mode, or none", () => {
+		expect(Value.Check(AdminUpdateEnvironmentSchema, { container: "docker", rootless: true, systemd: "user" })).toBe(true);
+		expect(Value.Check(AdminUpdateEnvironmentSchema, { container: null, rootless: false, systemd: null })).toBe(true);
+		expect(Value.Check(AdminUpdateEnvironmentSchema, { container: "lxc", rootless: false, systemd: null })).toBe(false);
+	});
+
+	test("the plugin catalog lists the repositories it could not read, with a stable code for each", () => {
+		const unavailable = { repositoryId: "repo-1", repositoryName: "Official", errorCode: "plugin.repository_unavailable" };
+
+		expect(Value.Check(PluginCatalogResultSchema, { plugins: [], unavailableRepositories: [unavailable] })).toBe(true);
+		expect(Value.Check(PluginCatalogResultSchema, { plugins: [] })).toBe(false);
+	});
+
+	test("the library health lists each library with its last finished scan, or none", () => {
+		const health = { data: [{ libraryId: "lib-1", lastScanAt: null, paths: [] }] };
+
+		expect(Value.Check(LibraryHealthResponseSchema, health)).toBe(true);
+		expect(Value.Check(LibraryHealthResponseSchema, { data: [{ paths: [] }] })).toBe(false);
+	});
+});
+
+describe("plugin administration", () => {
+	const status = {
+		id: "org.example.plugin",
+		name: "Example",
+		version: "1.0.0",
+		state: "enabled",
+		providers: 0,
+		subtitleProviders: 0,
+		jobs: 0,
+		capabilities: ["metadata.read"],
+		updateAvailable: false,
+	};
+
+	test("the package details carry the capabilities, and when and from where it was installed", () => {
+		expect(Value.Check(PluginAdminStatusSchema, status)).toBe(true);
+		expect(Value.Check(PluginAdminStatusSchema, { ...status, installedAt: "2026-10-10T10:00:00.000Z", source: "upload" })).toBe(true);
+
+		const { capabilities: _omitted, ...withoutCapabilities } = status;
+		expect(Value.Check(PluginAdminStatusSchema, withoutCapabilities)).toBe(false);
+	});
+
+	test("an unreadable configuration file is reported by its stable code", () => {
+		expect(Value.Check(PluginAdminStatusSchema, { ...status, configReadError: "plugin.config_unreadable" })).toBe(true);
+		expect(Value.Check(PluginAdminStatusSchema, { ...status, configReadError: 7 })).toBe(false);
+	});
+
+	test("each interface switch has a stable key, the surface it belongs to and whether it is on", () => {
+		const settings = {
+			pluginId: "org.example.plugin",
+			enabled: true,
+			contributions: [{ key: "page.reports", surface: "page", label: "Reports", adminOnly: false, enabled: true }],
+		};
+
+		expect(Value.Check(PluginUiSettingsSchema, settings)).toBe(true);
+		expect(Value.Check(PluginUiSettingsSchema, { ...settings, contributions: [{ ...settings.contributions[0], key: undefined }] })).toBe(false);
+		expect(Value.Check(PluginUiSettingsSchema, { ...settings, contributions: [{ ...settings.contributions[0], surface: "menu" }] })).toBe(false);
+	});
+});
+
+describe("ended live sessions and downloads", () => {
+	test("an ended session carries the id that its log is downloaded by", () => {
+		const ended = {
+			sessionId: "session-1",
+			mediaFileId: "file-1",
+			title: "Blade Runner",
+			profileId: "profile-1",
+			profileName: "Ann",
+			reason: "completed",
+			startedAt: "2026-10-10T10:00:00.000Z",
+			endedAt: "2026-10-10T10:20:00.000Z",
+			durationSeconds: 1200,
+		};
+
+		expect(Value.Check(AdminEndedLiveSessionItemSchema, ended)).toBe(true);
+		const { sessionId: _omitted, ...withoutId } = ended;
+		expect(Value.Check(AdminEndedLiveSessionItemSchema, withoutId)).toBe(false);
+	});
+
+	test("the download quota reports the bytes used of the allowance", () => {
+		expect(Value.Check(DownloadQuotaSchema, { usedBytes: 10, maxBytes: 100 })).toBe(true);
+		expect(Value.Check(DownloadQuotaSchema, { usedBytes: -1, maxBytes: 100 })).toBe(false);
 	});
 });
