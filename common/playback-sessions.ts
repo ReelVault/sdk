@@ -45,6 +45,8 @@ export const PlaybackSessionSchema = t.Object({
 	subtitleId: t.Nullable(t.String()),
 	subtitleStreamIndex: t.Nullable(t.Integer({ minimum: 0 })),
 	subtitleType: t.Nullable(t.Union([t.Literal("embedded"), t.Literal("external")])),
+	/** How often the client sends a heartbeat; clients fall back to their own default when it is absent. */
+	heartbeatIntervalMs: t.Optional(t.Integer({ minimum: 1000 })),
 });
 
 export type PlaybackSession = typeof PlaybackSessionSchema.static;
@@ -62,6 +64,8 @@ export const PlaybackSessionSummarySchema = t.Object({
 	state: t.String(),
 	startedAt: t.Number({ minimum: 0 }),
 	lastActivity: t.Number({ minimum: 0 }),
+	positionSeconds: t.Nullable(t.Number({ minimum: 0 })),
+	paused: t.Nullable(t.Boolean()),
 });
 
 export type PlaybackSessionSummary = typeof PlaybackSessionSummarySchema.static;

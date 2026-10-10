@@ -139,6 +139,10 @@ export interface StreamingSession {
 	startTime: number;
 	/** Last client contact (heartbeat/playlist/segment/seek) — independent of process liveness. */
 	lastActivity: number;
+	/** Playback position in seconds from the latest heartbeat that reported one. */
+	lastPositionSeconds?: number | null | undefined;
+	/** Pause state from the latest heartbeat that reported one. */
+	lastPaused?: boolean | null | undefined;
 	state: SessionLifecycleState;
 	/** Source duration in ms (from ingest), denominator of the encode percent. */
 	durationMs: number | null;

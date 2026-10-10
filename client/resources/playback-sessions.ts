@@ -113,4 +113,9 @@ export class PlaybackSessionsClient extends BaseResource {
 
 		return this._delete<void>(`/playback-sessions/${sessionId}`);
 	}
+
+	/** Ends every playback session of the calling profile (the close-all action on the remote-control page). */
+	releaseMine(): Promise<{ closed: number }> {
+		return this._delete("/playback-sessions/mine");
+	}
 }
