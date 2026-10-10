@@ -8,6 +8,7 @@ export * from "./admin-live-activity";
 export * from "./api";
 
 export * from "./auth";
+export * from "./bulk-delete";
 export * from "./bulk-refresh";
 
 export * from "./collection.types";

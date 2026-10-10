@@ -6,6 +6,7 @@ import type { MetadataFilters, MetadataSorting, MetadataWithRelation, UpdateMeta
 import type { MetadataImageOption, SelectMetadataImage } from "@sdk/common/metadata-images";
 import type { CursorPaginatedResponse, CursorPaginationQuery, PaginatedResponse, PaginationQuery } from "@sdk/common/pagination";
 import type { BulkRefreshResult } from "@sdk/common/bulk-refresh";
+import type { BulkDeleteResult } from "@sdk/common/bulk-delete";
 import { BaseResource } from "../core/base-client";
 
 export class MetadataClient extends BaseResource {
@@ -66,6 +67,11 @@ export class MetadataClient extends BaseResource {
 
 	refreshImages(metadataId: string, body?: { force?: boolean }): Promise<{ success: boolean }> {
 		return this._post(`/metadata/${metadataId}/refresh-images`, { body });
+	}
+
+	/** Removes several titles in turn; a delete held back by active streams needs `force`. */
+	bulkDelete(metadataIds: string[], options: { force?: boolean | undefined } = {}): Promise<BulkDeleteResult> {
+		return this._post("/metadata/bulk-delete", { body: { ids: metadataIds, force: options.force } });
 	}
 
 	/** Force-refreshes the artwork of several titles in turn; the outcome of each id comes back in `results`. */

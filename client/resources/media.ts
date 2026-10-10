@@ -6,6 +6,7 @@ import type {
 	OperationQueuedResponse,
 	PlaybackArtifact,
 } from "@sdk/common";
+import type { BulkDeleteResult } from "@sdk/common/bulk-delete";
 import type { BulkRefreshResult } from "@sdk/common/bulk-refresh";
 import type { FieldsQuery, SelectFields } from "@sdk/common/fields";
 import type {
@@ -98,6 +99,11 @@ export class MediaFileClient extends BaseResource {
 	}
 
 	/** Queues a technical refresh for several media files in turn; the outcome of each id comes back in `results`. */
+	/** Removes several media file records in turn; a delete held back by active streams needs `force`. */
+	bulkDelete(mediaFileIds: string[], options: { force?: boolean | undefined } = {}): Promise<BulkDeleteResult> {
+		return this._post("/media-files/bulk-delete", { body: { ids: mediaFileIds, force: options.force } });
+	}
+
 	bulkRefresh(mediaFileIds: string[]): Promise<BulkRefreshResult> {
 		return this._post("/media-files/bulk-refresh", { body: { ids: mediaFileIds } });
 	}
