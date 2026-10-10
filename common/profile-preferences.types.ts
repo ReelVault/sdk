@@ -24,6 +24,7 @@ export const ProfilePreferencesSchema = t.Object({
 	/** Hides the rating badge on poster cards, for a lighter grid. */
 	hideRatingOverlay: t.Boolean(),
 	hdrMode: t.Union([t.Literal("auto"), t.Literal("toneMapToSdr")]),
+	maxStreamingBitrateKbps: t.Number({ minimum: 0, maximum: 50000 }),
 	/** Comma-separated notification types this profile does not want to see in its list or as live alerts. */
 	mutedNotificationTypes: t.String({ maxLength: 512 }),
 	/** Comma-separated optional pages (collections, discovery, insights, devices, remote) hidden from the menus. */
@@ -58,6 +59,7 @@ export const UpdateProfilePreferencesSchema = t.Partial(
 		watchlistAutoRemoveWatched: t.Boolean(),
 		hideRatingOverlay: t.Boolean(),
 		hdrMode: t.Union([t.Literal("auto"), t.Literal("toneMapToSdr")]),
+		maxStreamingBitrateKbps: t.Number({ minimum: 0, maximum: 50000 }),
 		/** Comma-separated notification types this profile does not want to see in its list or as live alerts. */
 		mutedNotificationTypes: t.String({ maxLength: 512 }),
 		/** Comma-separated optional pages (collections, discovery, insights, devices, remote) hidden from the menus. */
@@ -91,6 +93,7 @@ export const ProfilePreferenceDefaultsSchema = t.Object({
 	watchlistAutoRemoveWatched: t.Boolean(),
 	hideRatingOverlay: t.Boolean(),
 	hdrMode: t.Union([t.Literal("auto"), t.Literal("toneMapToSdr")]),
+	maxStreamingBitrateKbps: t.Number({ minimum: 0, maximum: 50000 }),
 	/** Comma-separated notification types this profile does not want to see in its list or as live alerts. */
 	mutedNotificationTypes: t.String({ maxLength: 512 }),
 	/** Comma-separated optional pages (collections, discovery, insights, devices, remote) hidden from the menus. */

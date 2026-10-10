@@ -19,6 +19,7 @@
 
 ### Features
 
+- **Profile bitrate cap** — `ProfilePreferences`, `UpdateProfilePreferences` and `ProfilePreferenceDefaults` carry `maxStreamingBitrateKbps` (0 = no limit, up to 50 000 kbps).
 - **Profile HDR mode** — `ProfilePreferences`, `UpdateProfilePreferences` and `ProfilePreferenceDefaults` carry `hdrMode` (`auto` or `toneMapToSdr`). `auto` keeps passing HDR through where the device supports it; `toneMapToSdr` always converts HDR sources to SDR.
 - **Backup code count** — `auth.getBackupCodesStatus()` for `GET /auth/two-factor/backup-codes`, typed by `TwoFactorBackupCodesStatusSchema` / `TwoFactorBackupCodesStatus` (`{ remaining: number | null }`).
 - **Rating badge preference** — `hideRatingOverlay` in `ProfilePreferencesSchema`, `UpdateProfilePreferencesSchema` and `ProfilePreferenceDefaultsSchema`. It hides the rating badge on poster cards and defaults to off.
