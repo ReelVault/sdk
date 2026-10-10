@@ -18,7 +18,12 @@ import type {
 	MediaRecognitionCandidate,
 } from "../plugin/hooks";
 import type { PluginHttpRoute } from "../plugin/http";
-import type { OutgoingNotification, PluginNotification, PluginNotificationChannel } from "../plugin/notifications";
+import type {
+	OutgoingNotification,
+	PluginAdminNotification,
+	PluginNotification,
+	PluginNotificationChannel,
+} from "../plugin/notifications";
 import type { PluginBlob, PluginBlobMetadata, PluginBlobWriteOptions } from "../plugin/storage";
 import type {
 	ExtractedFrame,
@@ -71,6 +76,7 @@ export class PluginTestHost implements PluginHost {
 	readonly registeredRoutes: PluginHttpRoute[] = [];
 	readonly registeredAccessPolicies: PluginAccessPolicy[] = [];
 	readonly createdNotifications: PluginNotification[] = [];
+	readonly createdAdminNotifications: PluginAdminNotification[] = [];
 	readonly enqueuedJobs: EnqueuedPluginJob[] = [];
 	private readonly mediaFiles = new Map<string, PluginMediaFile>();
 	private readonly metadataItems = new Map<string, MetadataItem>();
@@ -243,6 +249,11 @@ export class PluginTestHost implements PluginHost {
 	readonly notifications = {
 		create: (notification: PluginNotification): Promise<void> => {
 			this.createdNotifications.push(structuredClone(notification));
+
+			return Promise.resolve();
+		},
+		createForAdmins: (notification: PluginAdminNotification): Promise<void> => {
+			this.createdAdminNotifications.push(structuredClone(notification));
 
 			return Promise.resolve();
 		},

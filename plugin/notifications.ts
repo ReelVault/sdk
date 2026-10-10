@@ -8,8 +8,13 @@ export interface PluginNotification {
 	link?: string | undefined;
 }
 
+/** A notification for every administrator; the host chooses the recipients. */
+export type PluginAdminNotification = Omit<PluginNotification, "userId" | "profileId">;
+
 export interface PluginNotifications {
 	create(notification: PluginNotification): Promise<void>;
+	/** Sends the notification to every administrator; each recipient counts once against the plugin's daily limit. */
+	createForAdmins(notification: PluginAdminNotification): Promise<void>;
 }
 
 /** A notification handed to every registered external delivery channel. */

@@ -19,6 +19,7 @@
 
 ### Features
 
+- **Notify every administrator** — `host.notifications.createForAdmins({ type, title, message?, data?, link? })` sends one notification to each administrator. Each recipient counts against the plugin's daily notification limit.
 - **Code block for plugin UI** — a `code` schema node shows read-only, preformatted text that keeps its line breaks and scrolls. Plugin authors get the `code()` helper from `@reelvault/sdk/ui/schema`.
 - **Profile bitrate cap** — `ProfilePreferences`, `UpdateProfilePreferences` and `ProfilePreferenceDefaults` carry `maxStreamingBitrateKbps` (0 = no limit, up to 50 000 kbps).
 - **Profile HDR mode** — `ProfilePreferences`, `UpdateProfilePreferences` and `ProfilePreferenceDefaults` carry `hdrMode` (`auto` or `toneMapToSdr`). `auto` keeps passing HDR through where the device supports it; `toneMapToSdr` always converts HDR sources to SDR.

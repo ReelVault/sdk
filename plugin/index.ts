@@ -60,6 +60,7 @@ export type { PluginCapabilityName, PluginManifest } from "./manifest";
 
 export type {
 	OutgoingNotification,
+	PluginAdminNotification,
 	PluginNotification,
 	PluginNotificationChannel,
 	PluginNotificationChannels,
