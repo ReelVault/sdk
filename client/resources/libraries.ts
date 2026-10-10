@@ -5,6 +5,11 @@ import type {
 	LibraryScanAllResponse,
 	LibraryScanCancelResponse,
 	OperationQueuedResponse,
+	ScanFindingCandidatesResponse,
+	ScanFindingIgnoredResponse,
+	ScanFindingsResponse,
+	ScanFindingStatus,
+	UpdateScanFinding,
 } from "@sdk/common";
 import type { FieldsQuery, SelectFields } from "@sdk/common/fields";
 import type { CreateLibrary, LibraryFilters, LibrarySorting, LibraryWithRelations, UpdateLibrary } from "@sdk/common/library.types";
@@ -68,7 +73,18 @@ export class LibrariesClient extends BaseResource {
 		return this._get(`/libraries/${libraryId}/metadata-sidecars/assets`);
 	}
 
-	getScanFindings(libraryId: string): Promise<{ data: Array<{ filePath: string; fileName: string; reason: string }> }> {
-		return this._get(`/libraries/${libraryId}/scan-findings`);
+	/** Findings the scans could not ingest, in one status; `counts` covers both statuses. */
+	getScanFindings(libraryId: string, status: ScanFindingStatus = "active"): Promise<ScanFindingsResponse> {
+		return this._get(`/libraries/${libraryId}/scan-findings`, { query: { status } });
+	}
+
+	/** Ignores a finding until it is restored (`ignored: false`). */
+	setScanFindingIgnored(libraryId: string, body: UpdateScanFinding): Promise<ScanFindingIgnoredResponse> {
+		return this._patch(`/libraries/${libraryId}/scan-findings`, { body });
+	}
+
+	/** Searches the providers for the title parsed from the finding's file name; runs only when called. */
+	getScanFindingCandidates(libraryId: string, filePath: string): Promise<ScanFindingCandidatesResponse> {
+		return this._get(`/libraries/${libraryId}/scan-findings/candidates`, { query: { filePath } });
 	}
 }
