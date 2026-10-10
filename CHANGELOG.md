@@ -19,6 +19,7 @@
 
 ### Features
 
+- **Completed plays in admin analytics** — `AdminAnalyticsSchema` (`GET /admin/analytics`) carries `completedPlaysCount`, the plays in `totalPlaysCount` that finished their title. `totalPlaysCount` now also counts interrupted playback sessions that reached the minimum play time (server setting `system.analytics.minPlaySeconds`).
 - **Trickplay regeneration for several titles** — `admin.regenerateTrickplay({ scope: "titles", ids, force })` queues the previews of up to 50 titles as one operation. `TrickplayRegenerateRequestSchema` accepts that shape next to the single library, title and season scopes.
 - **Live session log link** — `admin.getLiveSessionLogUrl(sessionId)` returns the URL of a playback session's log archive (ZIP), served by `GET /admin/live-activity/:sessionId/log`.
 - **Library scan progress** — `libraries.getScanProgress()` for `GET /libraries/scan-progress` lists the queued and running library scans with `progressPercent`, which is null while a scan discovers files. `LibraryScanProgressResponseSchema` / `LibraryScanProgressResponse` describe the reply.

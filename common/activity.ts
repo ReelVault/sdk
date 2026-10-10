@@ -129,6 +129,8 @@ export const AdminAnalyticsStreamHistoryItemSchema = t.Object({
 export const AdminAnalyticsSchema = t.Object({
 	totalWatchMinutes: t.Integer({ minimum: 0 }),
 	totalPlaysCount: t.Integer({ minimum: 0 }),
+	/** Plays in `totalPlaysCount` that finished the title; the rest are interrupted sessions that reached the minimum play time. */
+	completedPlaysCount: t.Integer({ minimum: 0 }),
 	activeUsersCount: t.Integer({ minimum: 0 }),
 	mostWatchedTitle: t.Nullable(TopWatchedMediaSchema),
 	topContent: t.Array(TopWatchedMediaSchema),
