@@ -82,6 +82,7 @@ export const PLUGIN_SCHEMA_NODE_TYPES = [
 	"separator",
 	"heading",
 	"text",
+	"code",
 	"badge",
 	"alert",
 	"button",

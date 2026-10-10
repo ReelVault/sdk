@@ -121,6 +121,8 @@ export type PluginSchemaNode =
 	// Text
 	| { type: "heading"; text: PluginLocalizedText; level?: 2 | 3 | undefined }
 	| { type: "text"; text: PluginLocalizedText; variant?: "default" | "muted" | undefined }
+	/** Read-only preformatted block: keeps line breaks and scrolls instead of wrapping. */
+	| { type: "code"; text: PluginLocalizedText }
 	| {
 			type: "badge";
 			text: PluginLocalizedText;

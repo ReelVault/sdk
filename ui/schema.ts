@@ -90,6 +90,8 @@ export const text = (value: PluginLocalizedText, variant: "default" | "muted" = 
 	variant,
 });
 
+export const code = (value: PluginLocalizedText): PluginSchemaNode => ({ type: "code", text: value });
+
 export const badge = (
 	value: PluginLocalizedText,
 	options: Omit<Extract<PluginSchemaNode, { type: "badge" }>, "type" | "text"> = {},
