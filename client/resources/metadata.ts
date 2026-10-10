@@ -34,7 +34,7 @@ export class MetadataClient extends BaseResource {
 
 	rematch<F extends string>(
 		metadataId: string,
-		body: { providerId: string; externalId: string },
+		body: { providerId: string; externalId: string; overwriteLocked?: boolean | undefined },
 		query?: FieldsQuery<F>,
 	): Promise<SelectFields<MetadataWithRelation, F>> {
 		return this._post(`/metadata/${metadataId}/rematch`, { body, query });

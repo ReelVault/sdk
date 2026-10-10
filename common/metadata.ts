@@ -76,6 +76,8 @@ export interface MetadataCandidate {
 export const RematchMetadataSchema = t.Object({
 	providerId: t.String(),
 	externalId: t.String(),
+	/** Overwrites the fields an administrator locked as well. Locked fields keep their stored values by default. */
+	overwriteLocked: t.Optional(t.Boolean()),
 });
 
 export const LinkMetadataProviderSchema = t.Object({
