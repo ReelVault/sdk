@@ -27,7 +27,7 @@
 		"provenance": true
 	},
 	"engines": {
-		"bun": ">=1.4.2",
+		"bun": ">=1.4.3",
 		"node": ">=20"
 	},
 	"files": [
@@ -124,11 +124,11 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.15",
-		"@types/bun": "^1.4.2",
-		"knip": "^6.39.0",
-		"oxlint": "^1.86.0",
-		"oxlint-tsgolint": "^7.0.2003",
-		"tsdown": "^0.23.0",
+		"@types/bun": "^1.4.3",
+		"knip": "^6.41.0",
+		"oxlint": "^1.87.0",
+		"oxlint-tsgolint": "^7.0.2004",
+		"tsdown": "^0.23.1",
 		"typescript": "^7.0.2"
 	}
 }
