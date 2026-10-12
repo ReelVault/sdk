@@ -6,7 +6,7 @@
  * to JSON, which the host renders with its own components.
  *
  * ```ts
- * import { defineSchema, textField, selectField, textareaField, stack, grid, button } from "reelvault-sdk/ui";
+ * import { defineSchema, textField, selectField, textareaField, stack, grid, button } from "@reelvault/sdk/ui";
  *
  * export default defineSchema({
  *   fields: [

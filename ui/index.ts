@@ -11,7 +11,7 @@
  * styles isolated.
  *
  * ```tsx
- * import { definePluginElement, mountShadow, type PluginUiHost } from "reelvault-sdk/ui";
+ * import { definePluginElement, mountShadow, type PluginUiHost } from "@reelvault/sdk/ui";
  * import { createRoot } from "react-dom/client";
  * import css from "./styles.css?inline";
  * import { App } from "./app";

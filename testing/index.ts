@@ -18,12 +18,7 @@ import type {
 	MediaRecognitionCandidate,
 } from "../plugin/hooks";
 import type { PluginHttpRoute } from "../plugin/http";
-import type {
-	OutgoingNotification,
-	PluginAdminNotification,
-	PluginNotification,
-	PluginNotificationChannel,
-} from "../plugin/notifications";
+import type { OutgoingNotification, PluginAdminNotification, PluginNotification, PluginNotificationChannel } from "../plugin/notifications";
 import type { PluginBlob, PluginBlobMetadata, PluginBlobWriteOptions } from "../plugin/storage";
 import type {
 	ExtractedFrame,

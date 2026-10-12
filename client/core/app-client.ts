@@ -1,5 +1,6 @@
 import { AdminClient } from "../resources/admin";
 import { AuthClient } from "../resources/auth";
+import { CapabilitiesClient } from "../resources/capabilities";
 import { CollectionsClient } from "../resources/collections";
 import { CompaniesClient } from "../resources/companies";
 import { DiscoverClient } from "../resources/discover";
@@ -7,7 +8,6 @@ import { DownloadsClient } from "../resources/downloads";
 import { EpisodesClient } from "../resources/episodes";
 import { EventsClient } from "../resources/events";
 import { GenresClient } from "../resources/genres";
-import { CapabilitiesClient } from "../resources/capabilities";
 import { HealthClient } from "../resources/health";
 import { ImagesClient } from "../resources/images";
 import { KeywordsClient } from "../resources/keywords";

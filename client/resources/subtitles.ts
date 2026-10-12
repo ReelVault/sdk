@@ -1,13 +1,12 @@
 import type {
-	BulkSubtitleDelete,
 	BulkSubtitleDeleteResult,
 	CreateSubtitleRequest,
 	Subtitle,
 	SubtitleFilters,
 	SubtitleProviderDownloadRequest,
+	SubtitleProviderInfo,
 	SubtitleProviderSearchRequest,
 	SubtitleProviderSearchResponse,
-	SubtitleProviderInfo,
 	SubtitleSorting,
 	UpdateSubtitleRequest,
 } from "@sdk/common";

@@ -1,5 +1,5 @@
-import type { PaginatedResponse, PaginationQuery } from "@sdk/common/pagination";
 import type { Notification } from "@sdk/common/notification.types";
+import type { PaginatedResponse, PaginationQuery } from "@sdk/common/pagination";
 import { BaseResource } from "../core/base-resource";
 
 export class NotificationsClient extends BaseResource {

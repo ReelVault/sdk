@@ -7,7 +7,7 @@
  * mutations run through the plugin's own backend routes via the host bridge.
  *
  * Authors normally build these with the type-safe helpers in
- * `reelvault-sdk/ui` (`defineSchema`, `textField`, `button`, …) and the plugin
+ * `@reelvault/sdk/ui` (`defineSchema`, `textField`, `button`, …) and the plugin
  * build emits JSON.
  */
 import type { PluginLocalizedText } from "./ui-manifest";

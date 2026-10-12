@@ -2,12 +2,12 @@ import type { FieldsQuery, SelectFields } from "@sdk/common/fields";
 import type { PaginatedResponse, PaginationQuery } from "@sdk/common/pagination";
 import type {
 	CreateProfile,
+	Profile,
 	ProfileFilters,
 	ProfilePinStatus,
 	ProfileSorting,
 	SwitchProfile,
 	UpdateProfile,
-	Profile,
 } from "@sdk/common/profile.types";
 import type { ProfilePreferenceDefaults, ProfilePreferences, UpdateProfilePreferences } from "@sdk/common/profile-preferences.types";
 import { BaseResource } from "../core/base-client";

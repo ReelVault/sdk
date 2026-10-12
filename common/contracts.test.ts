@@ -4,9 +4,9 @@ import { TrickplayRegenerateRequestSchema } from "./admin";
 import { BulkTerminateSessionsSchema } from "./admin-live-activity";
 import { BulkDeleteBodySchema } from "./bulk-delete";
 import { BulkRefreshBodySchema } from "./bulk-refresh";
-import { PluginValidationIssueSchema } from "./plugin-catalog";
 import { LibraryScanProgressResponseSchema, UpdateScanFindingSchema } from "./library-scan";
 import { WatchStateBulkSchema } from "./playback-progress.types";
+import { PluginValidationIssueSchema } from "./plugin-catalog";
 import { PluginBulkStateBodySchema } from "./plugins";
 import { WatchlistBulkBodySchema } from "./watchlist.types";
 

@@ -11,9 +11,6 @@ export { isRetryableStatus, NetworkError, ReelVaultError, ReelVaultValidationErr
 export { isRetryableError } from "./core/retry";
 
 export { TokenManager } from "./core/token-manager";
-
-export { assertValidPath } from "./core/validation";
-
 export type {
 	ClientConfig,
 	Fetcher,
@@ -23,26 +20,19 @@ export type {
 	ResourceConfig,
 	ResponseInterceptor,
 } from "./core/types";
+export { assertValidPath } from "./core/validation";
 
 export { AdminClient } from "./resources/admin";
 
 export { AuthClient } from "./resources/auth";
-
-export { CollectionsClient } from "./resources/collections";
-
-export { CompaniesClient } from "./resources/companies";
-
-export { DiscoverClient } from "./resources/discover";
-
-export { DownloadsClient } from "./resources/downloads";
-
-export { EpisodesClient } from "./resources/episodes";
-
-export { EventsClient } from "./resources/events";
-
-export { GenresClient } from "./resources/genres";
-
 export { CapabilitiesClient } from "./resources/capabilities";
+export { CollectionsClient } from "./resources/collections";
+export { CompaniesClient } from "./resources/companies";
+export { DiscoverClient } from "./resources/discover";
+export { DownloadsClient } from "./resources/downloads";
+export { EpisodesClient } from "./resources/episodes";
+export { EventsClient } from "./resources/events";
+export { GenresClient } from "./resources/genres";
 export { HealthClient } from "./resources/health";
 
 export { ImagesClient } from "./resources/images";

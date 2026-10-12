@@ -4,12 +4,12 @@ import type {
 	LibraryHealthResponse,
 	LibraryScanAllResponse,
 	LibraryScanCancelResponse,
-	OperationQueuedResponse,
 	LibraryScanProgressResponse,
+	OperationQueuedResponse,
 	ScanFindingCandidatesResponse,
 	ScanFindingIgnoredResponse,
-	ScanFindingsResponse,
 	ScanFindingStatus,
+	ScanFindingsResponse,
 	UpdateScanFinding,
 } from "@sdk/common";
 import type { FieldsQuery, SelectFields } from "@sdk/common/fields";

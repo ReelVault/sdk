@@ -1,27 +1,24 @@
 # @reelvault/sdk
 
-Typed TypeScript SDK for [ReelVault](https://github.com/ReelVault/reelvault) — a self-hosted media server. It is the single source of truth for every request/response shape, the typed HTTP client, the server-side plugin host and the plugin UI kit.
+Typed TypeScript SDK for [ReelVault](https://github.com/ReelVault/reelvault), the self-hosted media server. It includes:
+
+- a typed HTTP **client** for the ReelVault API,
+- the **shared contracts**: the request and response schemas that the server and its clients both use,
+- the **plugin SDK** for writing server plugins,
+- the **UI kit** for plugin frontends,
+- an in-memory **test host** for plugin unit tests.
+
+Because the server and its clients share the same schemas, they cannot disagree about a request or response shape.
 
 ## Install
 
 ```bash
 bun add @reelvault/sdk
-# or: npm install @reelvault/sdk
+# or
+npm install @reelvault/sdk
 ```
 
-## Entry points
-
-| Import | What you get |
-|---|---|
-| `@reelvault/sdk` | Root — re-exports the client, validation errors and all shared contracts |
-| `@reelvault/sdk/client` | Typed HTTP client (`ReelVaultClient`) and its resource clients |
-| `@reelvault/sdk/common` | Shared request/response contracts — TypeBox schemas and their inferred types |
-| `@reelvault/sdk/plugin` | Server-side plugin SDK — `definePlugin`, `PluginHost` and every plugin contract |
-| `@reelvault/sdk/ui` | Client-side UI kit — custom elements, `mountShadow`, schema builders |
-| `@reelvault/sdk/ui/schema` | Just the declarative schema builders (tree-shakeable) |
-| `@reelvault/sdk/testing` | `PluginTestHost` — an in-memory plugin host for unit tests |
-
-Every entry point ships dual-format (ESM + CJS) with full `.d.ts` declarations.
+Requires Bun 1.4.2 or newer, or Node.js 20 or newer.
 
 ## Usage
 
@@ -30,12 +27,13 @@ Every entry point ships dual-format (ESM + CJS) with full `.d.ts` declarations.
 ```ts
 import { ReelVaultClient } from "@reelvault/sdk/client";
 
-const client = new ReelVaultClient({ baseUrl: "http://localhost:3030" });
-await client.auth.login({ email, password });
-const movies = await client.media.listMovies({ page: 1 });
+const api = new ReelVaultClient({ baseUrl: "http://localhost:3030" });
+
+await api.auth.login({ email: "me@example.com", password: "…" });
+const titles = await api.metadata.getAll({ limit: 20 });
 ```
 
-### Shared contract types
+### Shared types
 
 ```ts
 import type { MovieDetail, RealtimeEventMap } from "@reelvault/sdk/common";
@@ -53,20 +51,52 @@ export default definePlugin({
 });
 ```
 
+A plugin lists the host features it uses in its `plugin.json` manifest. See the [plugin guide](https://reelvault.org/plugins/getting-started).
+
+## Entry points
+
+| Import | Contents |
+|---|---|
+| `@reelvault/sdk` | Everything: client, contracts and errors |
+| `@reelvault/sdk/client` | `ReelVaultClient` and its resource clients |
+| `@reelvault/sdk/common` | Request and response schemas, with their types |
+| `@reelvault/sdk/plugin` | `definePlugin`, `PluginHost` and the plugin contracts |
+| `@reelvault/sdk/ui` | Plugin UI kit: custom elements and schema builders |
+| `@reelvault/sdk/ui/schema` | Schema builders only (tree-shakeable) |
+| `@reelvault/sdk/testing` | `PluginTestHost`, an in-memory host for unit tests |
+
+Every entry point ships as ESM and CommonJS, with TypeScript declarations.
+
 ## Development
 
 ```bash
 bun install
 bun run check-types
 bun test
-bun run build   # → dist/ (ESM + CJS + .d.ts)
+bun run build        # writes dist/: ESM, CommonJS and .d.ts files
 ```
 
-Releases are published to npm automatically via CI when a version tag is pushed. For local development against a server or website checkout, use bun link from this directory.
+To work against a local server or website checkout, link this package:
 
-> **Note:** ReelVault plugins do **not** install this package at runtime — the host provides its own SDK build and resolves `@reelvault/sdk/*` imports itself. Plugin authors only use it as a devDependency for types and local builds.
+```bash
+# in this directory
+bun link
+
+# in the consuming project
+bun link @reelvault/sdk
+```
+
+## Releases
+
+Pushing a `v*` tag publishes the package to npm through CI.
+
+> **Note:** Plugins do not bundle this package. The server provides its own copy at runtime and resolves `@reelvault/sdk/*` imports itself. Plugin authors add the SDK as a `devDependency`, for types and builds only.
 
 ## Documentation
 
-- SDK overview and API reference: <https://reelvault.org/sdk/>
-- Plugin authoring: <https://reelvault.org/plugins/getting-started>
+- [SDK overview and API reference](https://reelvault.org/sdk/)
+- [Plugin guide](https://reelvault.org/plugins/getting-started)
+
+## License
+
+GPL-3.0-only. See [LICENSE](LICENSE).

@@ -8,10 +8,7 @@ export const WatchlistSchema = EntitySchema(t.Object({ id: t.String(), profileId
 export type Watchlist = typeof WatchlistSchema.static;
 
 /** `GET /me/watchlist?hydrate=true` — every item carries its full metadata card. */
-export const HydratedWatchlistItemSchema = t.Composite([
-	WatchlistSchema,
-	t.Object({ metadata: MetadataWithRelationSchema }),
-]);
+export const HydratedWatchlistItemSchema = t.Composite([WatchlistSchema, t.Object({ metadata: MetadataWithRelationSchema })]);
 
 export type HydratedWatchlistItem = typeof HydratedWatchlistItemSchema.static;
 

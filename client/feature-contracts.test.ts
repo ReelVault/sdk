@@ -17,11 +17,11 @@ interface SentRequest {
 
 function recordingClient() {
 	const sent: SentRequest[] = [];
-	const fetcher: Fetcher = async (url, options) => {
+	const fetcher: Fetcher = (url, options) => {
 		const body = typeof options.body === "string" ? JSON.parse(options.body) : undefined;
 		sent.push({ method: options.method ?? "GET", url, body });
 
-		return Response.json({ ok: true });
+		return Promise.resolve(Response.json({ ok: true }));
 	};
 
 	return { client: new ReelVaultClient({ baseUrl: BASE_URL, fetcher }), sent };
@@ -180,7 +180,12 @@ describe("1.3.0 admin and resource request contracts", () => {
 
 	test("a plugin's configuration is exported, imported and reset through its config routes", async () => {
 		const { client, sent } = recordingClient();
-		const exported = { format: "reelvault.plugin-config" as const, formatVersion: 1 as const, pluginId: "org.example.plugin", values: { region: "eu" } };
+		const exported = {
+			format: "reelvault.plugin-config" as const,
+			formatVersion: 1 as const,
+			pluginId: "org.example.plugin",
+			values: { region: "eu" },
+		};
 
 		await client.admin.exportPluginConfig("org.example.plugin");
 		await client.admin.importPluginConfig("org.example.plugin", exported);
@@ -305,7 +310,9 @@ describe("1.3.0 admin and resource request contracts", () => {
 
 		await client.profiles.copyPreferences("profile-1", "profile-2");
 
-		expect(sent).toEqual([{ method: "POST", url: `${BASE_URL}/profiles/profile-1/preferences/copy`, body: { sourceProfileId: "profile-2" } }]);
+		expect(sent).toEqual([
+			{ method: "POST", url: `${BASE_URL}/profiles/profile-1/preferences/copy`, body: { sourceProfileId: "profile-2" } },
+		]);
 	});
 
 	test("subtitles are deleted in one request for the selected ids", async () => {
@@ -362,10 +369,10 @@ describe("1.3.0 admin and resource request contracts", () => {
 
 	test("marker lines are imported as plain text", async () => {
 		const requests: Array<{ url: string; method: string | undefined; contentType: string | null; body: unknown }> = [];
-		const fetcher: Fetcher = async (url, options) => {
+		const fetcher: Fetcher = (url, options) => {
 			requests.push({ url, method: options.method, contentType: new Headers(options.headers).get("content-type"), body: options.body });
 
-			return Response.json({ ok: true });
+			return Promise.resolve(Response.json({ ok: true }));
 		};
 		const client = new ReelVaultClient({ baseUrl: BASE_URL, fetcher });
 		const lines = '{"mediaFileId":"file-1","type":"intro","startSeconds":0,"endSeconds":30}';

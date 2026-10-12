@@ -1,12 +1,11 @@
 import type { MetadataDetailsViewResponse } from "@sdk/common";
+import type { BulkDeleteResult } from "@sdk/common/bulk-delete";
+import type { BulkRefreshResult } from "@sdk/common/bulk-refresh";
 import type { FieldsQuery, SelectFields } from "@sdk/common/fields";
 import type { GlobalSearchResponse, MetadataStatusesResponse } from "@sdk/common/metadata";
-
 import type { MetadataFilters, MetadataSorting, MetadataWithRelation, UpdateMetadata } from "@sdk/common/metadata.types";
 import type { MetadataImageOption, SelectMetadataImage } from "@sdk/common/metadata-images";
 import type { CursorPaginatedResponse, CursorPaginationQuery, PaginatedResponse, PaginationQuery } from "@sdk/common/pagination";
-import type { BulkRefreshResult } from "@sdk/common/bulk-refresh";
-import type { BulkDeleteResult } from "@sdk/common/bulk-delete";
 import { BaseResource } from "../core/base-client";
 
 export class MetadataClient extends BaseResource {

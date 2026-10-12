@@ -18,7 +18,7 @@ export interface PluginNotifications {
 }
 
 /** A notification handed to every registered external delivery channel. */
-export type OutgoingNotification = {
+export interface OutgoingNotification {
 	id: string;
 	userId: string;
 	profileId?: string | undefined;
@@ -27,7 +27,7 @@ export type OutgoingNotification = {
 	message?: string | null | undefined;
 	data?: Record<string, unknown> | undefined;
 	link?: string | null | undefined;
-};
+}
 
 export interface PluginNotificationChannel {
 	/** Stable identifier used for logs and per-channel error attribution. */

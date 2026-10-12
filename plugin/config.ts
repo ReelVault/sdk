@@ -1,8 +1,10 @@
+import type { PluginLocalizedText } from "./ui-manifest";
+
 /**
  * Declarative plugin configuration.
  *
  * ```ts
- * import { definePlugin, defineConfig, field } from "reelvault-sdk/plugin";
+ * import { definePlugin, defineConfig, field } from "@reelvault/sdk/plugin";
  *
  * export default definePlugin(
  *   defineConfig({
@@ -23,7 +25,7 @@ export type PluginConfig = Readonly<Record<string, unknown>>;
 export type PluginConfigFieldType = "string" | "number" | "boolean" | "select" | "secret";
 
 export interface PluginConfigFieldOption {
-	label: string;
+	label: PluginLocalizedText;
 	value: string | number;
 }
 
@@ -31,8 +33,8 @@ export interface PluginConfigFieldOption {
 export interface PluginConfigField {
 	name: string;
 	type: PluginConfigFieldType;
-	label: string;
-	description?: string;
+	label: PluginLocalizedText;
+	description?: PluginLocalizedText;
 	default?: unknown;
 	required?: boolean;
 	min?: number;
@@ -42,8 +44,8 @@ export interface PluginConfigField {
 }
 
 interface StringFieldSpec {
-	label: string;
-	description?: string | undefined;
+	label: PluginLocalizedText;
+	description?: PluginLocalizedText | undefined;
 	required?: boolean | undefined;
 	default?: string | undefined;
 	pattern?: RegExp | undefined;
@@ -52,8 +54,8 @@ interface StringFieldSpec {
 }
 
 interface NumberFieldSpec {
-	label: string;
-	description?: string | undefined;
+	label: PluginLocalizedText;
+	description?: PluginLocalizedText | undefined;
 	required?: boolean | undefined;
 	default?: number | undefined;
 	min?: number | undefined;
@@ -62,15 +64,15 @@ interface NumberFieldSpec {
 }
 
 interface BooleanFieldSpec {
-	label: string;
-	description?: string | undefined;
+	label: PluginLocalizedText;
+	description?: PluginLocalizedText | undefined;
 	required?: boolean | undefined;
 	default?: boolean | undefined;
 }
 
 interface SelectFieldSpec {
-	label: string;
-	description?: string | undefined;
+	label: PluginLocalizedText;
+	description?: PluginLocalizedText | undefined;
 	required?: boolean | undefined;
 	default?: string | number | undefined;
 	options: readonly PluginConfigFieldOption[];
@@ -84,8 +86,8 @@ interface SelectFieldSpec {
  */
 export interface ConfigField<TValue = unknown> {
 	readonly type: PluginConfigFieldType;
-	readonly label: string;
-	readonly description?: string | undefined;
+	readonly label: PluginLocalizedText;
+	readonly description?: PluginLocalizedText | undefined;
 	readonly required?: boolean | undefined;
 	readonly default?: unknown;
 	readonly pattern?: RegExp | undefined;

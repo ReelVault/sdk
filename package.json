@@ -112,7 +112,10 @@
 	"scripts": {
 		"build": "tsdown",
 		"prepack": "bun run build",
+		"lint": "biome check . && oxlint --type-aware",
+		"lint:fix": "biome check --write .",
 		"check-types": "tsc --noEmit",
+		"deadcode": "knip",
 		"test": "bun test"
 	},
 	"dependencies": {
@@ -120,7 +123,11 @@
 		"elysia": "^1.4.30"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "^2.5.15",
 		"@types/bun": "^1.4.2",
+		"knip": "^6.39.0",
+		"oxlint": "^1.86.0",
+		"oxlint-tsgolint": "^7.0.2003",
 		"tsdown": "^0.23.0",
 		"typescript": "^7.0.2"
 	}

@@ -1,20 +1,20 @@
 import { describe, expect, test } from "bun:test";
 import { Value } from "@sinclair/typebox/value";
 import { AdminAnalyticsSchema } from "./activity";
-import { AdminUpdateEnvironmentSchema, TrickplayDeleteResultSchema, DatabaseIntegritySchema } from "./admin";
+import { AdminUpdateEnvironmentSchema, DatabaseIntegritySchema, TrickplayDeleteResultSchema } from "./admin";
 import { AdminEndedLiveSessionItemSchema } from "./admin-live-activity";
-import { TwoFactorBackupCodesStatusSchema, ChangePasswordRequestSchema } from "./auth";
+import { ChangePasswordRequestSchema, TwoFactorBackupCodesStatusSchema } from "./auth";
 import { ServerCapabilitiesSchema } from "./capabilities";
-import { MetadataStatusesResponseSchema } from "./metadata";
-import { MediaMarkerFiltersSchema } from "./media-markers";
-import { UpdateProfilePreferencesSchema } from "./profile-preferences.types";
-import { ProfilePinStatusSchema } from "./profile.types";
-import { SystemSettingItemViewSchema } from "./settings";
-import { SubtitleFiltersSchema } from "./subtitles";
 import { DownloadJobSchema, DownloadQuotaSchema } from "./downloads";
 import { LibraryHealthResponseSchema } from "./library.types";
+import { MediaMarkerFiltersSchema } from "./media-markers";
+import { MetadataStatusesResponseSchema } from "./metadata";
 import { PluginCatalogResultSchema } from "./plugin-catalog";
 import { PluginAdminStatusSchema, PluginConfigFieldSchema, PluginUiSettingsSchema } from "./plugins";
+import { ProfilePinStatusSchema } from "./profile.types";
+import { UpdateProfilePreferencesSchema } from "./profile-preferences.types";
+import { SystemSettingItemViewSchema } from "./settings";
+import { SubtitleFiltersSchema } from "./subtitles";
 import { PurgeWorkerHistoryResponseSchema } from "./workers";
 
 /**
@@ -222,8 +222,12 @@ describe("plugin administration", () => {
 		};
 
 		expect(Value.Check(PluginUiSettingsSchema, settings)).toBe(true);
-		expect(Value.Check(PluginUiSettingsSchema, { ...settings, contributions: [{ ...settings.contributions[0], key: undefined }] })).toBe(false);
-		expect(Value.Check(PluginUiSettingsSchema, { ...settings, contributions: [{ ...settings.contributions[0], surface: "menu" }] })).toBe(false);
+		expect(Value.Check(PluginUiSettingsSchema, { ...settings, contributions: [{ ...settings.contributions[0], key: undefined }] })).toBe(
+			false,
+		);
+		expect(Value.Check(PluginUiSettingsSchema, { ...settings, contributions: [{ ...settings.contributions[0], surface: "menu" }] })).toBe(
+			false,
+		);
 	});
 });
 

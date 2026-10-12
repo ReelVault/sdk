@@ -18,11 +18,11 @@ interface SentRequest {
 
 function recordingClient() {
 	const sent: SentRequest[] = [];
-	const fetcher: Fetcher = async (url, options) => {
+	const fetcher: Fetcher = (url, options) => {
 		const body = typeof options.body === "string" ? JSON.parse(options.body) : undefined;
 		sent.push({ method: options.method ?? "GET", url, body });
 
-		return Response.json({ ok: true });
+		return Promise.resolve(Response.json({ ok: true }));
 	};
 
 	return { client: new ReelVaultClient({ baseUrl: BASE_URL, fetcher }), sent };

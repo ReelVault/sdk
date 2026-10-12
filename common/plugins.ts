@@ -73,16 +73,19 @@ export type PluginAdminStatus = typeof PluginAdminStatusSchema.static;
 
 /** Redacted plugin configuration values exposed to administrators. */
 
+/** Plain text, or a locale map such as `{ en: "Language", pl: "Język" }`, the same as plugin UI text. */
+export const PluginLocalizedTextSchema = t.Union([t.String(), t.Record(t.String(), t.String())]);
+
 export const PluginConfigFieldOptionSchema = t.Object({
-	label: t.String(),
+	label: PluginLocalizedTextSchema,
 	value: t.Union([t.String(), t.Number()]),
 });
 
 export const PluginConfigFieldSchema = t.Object({
 	name: t.String(),
 	type: t.Union([t.Literal("string"), t.Literal("number"), t.Literal("boolean"), t.Literal("select"), t.Literal("secret")]),
-	label: t.String(),
-	description: t.Optional(t.String()),
+	label: PluginLocalizedTextSchema,
+	description: t.Optional(PluginLocalizedTextSchema),
 	default: t.Optional(t.Unknown()),
 	required: t.Optional(t.Boolean()),
 	/** Secret fields only: whether a value is stored. The value itself is never returned. */
