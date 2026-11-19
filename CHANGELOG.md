@@ -109,3 +109,9 @@
 - **Subtitle provider switch** — `SubtitleProviderInfoSchema` (a subtitle provider with `enabled`) for `GET /subtitles/providers`, and `subtitles.setProviderEnabled(providerId, enabled)` for `PATCH /subtitles/providers/:providerId` (admin).
 - **Playback sessions** — `playbackSessions.releaseMine()` ends every session of the calling profile (`DELETE /playback-sessions/mine`). `PlaybackSessionSummary` gains `positionSeconds` and `paused`, and `PlaybackSession` gains `heartbeatIntervalMs`.
 - **Plugin validation issue parameters** — `PluginValidationIssue` carries an optional `params` next to `code`: the values the translation of the code interpolates, such as the invalid field. A client can name the exact problem in each issue of a plugin archive check.
+
+# v1.3.1
+
+### Features
+
+- **Sort by the newest file** — `MetadataSorting.sortBy` accepts `recentlyAdded`, which orders titles by when a media file was last linked to them. A show moves up when it gets new episodes; `createdAt` only records when the title was first inserted.

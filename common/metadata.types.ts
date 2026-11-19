@@ -172,6 +172,9 @@ export const MetadataSortingSchema = t.Composite([
 				t.Literal("matchScore"),
 				t.Literal("createdAt"),
 				t.Literal("updatedAt"),
+				t.Literal("recentlyAdded", {
+					description: "Order by when a media file was last added to the title, so a show moves up when it gets new episodes.",
+				}),
 				t.Literal("collectionOrder", { description: "Order by the manual position within a single collection." }),
 				t.Literal("castOrder", { description: "Order by role prominence of the actor in the cast." }),
 			]),
