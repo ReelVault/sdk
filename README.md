@@ -55,15 +55,15 @@ A plugin lists the host features it uses in its `plugin.json` manifest. See the 
 
 ## Entry points
 
-| Import | Contents |
-|---|---|
-| `@reelvault/sdk` | Everything: client, contracts and errors |
-| `@reelvault/sdk/client` | `ReelVaultClient` and its resource clients |
-| `@reelvault/sdk/common` | Request and response schemas, with their types |
-| `@reelvault/sdk/plugin` | `definePlugin`, `PluginHost` and the plugin contracts |
-| `@reelvault/sdk/ui` | Plugin UI kit: custom elements and schema builders |
-| `@reelvault/sdk/ui/schema` | Schema builders only (tree-shakeable) |
-| `@reelvault/sdk/testing` | `PluginTestHost`, an in-memory host for unit tests |
+| Import                     | Contents                                              |
+| -------------------------- | ----------------------------------------------------- |
+| `@reelvault/sdk`           | Everything: client, contracts and errors              |
+| `@reelvault/sdk/client`    | `ReelVaultClient` and its resource clients            |
+| `@reelvault/sdk/common`    | Request and response schemas, with their types        |
+| `@reelvault/sdk/plugin`    | `definePlugin`, `PluginHost` and the plugin contracts |
+| `@reelvault/sdk/ui`        | Plugin UI kit: custom elements and schema builders    |
+| `@reelvault/sdk/ui/schema` | Schema builders only (tree-shakeable)                 |
+| `@reelvault/sdk/testing`   | `PluginTestHost`, an in-memory host for unit tests    |
 
 Every entry point ships as ESM and CommonJS, with TypeScript declarations.
 

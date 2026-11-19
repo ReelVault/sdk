@@ -88,7 +88,10 @@
 				"noUselessSwitchCase": "error",
 				"noUselessLoneBlockStatements": "error",
 				"noUselessFragments": "error",
-				"noAdjacentSpacesInRegex": "error"
+				"noAdjacentSpacesInRegex": "error",
+				"noUnnecessaryTemplateExpression": "error",
+				"useArraySome": "error",
+				"noExcessiveNestedCallbacks": "warn"
 			},
 			"correctness": {
 				"noConstantMathMinMaxClamp": "error",
@@ -240,41 +243,31 @@
 				"useNumberToFixedDigitsArgument": "error",
 				"noVar": "error",
 				"noWith": "error",
-				"noOctalEscape": "error"
+				"noOctalEscape": "error",
+				"noLoopFunc": "error",
+				"noDrizzleDeleteWithoutWhere": "error",
+				"noDrizzleUpdateWithoutWhere": "error",
+				"noJsxLeakedDollar": "error",
+				"noReactStringRefs": "error",
+				"noEmptyObjectKeys": "error"
 			},
 			"nursery": {
-				"useSortedClasses": {
-					"level": "warn",
-					"fix": "safe",
-					"options": {
-						"attributes": ["class", "className"],
-						"functions": ["clsx", "cva", "cn", "tw"]
-					}
-				},
+				"useTailwindSortedClasses": "warn",
 				"noFloatingPromises": "off",
 				"noMisusedPromises": "off",
 				"useAwaitThenable": "off",
 				"noUnsafeTypeAssertion": "off",
 				"noUselessTypeConversion": "error",
-				"noUnnecessaryTemplateExpression": "error",
 				"noUnsafePlusOperands": "off",
 				"noBaseToString": "off",
 				"noMisleadingReturnType": "error",
 				"noImpliedEval": "error",
 				"noExtendNative": "error",
-				"noLoopFunc": "error",
 				"noUnmodifiedLoopCondition": "error",
 				"useExhaustiveSwitchCases": "error",
-				"useArraySome": "error",
 				"useIncludes": "error",
-				"noDrizzleDeleteWithoutWhere": "error",
-				"noDrizzleUpdateWithoutWhere": "error",
 				"noThisOutsideOfClass": "error",
-				"noJsxLeakedDollar": "error",
-				"noReactStringRefs": "error",
-				"noNegationInEqualityCheck": "error",
-				"noEmptyObjectKeys": "error",
-				"noExcessiveNestedCallbacks": "warn"
+				"noNegationInEqualityCheck": "error"
 			}
 		}
 	},
