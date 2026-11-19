@@ -9,7 +9,7 @@ import type {
 	TranscodeProgressResponse,
 } from "@sdk/common";
 
-import type { PlaybackCommand, PlaybackCommandType } from "@sdk/common/realtime";
+import type { PlaybackCommand, PlaybackCommandResponse } from "@sdk/common/realtime";
 
 import { BaseResource } from "../core/base-client";
 
@@ -55,13 +55,11 @@ export class PlaybackSessionsClient extends BaseResource {
 		return this.apiUrl(`/playback-sessions/${sessionId}/segments/${segment}`).toString();
 	}
 
-	sendCommand(
-		sessionId: string,
-		command: PlaybackCommand,
-	): Promise<{ delivered: boolean; command: PlaybackCommandType; position?: number; relative?: number; volume?: number }> {
+	/** Sends a control command to the players subscribed to a playback session. */
+	sendCommand(sessionId: string, command: PlaybackCommand): Promise<PlaybackCommandResponse> {
 		if (!sessionId) return Promise.reject(new Error("sessionId is required"));
 
-		return this._post(`/events/playback-sessions/${sessionId}/command`, {
+		return this._post<PlaybackCommandResponse>(`/events/playback-sessions/${sessionId}/command`, {
 			body: command,
 		});
 	}

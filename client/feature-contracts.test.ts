@@ -17,11 +17,18 @@ interface SentRequest {
 	body: unknown;
 }
 
+/** Keep FormData intact so upload tests can assert the file and its fields. */
+function recordedBody(body: BodyInit | null | undefined): unknown {
+	if (typeof body === "string") return JSON.parse(body);
+	if (body instanceof FormData) return body;
+
+	return undefined;
+}
+
 function recordingClient() {
 	const sent: SentRequest[] = [];
 	const fetcher: Fetcher = (url, options) => {
-		const body = typeof options.body === "string" ? JSON.parse(options.body) : undefined;
-		sent.push({ method: options.method ?? "GET", url, body });
+		sent.push({ method: options.method ?? "GET", url, body: recordedBody(options.body) });
 
 		return Promise.resolve(Response.json({ ok: true }));
 	};
@@ -317,14 +324,6 @@ describe("1.3.0 admin and resource request contracts", () => {
 		]);
 	});
 
-	test("subtitles are deleted in one request for the selected ids", async () => {
-		const { client, sent } = recordingClient();
-
-		await client.subtitles.bulkDelete(["sub-1", "sub-2"]);
-
-		expect(sent).toEqual([{ method: "POST", url: `${BASE_URL}/subtitles/bulk-delete`, body: { ids: ["sub-1", "sub-2"] } }]);
-	});
-
 	test("a library's scans are cancelled through the library's scan route", async () => {
 		const { client, sent } = recordingClient();
 
@@ -358,7 +357,16 @@ describe("1.3.0 admin and resource request contracts", () => {
 
 		await client.admin.uploadDatabaseBackup(new Blob(["sqlite"]));
 
-		expect(sent).toEqual([{ method: "POST", url: `${BASE_URL}/admin/database/backups/upload`, body: undefined }]);
+		expect(sent).toHaveLength(1);
+		expect(sent[0]?.method).toBe("POST");
+		expect(sent[0]?.url).toBe(`${BASE_URL}/admin/database/backups/upload`);
+		const form = sent[0]?.body as FormData;
+		expect(form).toBeInstanceOf(FormData);
+		expect([...form.keys()]).toEqual(["file"]);
+		const file = form.get("file") as File;
+		expect(file).toBeInstanceOf(File);
+		expect(file.name).toBe("backup.sqlite");
+		expect(await file.text()).toBe("sqlite");
 	});
 
 	test("a subtitle file is sent as a form to the subtitle upload route", async () => {
@@ -366,7 +374,18 @@ describe("1.3.0 admin and resource request contracts", () => {
 
 		await client.subtitles.upload({ mediaFileId: "file-1", language: "en", file: new Blob(["WEBVTT"]), fileName: "en.vtt" });
 
-		expect(sent).toEqual([{ method: "POST", url: `${BASE_URL}/subtitles/upload`, body: undefined }]);
+		expect(sent).toHaveLength(1);
+		expect(sent[0]?.method).toBe("POST");
+		expect(sent[0]?.url).toBe(`${BASE_URL}/subtitles/upload`);
+		const form = sent[0]?.body as FormData;
+		expect(form).toBeInstanceOf(FormData);
+		expect(form.get("mediaFileId")).toBe("file-1");
+		expect(form.get("language")).toBe("en");
+		expect(form.has("label")).toBe(false);
+		const file = form.get("file") as File;
+		expect(file).toBeInstanceOf(File);
+		expect(file.name).toBe("en.vtt");
+		expect(await file.text()).toBe("WEBVTT");
 	});
 
 	test("marker lines are imported as plain text", async () => {

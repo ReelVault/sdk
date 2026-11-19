@@ -33,6 +33,7 @@ import type {
 	ApiKeyCreated,
 	BulkTerminateSessions,
 	BulkTerminateSessionsResult,
+	CreateApiKeyRequest,
 	DatabaseIntegrity,
 	DatabaseMigrationStatus,
 	ImageCachePurgeResult,
@@ -83,6 +84,7 @@ import type { ProfilePreferences, UpdateProfilePreferences } from "@sdk/common/p
 import type { RemoteAccessDiagnostics } from "@sdk/common/remote-access";
 
 import { BaseResource } from "../core/base-client";
+import { NetworkError, ReelVaultError, TimeoutError } from "../core/errors";
 import { buildUrl } from "../core/utils";
 
 export class AdminClient extends BaseResource {
@@ -576,7 +578,7 @@ export class AdminClient extends BaseResource {
 		return this._get("/admin/api-keys");
 	}
 
-	createApiKey(body: { name: string; scope: "read_only" | "full"; expiresAtDays?: number }): Promise<ApiKeyCreated> {
+	createApiKey(body: CreateApiKeyRequest): Promise<ApiKeyCreated> {
 		return this._post("/admin/api-keys", { body });
 	}
 
@@ -654,12 +656,6 @@ export class AdminClient extends BaseResource {
 		return this._post("/admin/plugins/catalog/install", { body });
 	}
 
-	/**
-	 * Installs (or upgrades) a plugin from a locally uploaded `.zip` / `.tar` /
-	 * `.tar.gz` archive. Uses XMLHttpRequest rather than fetch because fetch
-	 * exposes no upload-progress events; `onProgress` reports byte counts while
-	 * the request body is being sent.
-	 */
 	/** Dry run of an archive install: reports what would change, installs nothing. */
 	validatePluginArchive(file: File): Promise<PluginValidationResult> {
 		const form = new FormData();
@@ -668,26 +664,39 @@ export class AdminClient extends BaseResource {
 		return this._post("/admin/plugins/validate", { body: form });
 	}
 
+	/**
+	 * Installs (or upgrades) a plugin from a locally uploaded `.zip` / `.tar` /
+	 * `.tar.gz` archive. Uses XMLHttpRequest rather than fetch because fetch
+	 * exposes no upload-progress events; `onProgress` reports byte counts while
+	 * the request body is being sent. Failures use the same structured errors
+	 * as every other client request.
+	 */
 	installPluginArchive(
 		file: File,
 		onProgress?: (uploadedBytes: number, totalBytes: number) => void,
 	): Promise<InstallCatalogPluginResponse> {
+		const timeoutMs = 120_000;
+		const url = buildUrl(this.config.baseUrl, "/admin/plugins/install-upload").toString();
+
 		return new Promise((resolve, reject) => {
 			const request = new XMLHttpRequest();
-			request.open("POST", buildUrl(this.config.baseUrl, "/admin/plugins/install-upload").toString());
+			request.open("POST", url);
 			// Session auth is cookie-based (browsers carry no bearer token) — the
 			// cookie must be attached even when the API lives on another origin.
 			if (this.config.credentials === "include") request.withCredentials = true;
 
 			if (this.config.accessToken) request.setRequestHeader("Authorization", `Bearer ${this.config.accessToken}`);
 
-			request.timeout = 120_000;
+			request.timeout = timeoutMs;
 
 			request.upload.addEventListener("progress", (event) => {
 				if (event.lengthComputable) onProgress?.(event.loaded, event.total);
 			});
 			request.addEventListener("load", () => {
 				const body = parseJsonBody(request.responseText);
+				const requestId = request.getResponseHeader("x-request-id") ?? request.getResponseHeader("request-id") ?? undefined;
+				// A plain-text error body carries the server's message; keep it in the error.
+				const statusText = typeof body === "string" && body.trim() ? body.trim() : request.statusText;
 				if (request.status >= 200 && request.status < 300) {
 					if (isInstallResponse(body)) {
 						resolve(body);
@@ -695,16 +704,18 @@ export class AdminClient extends BaseResource {
 						return;
 					}
 
-					reject(new Error("Plugin install returned an unexpected response."));
+					reject(new ReelVaultError(request.status, "Invalid plugin install response", body, url, requestId, { method: "POST" }));
 
 					return;
 				}
 
-				reject(new Error(extractErrorMessage(body) ?? `Plugin install failed (HTTP ${request.status})`));
+				reject(new ReelVaultError(request.status, statusText, body, url, requestId, { method: "POST" }));
 			});
-			request.addEventListener("error", () => reject(new Error("Plugin install upload failed — check the server connection.")));
-			request.addEventListener("timeout", () => reject(new Error("Plugin install upload timed out.")));
-			request.addEventListener("abort", () => reject(new Error("Plugin install upload aborted.")));
+			request.addEventListener("error", () =>
+				reject(new NetworkError("Plugin install upload failed — check the server connection.", url, undefined, "POST")),
+			);
+			request.addEventListener("timeout", () => reject(new TimeoutError(url, timeoutMs)));
+			request.addEventListener("abort", () => reject(new NetworkError("Plugin install upload aborted.", url, undefined, "POST")));
 
 			const form = new FormData();
 			form.append("file", file);
@@ -735,20 +746,11 @@ function parseJsonBody(text: string | undefined): unknown {
 	try {
 		return JSON.parse(text) as unknown;
 	} catch {
-		return undefined;
+		// Keep plain-text error bodies so their message reaches ReelVaultError.
+		return text;
 	}
 }
 
 function isInstallResponse(value: unknown): value is InstallCatalogPluginResponse {
 	return typeof value === "object" && value !== null && "pluginId" in value && "version" in value && "upgraded" in value;
-}
-
-function extractErrorMessage(body: unknown): string | undefined {
-	if (typeof body !== "object" || body === null) return undefined;
-
-	if ("error" in body && typeof body.error === "string") return body.error;
-
-	if ("message" in body && typeof body.message === "string") return body.message;
-
-	return undefined;
 }

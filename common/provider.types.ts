@@ -28,8 +28,3 @@ export const ProviderSchema = EntitySchema(
 );
 
 export type Provider = typeof ProviderSchema.static;
-
-export const SearchMediaInProvidersSchema = t.Object({
-	title: t.String(),
-	year: t.Optional(t.Number({ default: 1990 })),
-});

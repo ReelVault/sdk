@@ -120,6 +120,20 @@ describe("bulk requests", () => {
 
 		expect(sent).toEqual([{ method: "POST", url: `${BASE_URL}/me/watch-state/bulk`, body: { mediaFileIds: ["media-1"], watched: true } }]);
 	});
+
+	test("a playback command is sent once through the event command route", async () => {
+		const { client, sent } = recordingClient();
+
+		await client.playbackSessions.sendCommand("session-1", { type: "seek", relative: -10 });
+
+		expect(sent).toEqual([
+			{
+				method: "POST",
+				url: `${BASE_URL}/events/playback-sessions/session-1/command`,
+				body: { type: "seek", relative: -10 },
+			},
+		]);
+	});
 });
 
 describe("library requests", () => {

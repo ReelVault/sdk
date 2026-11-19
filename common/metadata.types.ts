@@ -51,12 +51,6 @@ export const MetadataRatingSchema = t.Object({
 	url: t.Nullable(t.String()),
 });
 
-export const MetadataImageSchema = t.Object({
-	metadataId: t.String(),
-	imageId: t.String(),
-	imageType: t.Union([t.Literal("poster"), t.Literal("backdrop"), t.Literal("logo"), t.Literal("thumbnail")]),
-});
-
 export const MetadataWithRelationSchema = t.Composite([
 	MetadataSchema,
 	t.Object({

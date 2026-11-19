@@ -27,6 +27,7 @@ import type {
 	WatchlistClearResponse,
 	WatchlistFilters,
 	WatchlistSorting,
+	WatchlistStatusesResponse,
 } from "@sdk/common/watchlist.types";
 import { BaseResource } from "../core/base-client";
 
@@ -113,7 +114,7 @@ export class MeClient extends BaseResource {
 		return this._get(`/me/watchlist/${metadataId}`);
 	}
 
-	getWatchlistStatuses(metadataIds: string[]): Promise<{ statuses: Array<{ metadataId: string; inWatchlist: boolean }> }> {
+	getWatchlistStatuses(metadataIds: string[]): Promise<WatchlistStatusesResponse> {
 		return this._get("/me/watchlist/statuses", { query: { ids: metadataIds.join(",") } });
 	}
 

@@ -1,4 +1,3 @@
-import type { PlaybackCommand, PlaybackCommandResponse } from "@sdk/common/realtime";
 import { BaseResource } from "../core/base-client";
 
 const HTTP_PROTOCOL_REGEX = /^http/;
@@ -16,13 +15,5 @@ export class EventsClient extends BaseResource {
 		}
 
 		return url.toString();
-	}
-
-	sendPlaybackCommand(sessionId: string, command: PlaybackCommand): Promise<PlaybackCommandResponse> {
-		if (!sessionId) return Promise.reject(new Error("sessionId is required"));
-
-		return this._post<PlaybackCommandResponse>(`/events/playback-sessions/${sessionId}/command`, {
-			body: command,
-		});
 	}
 }

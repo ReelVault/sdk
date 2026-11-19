@@ -14,8 +14,6 @@ export const CreateUserRatingSchema = t.Object({
 
 export type CreateUserRatingRequest = typeof CreateUserRatingSchema.static;
 
-export const UpdateUserRatingSchema = t.Partial(CreateUserRatingSchema);
-
 export const UserRatingFiltersSchema = t.Object({
 	profileId: t.Optional(t.String()),
 	metadataId: t.Optional(t.String()),

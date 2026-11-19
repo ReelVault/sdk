@@ -39,8 +39,6 @@ export const CreateWatchedHistorySchema = t.Object({
 
 export type CreateWatchedHistory = typeof CreateWatchedHistorySchema.static;
 
-export const UpdateWatchedHistorySchema = t.Partial(CreateWatchedHistorySchema);
-
 export const WatchedHistorySortingSchema = t.Composite([
 	SortQuerySchema,
 	t.Object({
