@@ -1,12 +1,6 @@
-import type {
-	ContinueWatchingItem,
-	PlaybackDiagnostics,
-	PlaybackSessionResponse,
-	StreamSeekResponse,
-	TranscodeProgressResponse,
-} from "@sdk/common/stream";
+import type { ContinueWatchingItem, PlaybackDiagnostics, StreamSeekResponse, TranscodeProgressResponse } from "@sdk/common/stream";
 
-export type { ContinueWatchingItem, PlaybackDiagnostics, PlaybackSessionResponse, StreamSeekResponse, TranscodeProgressResponse };
+export type { ContinueWatchingItem, PlaybackDiagnostics, StreamSeekResponse, TranscodeProgressResponse };
 
 export interface TranscodeConfig {
 	maxSessions: number;

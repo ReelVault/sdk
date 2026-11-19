@@ -2,13 +2,24 @@ import { t } from "elysia";
 import { BulkRefreshItemSchema } from "./bulk-refresh";
 import { PaginationMetaSchema } from "./pagination";
 
+/** Lifecycle of an offline download job. */
+export const DownloadStatusSchema = t.Union([
+	t.Literal("pending"),
+	t.Literal("processing"),
+	t.Literal("completed"),
+	t.Literal("failed"),
+	t.Literal("cancelled"),
+]);
+
+export type DownloadStatus = typeof DownloadStatusSchema.static;
+
 export const DownloadJobSchema = t.Object({
 	id: t.String(),
 	mediaFileId: t.String(),
 	/** Title the download's media file belongs to; null when the file is no longer linked to one. */
 	metadataId: t.Nullable(t.String()),
 	quality: t.String(),
-	status: t.String(),
+	status: DownloadStatusSchema,
 	progressPercent: t.Number(),
 	sizeBytes: t.Nullable(t.Number()),
 	fileName: t.Nullable(t.String()),

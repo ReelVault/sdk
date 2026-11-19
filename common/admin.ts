@@ -2,6 +2,7 @@ import { t } from "elysia";
 import { PaginatedResponseSchema } from "./api";
 import { LibraryWithRelationsSchema } from "./library.types";
 import { PaginationMetaSchema } from "./pagination";
+import { ProfilePinSchema } from "./profile.types";
 import { WorkerOperationSchema } from "./workers";
 
 export const AdminUserSchema = t.Object({
@@ -83,7 +84,7 @@ export type AdminCreateUser = typeof AdminCreateUserSchema.static;
 export const AdminCreateUserProfileSchema = t.Object({
 	name: t.String({ minLength: 1, maxLength: 100 }),
 	avatarUrl: t.Optional(t.Nullable(t.String({ maxLength: 2048 }))),
-	pin: t.Optional(t.Nullable(t.String({ minLength: 4, maxLength: 32 }))),
+	pin: t.Optional(t.Nullable(ProfilePinSchema)),
 });
 
 export type AdminCreateUserProfile = typeof AdminCreateUserProfileSchema.static;

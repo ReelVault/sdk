@@ -118,6 +118,9 @@
 
 ### Fixes
 
+- **Profile PIN length** — `ProfilePinSchema` (4–8 characters) is the one PIN rule: `AdminCreateUserProfile` accepted up to 32 characters, a PIN that `SwitchProfile` then refused, so the profile could not be opened.
+- **Download job status** — `DownloadJob.status` is the `DownloadStatus` union (`pending`, `processing`, `completed`, `failed`, `cancelled`) instead of any string.
+- **Removed `PlaybackSessionResponseSchema`** — it described a `playUrl` the server never sends; `PlaybackSessionSchema` is the session the server returns.
 - **Optional plugin text settings** — an optional `field.string` or `field.secret` with `minLength` or `pattern` refused an empty value, so the settings could not be saved with the field left blank; an empty optional field now parses as unset.
 - **Two-factor responses** — `auth.verifyTotp` and `auth.verifyBackupCode` are typed as the sign-in result the server sends (`TwoFactorSignInResponse`: `token`, `user`), and `auth.disableTwoFactor` as `{ status: true }`; they were typed `{ success }`. The new `TwoFactorSignInResponseSchema` and `TwoFactorDisableResponseSchema` are the server's route schemas too.
 - **Plugin DELETE calls** — `plugins.call(..., { method: "DELETE", body })` dropped the body.

@@ -9,23 +9,6 @@ export const PlaybackReasonSchema = t.Object({
 
 export const PlaybackReasonsSchema = t.Object({ video: PlaybackReasonSchema, audio: PlaybackReasonSchema });
 
-export const PlaybackSessionResponseSchema = t.Object({
-	operationId: t.String(),
-	mode: PlaybackModeSchema,
-	sessionId: t.String(),
-	playUrl: t.String(),
-	reasons: PlaybackReasonsSchema,
-	audioStreamIndex: t.Nullable(t.Integer({ minimum: 0 })),
-	subtitleLanguage: t.Nullable(t.String()),
-	subtitlesEnabled: t.Boolean(),
-	forcedSubtitlesOnly: t.Boolean(),
-	subtitleId: t.Nullable(t.String()),
-	subtitleStreamIndex: t.Nullable(t.Integer({ minimum: 0 })),
-	subtitleType: t.Nullable(t.Union([t.Literal("embedded"), t.Literal("external")])),
-});
-
-export type PlaybackSessionResponse = typeof PlaybackSessionResponseSchema.static;
-
 export const StreamSeekResponseSchema = t.Object({
 	position: t.Number({ minimum: 0 }),
 	startTime: t.Number({ minimum: 0 }),

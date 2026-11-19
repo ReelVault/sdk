@@ -15,11 +15,14 @@ export const CopyProfilePreferencesSchema = t.Object({
 
 export type CopyProfilePreferences = typeof CopyProfilePreferencesSchema.static;
 
+/** A profile PIN, wherever it is set or entered: the switch accepts no other length. */
+export const ProfilePinSchema = t.String({ minLength: 4, maxLength: 8 });
+
 export const CreateProfileSchema = t.Object({
 	/** Copies this profile's preference overrides from another profile of the same account, when given. */
 	copyPreferencesFromProfileId: t.Optional(t.String({ minLength: 1 })),
 	name: t.String({ minLength: 1 }),
-	pin: t.Optional(t.Union([t.String({ minLength: 4, maxLength: 8 }), t.Undefined()])),
+	pin: t.Optional(t.Union([ProfilePinSchema, t.Undefined()])),
 	avatarUrl: t.Optional(t.Union([t.String(), t.Undefined()])),
 });
 
@@ -28,7 +31,7 @@ export type CreateProfile = typeof CreateProfileSchema.static;
 /** Omitted fields stay as they are; `null` removes the PIN or the avatar. */
 export const UpdateProfileSchema = t.Object({
 	name: t.Optional(t.String({ minLength: 1 })),
-	pin: t.Optional(t.Union([t.String({ minLength: 4, maxLength: 8 }), t.Null()])),
+	pin: t.Optional(t.Union([ProfilePinSchema, t.Null()])),
 	avatarUrl: t.Optional(t.Union([t.String(), t.Null()])),
 });
 
@@ -41,7 +44,7 @@ export type ProfilePinStatus = typeof ProfilePinStatusSchema.static;
 
 export const SwitchProfileSchema = t.Object({
 	profileId: t.String(),
-	pin: t.Optional(t.String({ minLength: 4, maxLength: 8 })),
+	pin: t.Optional(ProfilePinSchema),
 });
 
 export type SwitchProfile = typeof SwitchProfileSchema.static;
