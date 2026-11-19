@@ -115,3 +115,7 @@
 ### Features
 
 - **Sort by the newest file** — `MetadataSorting.sortBy` accepts `recentlyAdded`, which orders titles by when a media file was last linked to them. A show moves up when it gets new episodes; `createdAt` only records when the title was first inserted.
+
+### Fixes
+
+- **Clearing metadata fields** — `UpdateMetadata` (and `CreateMetadata`) accept `null` for `originalTitle`, `overview`, `tagline`, `status`, `budget` and `revenue`. `null` clears the field; an absent key leaves it unchanged. Before, a cleared field could only be omitted, so the old value stayed.
