@@ -118,6 +118,10 @@
 
 ### Fixes
 
+- **Two-factor responses** — `auth.verifyTotp` and `auth.verifyBackupCode` are typed as the sign-in result the server sends (`TwoFactorSignInResponse`: `token`, `user`), and `auth.disableTwoFactor` as `{ status: true }`; they were typed `{ success }`. The new `TwoFactorSignInResponseSchema` and `TwoFactorDisableResponseSchema` are the server's route schemas too.
+- **Plugin DELETE calls** — `plugins.call(..., { method: "DELETE", body })` dropped the body.
+- **Profile switch** — `profiles.switch` declares the `unlockToken` the server sends to native shells.
+- **Watchlist add and remove** — typed `{ success: boolean }`, the server's declared response; the extra `added`/`removed` fields are not part of it.
 - **Token refresh after a failed refresher** — when `onTokenExpired` threw synchronously, the failed refresh stayed cached and every later 401 failed until the client was recreated.
 - **Token already refreshed** — a request that was sent with the old token and answered 401 after another request refreshed the token is now resent with the new token instead of refreshing again.
 - **Abort during retry back-off** — aborting a request while it waited before a retry (up to 30 s after a `Retry-After`) only took effect after the wait; it now rejects at once.

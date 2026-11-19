@@ -175,3 +175,13 @@ export const TwoFactorBackupCodesStatusSchema = t.Object({
 });
 
 export type TwoFactorBackupCodesStatus = typeof TwoFactorBackupCodesStatusSchema.static;
+
+/** `POST /auth/two-factor/verify-totp` and `/verify-backup-code` on sign-in: the new session token (also set as a cookie) and the signed-in user. */
+export const TwoFactorSignInResponseSchema = t.Object({ token: t.Nullable(t.String()), user: AuthUserSchema });
+
+export type TwoFactorSignInResponse = typeof TwoFactorSignInResponseSchema.static;
+
+/** `POST /auth/two-factor/disable`. */
+export const TwoFactorDisableResponseSchema = t.Object({ status: t.Literal(true) });
+
+export type TwoFactorDisableResponse = typeof TwoFactorDisableResponseSchema.static;

@@ -141,3 +141,13 @@ describe("path guard", () => {
 		expect(sent).toEqual([]);
 	});
 });
+
+describe("plugin requests", () => {
+	test("a DELETE call to a plugin route carries its body", async () => {
+		const { client, sent } = recordingClient();
+
+		await client.plugins.call("org.example.plugin", "reports", { method: "DELETE", body: { ids: ["r1"] } });
+
+		expect(sent).toEqual([{ method: "DELETE", url: `${BASE_URL}/plugins/org.example.plugin/reports`, body: { ids: ["r1"] } }]);
+	});
+});

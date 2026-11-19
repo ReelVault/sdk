@@ -11,6 +11,8 @@ import type {
 	RegisterRequest,
 	RegisterResponse,
 	TwoFactorBackupCodesStatus,
+	TwoFactorDisableResponse,
+	TwoFactorSignInResponse,
 } from "@sdk/common";
 
 import type { PaginationQuery } from "@sdk/common/pagination";
@@ -51,15 +53,15 @@ export class AuthClient extends BaseResource {
 		return this._post("/auth/two-factor/enable", { body: { password } });
 	}
 
-	disableTwoFactor(password: string): Promise<{ success: boolean }> {
+	disableTwoFactor(password: string): Promise<TwoFactorDisableResponse> {
 		return this._post("/auth/two-factor/disable", { body: { password } });
 	}
 
-	verifyTotp(code: string): Promise<{ success: boolean }> {
+	verifyTotp(code: string): Promise<TwoFactorSignInResponse> {
 		return this._post("/auth/two-factor/verify-totp", { body: { code } });
 	}
 
-	verifyBackupCode(code: string): Promise<{ success: boolean }> {
+	verifyBackupCode(code: string): Promise<TwoFactorSignInResponse> {
 		return this._post("/auth/two-factor/verify-backup-code", { body: { code } });
 	}
 

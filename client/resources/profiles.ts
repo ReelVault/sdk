@@ -35,7 +35,8 @@ export class ProfilesClient extends BaseResource {
 		return this._delete(`/profiles/${id}`);
 	}
 
-	switch(body: SwitchProfile): Promise<{ success: boolean }> {
+	/** `unlockToken` is sent only to native shells (`x-client-shell: native`), which cannot keep the unlock cookie. */
+	switch(body: SwitchProfile): Promise<{ success: boolean; unlockToken?: string }> {
 		return this._post("/profiles/switch", { body });
 	}
 

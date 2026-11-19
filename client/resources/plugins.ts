@@ -22,20 +22,16 @@ export class PluginsClient extends BaseResource {
 
 		const url = `/plugins/${pluginId}/${cleanPath}`;
 
-		switch (method) {
-			case "POST":
-				return this._post<TResponse>(url, { body: options?.body, query: options?.query });
-			case "PUT":
-				return this._put<TResponse>(url, { body: options?.body, query: options?.query });
-			case "PATCH":
-				return this._patch<TResponse>(url, { body: options?.body, query: options?.query });
-			case "DELETE":
-				return this._delete<TResponse>(url, { query: options?.query });
-			case "GET":
-				return this._get<TResponse>(url, { query: options?.query });
-			default:
-				return this._get<TResponse>(url, { query: options?.query });
-		}
+		if (method === "GET") return this._get<TResponse>(url, { query: options?.query });
+
+		const request = { body: options?.body, query: options?.query };
+		if (method === "DELETE") return this._delete<TResponse>(url, request);
+
+		if (method === "PUT") return this._put<TResponse>(url, request);
+
+		if (method === "PATCH") return this._patch<TResponse>(url, request);
+
+		return this._post<TResponse>(url, request);
 	}
 }
 

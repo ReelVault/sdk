@@ -91,11 +91,11 @@ export class MeClient extends BaseResource {
 		return this._get("/me/watchlist", { query });
 	}
 
-	addToWatchlist(metadataId: string): Promise<{ success: true; added: true }> {
+	addToWatchlist(metadataId: string): Promise<{ success: boolean }> {
 		return this._post("/me/watchlist", { body: { metadataId } });
 	}
 
-	removeFromWatchlist(metadataId: string): Promise<{ success: true; removed: true }> {
+	removeFromWatchlist(metadataId: string): Promise<{ success: boolean }> {
 		return this._delete(`/me/watchlist/${metadataId}`);
 	}
 
