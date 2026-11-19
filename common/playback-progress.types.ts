@@ -54,14 +54,10 @@ export const WatchStateBulkResultSchema = t.Object({
 
 export type WatchStateBulkResult = typeof WatchStateBulkResultSchema.static;
 
-/** Per-title/series language preferences resolved for a media file. */
-export interface StreamPrefs {
-	audioLanguage: string | null;
-	subtitleLanguage: string | null;
-}
-
-/** Response body of `GET /me/stream-prefs/:mediaFileId`. */
+/** Response body of `GET /me/stream-prefs/:mediaFileId`: per-title/series language preferences resolved for a media file. */
 export const StreamPrefsSchema = t.Object({
 	audioLanguage: t.Nullable(t.String()),
 	subtitleLanguage: t.Nullable(t.String()),
 });
+
+export type StreamPrefs = typeof StreamPrefsSchema.static;

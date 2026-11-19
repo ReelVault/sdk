@@ -1,5 +1,6 @@
 import { t } from "elysia";
 import type { CatalogMediaType, ExternalIdentity } from "./media";
+import { CatalogMediaTypeSchema } from "./providers";
 
 /** Distinct non-empty catalog statuses, sorted, for the status filter. */
 export const MetadataStatusesResponseSchema = t.Object({
@@ -13,7 +14,7 @@ export const GlobalSearchResponseSchema = t.Object({
 		t.Object({
 			id: t.String(),
 			title: t.String(),
-			type: t.Union([t.Literal("movie"), t.Literal("tv_show")]),
+			type: CatalogMediaTypeSchema,
 			imageId: t.Optional(t.Nullable(t.String())),
 			imageUpdatedAt: t.Optional(t.Nullable(t.Date())),
 		}),

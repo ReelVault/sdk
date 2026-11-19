@@ -1,5 +1,6 @@
 import { t } from "elysia";
 import { PlaybackModeSchema, PlaybackReasonsSchema } from "./stream";
+import { SubtitleTypeSchema } from "./subtitles";
 
 // Optional fields accept null as well as undefined — the server normalizes
 // null to "absent" so clients can pass their raw state without pre-validation.
@@ -44,7 +45,7 @@ export const PlaybackSessionSchema = t.Object({
 	forcedSubtitlesOnly: t.Boolean(),
 	subtitleId: t.Nullable(t.String()),
 	subtitleStreamIndex: t.Nullable(t.Integer({ minimum: 0 })),
-	subtitleType: t.Nullable(t.Union([t.Literal("embedded"), t.Literal("external")])),
+	subtitleType: t.Nullable(SubtitleTypeSchema),
 	/** How often the client sends a heartbeat; clients fall back to their own default when it is absent. */
 	heartbeatIntervalMs: t.Optional(t.Integer({ minimum: 1000 })),
 });

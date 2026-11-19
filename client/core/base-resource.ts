@@ -3,6 +3,15 @@ import type { HeadersInput, QueryParams, ResourceConfig } from "./types";
 import { buildUrl, serializeBody } from "./utils";
 import { assertValidPath } from "./validation";
 
+/** Options of a request that may carry a body. */
+interface WriteOptions {
+	body?: unknown;
+	query?: QueryParams | undefined;
+	headers?: HeadersInput | undefined;
+	signal?: AbortSignal | undefined;
+	skipRetry?: boolean | undefined;
+}
+
 export abstract class BaseResource {
 	protected readonly config: ResourceConfig;
 	private readonly http: HttpClient;
@@ -96,17 +105,24 @@ export abstract class BaseResource {
 		});
 	}
 
-	protected _post<T>(
-		path: string,
-		options: {
-			body?: unknown;
-			query?: QueryParams | undefined;
-			headers?: HeadersInput | undefined;
-			signal?: AbortSignal | undefined;
-			skipRetry?: boolean | undefined;
-		} = {},
-	): Promise<T> {
-		const method = "POST";
+	protected _post<T>(path: string, options: WriteOptions = {}): Promise<T> {
+		return this.send<T>("POST", path, options);
+	}
+
+	protected _put<T>(path: string, options: WriteOptions = {}): Promise<T> {
+		return this.send<T>("PUT", path, options);
+	}
+
+	protected _patch<T>(path: string, options: WriteOptions = {}): Promise<T> {
+		return this.send<T>("PATCH", path, options);
+	}
+
+	protected _delete<T>(path: string, options: WriteOptions = {}): Promise<T> {
+		return this.send<T>("DELETE", path, options);
+	}
+
+	/** The one write path: validate the path, serialize the body, send. */
+	private send<T>(method: string, path: string, options: WriteOptions): Promise<T> {
 		const error = this.rejectOnInvalid(path, method);
 		if (error !== undefined) return Promise.reject(error);
 
@@ -118,81 +134,6 @@ export abstract class BaseResource {
 			headers: options.headers,
 			signal: options.signal,
 			skipRetry: options.skipRetry,
-		});
-	}
-
-	protected _put<T>(
-		path: string,
-		options: {
-			body?: unknown;
-			query?: QueryParams | undefined;
-			headers?: HeadersInput | undefined;
-			signal?: AbortSignal | undefined;
-			skipRetry?: boolean | undefined;
-		} = {},
-	): Promise<T> {
-		const method = "PUT";
-		const error = this.rejectOnInvalid(path, method);
-		if (error !== undefined) return Promise.reject(error);
-
-		return this.http.request<T>({
-			method,
-			path,
-			body: options.body !== undefined ? serializeBody(options.body) : undefined,
-			query: options.query,
-			headers: options.headers,
-			signal: options.signal,
-			skipRetry: options.skipRetry,
-		});
-	}
-
-	protected _patch<T>(
-		path: string,
-		options: {
-			body?: unknown;
-			query?: QueryParams | undefined;
-			headers?: HeadersInput | undefined;
-			signal?: AbortSignal | undefined;
-			skipRetry?: boolean | undefined;
-		} = {},
-	): Promise<T> {
-		const method = "PATCH";
-		const error = this.rejectOnInvalid(path, method);
-		if (error !== undefined) return Promise.reject(error);
-
-		return this.http.request<T>({
-			method,
-			path,
-			body: options.body !== undefined ? serializeBody(options.body) : undefined,
-			query: options.query,
-			headers: options.headers,
-			signal: options.signal,
-			skipRetry: options.skipRetry,
-		});
-	}
-
-	protected _delete<T>(
-		path: string,
-		options?: {
-			body?: unknown;
-			query?: QueryParams | undefined;
-			headers?: HeadersInput | undefined;
-			signal?: AbortSignal | undefined;
-			skipRetry?: boolean | undefined;
-		},
-	): Promise<T> {
-		const method = "DELETE";
-		const error = this.rejectOnInvalid(path, method);
-		if (error !== undefined) return Promise.reject(error);
-
-		return this.http.request<T>({
-			method,
-			path,
-			body: options?.body !== undefined ? serializeBody(options.body) : undefined,
-			query: options?.query,
-			headers: options?.headers,
-			signal: options?.signal,
-			skipRetry: options?.skipRetry,
 		});
 	}
 

@@ -1,6 +1,7 @@
 import type { Static } from "@sinclair/typebox";
 import { t } from "elysia";
-import { PlaybackReasonsSchema } from "./stream";
+import { CatalogMediaTypeSchema } from "./providers";
+import { PlaybackModeSchema, PlaybackReasonsSchema } from "./stream";
 
 export const AdminLiveStreamItemSchema = t.Object({
 	sessionId: t.String(),
@@ -13,7 +14,7 @@ export const AdminLiveStreamItemSchema = t.Object({
 	mediaFileId: t.String(),
 	metadataId: t.String(),
 	title: t.String(),
-	type: t.Union([t.Literal("movie"), t.Literal("tv_show")]),
+	type: CatalogMediaTypeSchema,
 	releaseYear: t.Nullable(t.Number()),
 	seasonNumber: t.Nullable(t.Number()),
 	episodeNumber: t.Nullable(t.Number()),
@@ -25,7 +26,7 @@ export const AdminLiveStreamItemSchema = t.Object({
 	currentTime: t.Number(),
 	duration: t.Number(),
 	progressPercent: t.Number(),
-	mode: t.Union([t.Literal("direct-stream"), t.Literal("transcode")]),
+	mode: PlaybackModeSchema,
 	videoTranscode: t.Boolean(),
 	audioTranscode: t.Boolean(),
 	videoEncoder: t.String(),

@@ -7,6 +7,7 @@ import { ImageSchema } from "./image.types";
 import { KeywordSchema } from "./keyword.types";
 import { PersonSchema } from "./people.types";
 import { ProviderSchema } from "./provider.types";
+import { CatalogMediaTypeSchema } from "./providers";
 import { EntitySchema } from "./schema-utils";
 
 export const MetadataSchema = EntitySchema(
@@ -22,7 +23,7 @@ export const MetadataSchema = EntitySchema(
 		originalTitle: t.Nullable(t.String()),
 		overview: t.Nullable(t.String()),
 		tagline: t.Nullable(t.String()),
-		type: t.Union([t.Literal("movie"), t.Literal("tv_show")]),
+		type: CatalogMediaTypeSchema,
 		status: t.Nullable(t.String()),
 		releaseDate: t.String(),
 		originCountry: t.Nullable(t.String()),

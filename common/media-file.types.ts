@@ -1,5 +1,6 @@
 import { SortQuerySchema } from "@sdk/common/sorting";
 import { t } from "elysia";
+import { CatalogMediaTypeSchema } from "./providers";
 import { EntitySchema } from "./schema-utils";
 import { SubtitleEntitySchema } from "./subtitle.types";
 
@@ -168,7 +169,7 @@ export const MediaFileAuditItemSchema = t.Object({
 	filePath: t.String(),
 	libraryId: t.String(),
 	libraryName: t.Optional(t.String()),
-	mediaType: t.Union([t.Literal("movie"), t.Literal("tv_show")]),
+	mediaType: CatalogMediaTypeSchema,
 	currentMetadata: t.Object({
 		id: t.String(),
 		title: t.String(),

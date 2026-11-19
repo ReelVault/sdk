@@ -1,4 +1,5 @@
 import { t } from "elysia";
+import { CatalogMediaTypeSchema } from "./providers";
 
 export const InsightsRangeSchema = t.Union([t.Literal("7d"), t.Literal("30d"), t.Literal("90d"), t.Literal("1y"), t.Literal("all")]);
 
@@ -12,7 +13,7 @@ export const RankedActivitySchema = t.Object({
 export const TopWatchedMediaSchema = t.Object({
 	id: t.String(),
 	title: t.String(),
-	type: t.Union([t.Literal("movie"), t.Literal("tv_show")]),
+	type: CatalogMediaTypeSchema,
 	posterUrl: t.Nullable(t.String()),
 	/** Version of the poster image — feeds the client's image cache key. */
 	posterUpdatedAt: t.Nullable(t.Date()),
@@ -119,7 +120,7 @@ export const AdminAnalyticsStreamHistoryItemSchema = t.Object({
 	profileName: t.String(),
 	userName: t.String(),
 	title: t.String(),
-	mediaType: t.Union([t.Literal("movie"), t.Literal("tv_show")]),
+	mediaType: CatalogMediaTypeSchema,
 	posterUrl: t.Nullable(t.String()),
 	durationWatched: t.Nullable(t.Integer()),
 	isFullWatch: t.Boolean(),

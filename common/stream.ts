@@ -1,4 +1,5 @@
 import { t } from "elysia";
+import { CatalogMediaTypeSchema } from "./providers";
 
 export const PlaybackModeSchema = t.Union([t.Literal("direct-stream"), t.Literal("transcode")]);
 
@@ -86,7 +87,7 @@ export const ContinueWatchingItemSchema = t.Object({
 	metadata: t.Object({
 		id: t.String(),
 		title: t.String(),
-		type: t.Union([t.Literal("movie"), t.Literal("tv_show")]),
+		type: CatalogMediaTypeSchema,
 	}),
 	backdropId: t.Nullable(t.String()),
 	/** Version of the backdrop image — feeds the client's image cache key. */

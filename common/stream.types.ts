@@ -1,4 +1,12 @@
-import type { ContinueWatchingItem, PlaybackDiagnostics, StreamSeekResponse, TranscodeProgressResponse } from "@sdk/common/stream";
+import type {
+	ContinueWatchingItem,
+	PlaybackDiagnostics,
+	PlaybackModeSchema,
+	PlaybackReasonSchema,
+	PlaybackReasonsSchema,
+	StreamSeekResponse,
+	TranscodeProgressResponse,
+} from "@sdk/common/stream";
 
 export type { ContinueWatchingItem, PlaybackDiagnostics, StreamSeekResponse, TranscodeProgressResponse };
 
@@ -17,7 +25,7 @@ export interface TranscodeConfig {
  * Note: direct-play is intentionally NOT supported. All files are segmented via
  * FFmpeg regardless of size — serving a raw 12GB file over HTTP is not viable.
  */
-export type PlaybackMode = "direct-stream" | "transcode";
+export type PlaybackMode = typeof PlaybackModeSchema.static;
 
 /**
  * What the client/browser natively supports.
@@ -62,16 +70,10 @@ export const DEFAULT_BROWSER_CAPABILITIES: ClientCapabilities = {
 	audioCodecs: ["aac", "mp3", "opus"],
 };
 
-export interface PlaybackReasonPart {
-	/** Stable machine code — the frontend renders the translated text. */
-	code: string;
-	params?: Record<string, string | number | boolean | null>;
-}
+/** A stable machine code (the frontend renders the translated text) and its parameters. */
+export type PlaybackReasonPart = typeof PlaybackReasonSchema.static;
 
-export interface PlaybackReasons {
-	video: PlaybackReasonPart;
-	audio: PlaybackReasonPart;
-}
+export type PlaybackReasons = typeof PlaybackReasonsSchema.static;
 
 export interface PlaybackDecision {
 	readonly mode: PlaybackMode;
