@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { ReelVaultClient } from "./app-client";
 import { ReelVaultError, ReelVaultValidationError } from "./errors";
 import { HttpClient } from "./http-client";
-import type { ClientConfig, Fetcher } from "./types";
+import type { ClientConfig, Fetcher, ResourceConfig } from "./types";
 
 /**
  * Transport behavior every resource relies on: which failures are retried, how an expired
@@ -33,6 +33,22 @@ function scriptedClient(responses: Array<() => Response>, config: Partial<Client
 }
 
 const ok = () => Response.json({ statuses: ["Ended"] });
+
+/** The resolved configuration the client hands its transport, for tests that drive it directly. */
+function transportConfig(): ResourceConfig {
+	return {
+		baseUrl: ORIGIN,
+		fetcher: () => Promise.resolve(ok()),
+		defaultHeaders: {},
+		requestInterceptors: [],
+		responseInterceptors: [],
+		enableRetry: true,
+		maxRetries: 3,
+		timeout: 30_000,
+		credentials: "same-origin",
+	};
+}
+
 const unavailable = () => new Response("down", { status: 503 });
 const unauthorized = () => Response.json({ statusCode: 401, code: "auth.session_invalid" }, { status: 401 });
 
@@ -61,15 +77,8 @@ describe("retries", () => {
 	test("aborting while waiting for a retry rejects at once instead of after the back-off", async () => {
 		const controller = new AbortController();
 		const http = new HttpClient({
-			baseUrl: ORIGIN,
+			...transportConfig(),
 			fetcher: () => Promise.resolve(new Response("slow down", { status: 503, headers: { "retry-after": "20" } })),
-			defaultHeaders: {},
-			requestInterceptors: [],
-			responseInterceptors: [],
-			enableRetry: true,
-			maxRetries: 3,
-			timeout: 30_000,
-			credentials: "same-origin",
 		});
 
 		const started = Date.now();
@@ -161,10 +170,18 @@ describe("responses and URLs", () => {
 	});
 
 	test("array filters repeat their key and empty ones are left out", async () => {
-		const { client, sent } = scriptedClient([ok]);
+		const sent: string[] = [];
+		const http = new HttpClient({
+			...transportConfig(),
+			fetcher: (url) => {
+				sent.push(url);
 
-		await client.admin.getLogs({ level: ["error", "warn"], search: undefined });
+				return Promise.resolve(ok());
+			},
+		});
 
-		expect(sent[0]?.url).toBe(`${ORIGIN}/v1/admin/logs?level=error&level=warn`);
+		await http.request({ path: "/admin/logs", query: { level: ["error", "warn"], q: undefined, module: null } });
+
+		expect(sent).toEqual([`${ORIGIN}/v1/admin/logs?level=error&level=warn`]);
 	});
 });
