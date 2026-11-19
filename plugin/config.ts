@@ -215,6 +215,9 @@ function parseStringField(name: string, configField: ConfigField, raw: unknown):
 
 	if (typeof raw !== "string") return configField.default;
 
+	// An optional field the admin left empty is unset, not a too-short or malformed value.
+	if (raw === "" && !configField.required) return configField.default;
+
 	if (configField.minLength !== undefined && raw.length < configField.minLength) {
 		throw new Error(`Plugin configuration '${name}' is shorter than ${configField.minLength} characters`);
 	}

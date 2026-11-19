@@ -118,6 +118,7 @@
 
 ### Fixes
 
+- **Optional plugin text settings** — an optional `field.string` or `field.secret` with `minLength` or `pattern` refused an empty value, so the settings could not be saved with the field left blank; an empty optional field now parses as unset.
 - **Two-factor responses** — `auth.verifyTotp` and `auth.verifyBackupCode` are typed as the sign-in result the server sends (`TwoFactorSignInResponse`: `token`, `user`), and `auth.disableTwoFactor` as `{ status: true }`; they were typed `{ success }`. The new `TwoFactorSignInResponseSchema` and `TwoFactorDisableResponseSchema` are the server's route schemas too.
 - **Plugin DELETE calls** — `plugins.call(..., { method: "DELETE", body })` dropped the body.
 - **Profile switch** — `profiles.switch` declares the `unlockToken` the server sends to native shells.
