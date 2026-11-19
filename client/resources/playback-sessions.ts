@@ -40,7 +40,7 @@ export class PlaybackSessionsClient extends BaseResource {
 	}
 
 	getPlaylistUrl(sessionId: string): string {
-		return new URL(`/v1/playback-sessions/${sessionId}/playlist`, this.getBaseUrl()).toString();
+		return this.apiUrl(`/playback-sessions/${sessionId}/playlist`).toString();
 	}
 
 	getSegment(sessionId: string, segment: string): Promise<Blob> {
@@ -52,7 +52,7 @@ export class PlaybackSessionsClient extends BaseResource {
 	}
 
 	getSegmentUrl(sessionId: string, segment: string): string {
-		return new URL(`/v1/playback-sessions/${sessionId}/segments/${segment}`, this.getBaseUrl()).toString();
+		return this.apiUrl(`/playback-sessions/${sessionId}/segments/${segment}`).toString();
 	}
 
 	sendCommand(

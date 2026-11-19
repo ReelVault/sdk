@@ -9,9 +9,8 @@ export class EventsClient extends BaseResource {
 	 * Converts the configured baseUrl (http/https) to ws/wss and appends /v1/events/ws.
 	 */
 	getWebSocketUrl(query?: { profileId?: string }): string {
-		const httpBase = this.getBaseUrl();
-		const wsBase = httpBase.replace(HTTP_PROTOCOL_REGEX, "ws");
-		const url = new URL(`${wsBase}/v1/events/ws`);
+		const url = this.apiUrl("/events/ws");
+		url.protocol = url.protocol.replace(HTTP_PROTOCOL_REGEX, "ws");
 		if (query?.profileId) {
 			url.searchParams.set("profileId", query.profileId);
 		}

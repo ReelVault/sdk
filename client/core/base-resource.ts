@@ -1,9 +1,7 @@
 import { HttpClient, type HttpRequestSpec } from "./http-client";
 import type { HeadersInput, QueryParams, ResourceConfig } from "./types";
-import { serializeBody } from "./utils";
+import { buildUrl, serializeBody } from "./utils";
 import { assertValidPath } from "./validation";
-
-const TRAILING_SLASH_REGEX = /\/$/;
 
 export abstract class BaseResource {
 	protected readonly config: ResourceConfig;
@@ -18,10 +16,9 @@ export abstract class BaseResource {
 		this.http.setAccessToken(token);
 	}
 
-	protected getBaseUrl(): string {
-		const raw = typeof this.config.baseUrl === "function" ? this.config.baseUrl() : this.config.baseUrl;
-
-		return raw.replace(TRAILING_SLASH_REGEX, "");
+	/** Absolute URL of an API path, for links the caller opens itself (players, downloads, sockets). */
+	protected apiUrl(path: string): URL {
+		return buildUrl(this.config.baseUrl, path);
 	}
 
 	/**

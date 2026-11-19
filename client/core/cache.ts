@@ -19,8 +19,9 @@ export class InFlightDeduper {
 		this.pending.set(key, promise);
 	}
 
-	untrack(key: string): void {
-		this.pending.delete(key);
+	/** Stops tracking `promise`; a newer request tracked under the same key (after `clear`) stays. */
+	untrack(key: string, promise: Promise<unknown>): void {
+		if (this.pending.get(key) === promise) this.pending.delete(key);
 	}
 
 	clear(): void {
@@ -42,6 +43,10 @@ export class TtlCache {
 
 			return undefined;
 		}
+
+		// A hit makes the entry the most recently used, so eviction drops cold entries first.
+		this.store.delete(key);
+		this.store.set(key, entry);
 
 		// Clone on read so a caller mutating the resolved value cannot corrupt the
 		// cache (and every later caller) for the TTL window.

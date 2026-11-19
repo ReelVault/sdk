@@ -110,8 +110,10 @@ export class HttpClient {
 	request<T>(options: HttpRequestSpec): Promise<T> {
 		const spec = this.resolve(options);
 		const read = isReadMethod(spec.method);
+		// A caller's signal opts out of sharing an in-flight request (one caller's abort would fail the
+		// others), not out of the cache: a cached result involves no request to abort.
 		const useDedup = read && !options.signal && !options.skipDeduplication;
-		const useCache = useDedup && this.enableCache && !options.skipCache;
+		const useCache = read && this.enableCache && !options.skipCache;
 
 		const requestKey = createRequestKey(spec.method, spec.url, spec.headers, this.config.accessToken);
 
@@ -133,6 +135,8 @@ export class HttpClient {
 			}
 		}
 
+		// Filled right after the request starts; the `finally` below runs after the first await.
+		const tracked: { promise?: Promise<unknown> } = {};
 		const promise = (async () => {
 			try {
 				const response = await this.run(spec, options.path);
@@ -143,10 +147,11 @@ export class HttpClient {
 
 				return data;
 			} finally {
-				if (useDedup) this.inflight.untrack(requestKey);
+				if (useDedup && tracked.promise) this.inflight.untrack(requestKey, tracked.promise);
 			}
 		})();
 
+		tracked.promise = promise;
 		if (useDedup) {
 			this.inflight.track(requestKey, promise);
 		}
@@ -186,6 +191,7 @@ export class HttpClient {
 		let refreshAttemptsLeft = this.maxTokenRefreshAttempts;
 
 		for (let attempt = 0; ; attempt++) {
+			const tokenSent = this.config.accessToken;
 			let response: Response;
 			try {
 				response = await this.sendOnce(spec, timeoutMs);
@@ -200,7 +206,7 @@ export class HttpClient {
 						signal: spec.signal,
 					})
 				) {
-					await sleep(getRetryDelay(attempt));
+					await sleep(getRetryDelay(attempt), spec.signal);
 					continue;
 				}
 
@@ -222,6 +228,12 @@ export class HttpClient {
 				refreshAttemptsLeft > 0 &&
 				!isAuthEndpoint(path)
 			) {
+				// Another request already refreshed the token this one was sent with: retry with the new one.
+				if (this.config.accessToken !== tokenSent) {
+					refreshAttemptsLeft--;
+					continue;
+				}
+
 				const refreshed = await this.tryRefreshToken();
 				if (refreshed !== undefined) {
 					this.setAccessToken(refreshed);
@@ -243,7 +255,7 @@ export class HttpClient {
 				})
 			) {
 				const retryAfterMs = parseRetryAfter(response.headers.get("retry-after"));
-				await sleep(getRetryDelay(attempt, retryAfterMs));
+				await sleep(getRetryDelay(attempt, retryAfterMs), spec.signal);
 				continue;
 			}
 
@@ -342,8 +354,10 @@ export class HttpClient {
 				assertResponse<T>(parsed);
 
 				return parsed;
-			} catch (cause) {
-				throw new Error(`ReelVault: server returned invalid JSON from ${url}`, { cause });
+			} catch {
+				// Keep the status, URL and request id a caller logs for any other failed response.
+				const requestId = response.headers.get("x-request-id") ?? response.headers.get("request-id") ?? undefined;
+				throw new ReelVaultError(response.status, "Invalid JSON response", content, url, requestId);
 			}
 		}
 

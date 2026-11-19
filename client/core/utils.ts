@@ -1,9 +1,25 @@
 import type { HeadersInput, QueryParams } from "./types";
 
-export const sleep = (ms: number) =>
-	new Promise((resolve) => {
-		setTimeout(resolve, ms);
+/** Waits `ms`, or rejects with the abort reason as soon as `signal` aborts. */
+export function sleep(ms: number, signal?: AbortSignal): Promise<void> {
+	return new Promise((resolve, reject) => {
+		if (signal?.aborted) {
+			reject(signal.reason);
+
+			return;
+		}
+
+		const timer = setTimeout(() => {
+			signal?.removeEventListener("abort", onAbort);
+			resolve();
+		}, ms);
+		function onAbort() {
+			clearTimeout(timer);
+			reject(signal?.reason);
+		}
+		signal?.addEventListener("abort", onAbort, { once: true });
 	});
+}
 
 /** True when `value` is a finite number (not NaN, not Infinity). */
 export function isFiniteNumber(value: unknown): value is number {
@@ -50,11 +66,12 @@ const TRAILING_SLASH_REGEX = /\/$/;
 
 /**
  * Builds the final versioned API URL from the base address and the resource path.
+ * A path prefix on the base (a server behind `https://host/reelvault`) is kept.
  */
 export function buildUrl(baseUrl: string | (() => string), path: string): URL {
 	const base = typeof baseUrl === "function" ? baseUrl() : baseUrl;
 
-	return new URL(`/v1${path}`, base.replace(TRAILING_SLASH_REGEX, ""));
+	return new URL(`${base.replace(TRAILING_SLASH_REGEX, "")}/v1${path}`);
 }
 
 /**
@@ -103,7 +120,8 @@ export function createRequestKey(method: string, url: string, headers: Record<st
  */
 export function getRetryDelay(attempt: number, retryAfterMs?: number): number {
 	if (retryAfterMs !== undefined && retryAfterMs >= 0) {
-		return Math.min(retryAfterMs, 30_000) + jitter(250);
+		// Never earlier than the server asked for: the jitter only adds.
+		return Math.min(retryAfterMs, 30_000) + Math.abs(jitter(250));
 	}
 
 	const baseDelay = 200;

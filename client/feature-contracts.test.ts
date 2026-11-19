@@ -7,7 +7,9 @@ import { ReelVaultClient } from "./index";
  * A recording fetcher stands in for the server, as in `contracts.test.ts`.
  */
 
-const BASE_URL = "http://reelvault.test/v1";
+// The client is configured with the server origin, as documented; every API path sits under /v1.
+const ORIGIN = "http://reelvault.test";
+const BASE_URL = `${ORIGIN}/v1`;
 
 interface SentRequest {
 	method: string;
@@ -24,7 +26,7 @@ function recordingClient() {
 		return Promise.resolve(Response.json({ ok: true }));
 	};
 
-	return { client: new ReelVaultClient({ baseUrl: BASE_URL, fetcher }), sent };
+	return { client: new ReelVaultClient({ baseUrl: ORIGIN, fetcher }), sent };
 }
 
 describe("1.3.0 request contracts", () => {
@@ -374,7 +376,7 @@ describe("1.3.0 admin and resource request contracts", () => {
 
 			return Promise.resolve(Response.json({ ok: true }));
 		};
-		const client = new ReelVaultClient({ baseUrl: BASE_URL, fetcher });
+		const client = new ReelVaultClient({ baseUrl: ORIGIN, fetcher });
 		const lines = '{"mediaFileId":"file-1","type":"intro","startSeconds":0,"endSeconds":30}';
 
 		await client.media.importMarkers(lines);

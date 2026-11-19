@@ -10,8 +10,9 @@ interface ValidationOptions {
  * `undefined`/`null` that a `$(param)` interpolation would produce.
  */
 export function assertValidPath(path: string, options: ValidationOptions = {}): void {
-	const segments = path.split("/").filter((segment) => segment.length > 0);
-	const empty = segments.some((segment) => segment === "undefined" || segment === "null");
+	// The leading "/" yields one empty first segment; any other empty one is a missing parameter (`/libraries//scan`).
+	const segments = path.split("/").slice(1);
+	const empty = segments.some((segment) => segment === "" || segment === "undefined" || segment === "null");
 	if (empty) {
 		throw new ReelVaultValidationError([{ path: "(path)", message: `Path contains a missing parameter: ${path}`, value: path }], options);
 	}

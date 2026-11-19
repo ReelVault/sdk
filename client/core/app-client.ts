@@ -29,10 +29,8 @@ import { HttpClient } from "./http-client";
 import type { ClientConfig, ResourceConfig } from "./types";
 import { normalizeHeaders } from "./utils";
 
-const TRAILING_SLASH_REGEX = /\/$/;
-
 export class ReelVaultClient {
-	// Administracja
+	// Administration
 	public readonly admin: AdminClient;
 
 	// User & profile
@@ -42,11 +40,11 @@ export class ReelVaultClient {
 	public readonly notifications: NotificationsClient;
 	public readonly me: MeClient;
 
-	// Biblioteka & pliki
+	// Libraries & files
 	public readonly libraries: LibrariesClient;
 	public readonly media: MediaFileClient;
 
-	// Metadane
+	// Metadata
 	public readonly metadata: MetadataClient;
 	public readonly collections: CollectionsClient;
 	public readonly companies: CompaniesClient;
@@ -81,7 +79,7 @@ export class ReelVaultClient {
 		}
 
 		this.resourceConfig = {
-			baseUrl: typeof config.baseUrl === "function" ? config.baseUrl : config.baseUrl.replace(TRAILING_SLASH_REGEX, ""),
+			baseUrl: config.baseUrl,
 			fetcher: config.fetcher ?? fetch.bind(globalThis),
 			defaultHeaders: normalizeHeaders(config.headers),
 			accessToken: config.accessToken,

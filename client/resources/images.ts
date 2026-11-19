@@ -7,7 +7,7 @@ export class ImagesClient extends BaseResource {
 	}
 
 	getUrlById(imageId: string, query?: ImageQuery): string {
-		const url = new URL(`/v1/images/${imageId}`, this.getBaseUrl());
+		const url = this.apiUrl(`/images/${imageId}`);
 		if (query) {
 			for (const [key, value] of Object.entries(query)) {
 				if (value !== undefined) url.searchParams.set(key, String(value));

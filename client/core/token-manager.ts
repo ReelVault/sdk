@@ -12,6 +12,9 @@ export class TokenManager {
 		if (this.refreshPromise !== null) return this.refreshPromise;
 
 		const promise = (async () => {
+			// Yield once, so a refresher that throws synchronously settles after
+			// `refreshPromise` is stored and the `finally` below can clear it.
+			await Promise.resolve();
 			try {
 				const token = await refresher();
 

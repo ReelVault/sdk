@@ -118,4 +118,12 @@
 
 ### Fixes
 
+- **Token refresh after a failed refresher** — when `onTokenExpired` threw synchronously, the failed refresh stayed cached and every later 401 failed until the client was recreated.
+- **Token already refreshed** — a request that was sent with the old token and answered 401 after another request refreshed the token is now resent with the new token instead of refreshing again.
+- **Abort during retry back-off** — aborting a request while it waited before a retry (up to 30 s after a `Retry-After`) only took effect after the wait; it now rejects at once.
+- **`Retry-After`** — the jitter could resend before the time the server asked for; it now only adds to that time.
+- **Malformed JSON in a successful response** — reported as a `ReelVaultError` with the status, URL and request id instead of a plain `Error`.
+- **Missing path ids** — an empty id (`/libraries//scan`) is now refused before the request is sent, like an `undefined` id.
+- **Base URL with a path prefix** — `baseUrl: "https://host/reelvault"` dropped the prefix from API requests and player, download and log links; every URL now keeps it.
+- **GET cache** — a request with an abort signal now uses the cache (it still opts out of sharing an in-flight request); the cache now evicts the least recently used entry, and clearing it no longer lets an older request drop a newer one from in-flight sharing.
 - **Clearing metadata fields** — `UpdateMetadata` (and `CreateMetadata`) accept `null` for `originalTitle`, `overview`, `tagline`, `status`, `budget` and `revenue`. `null` clears the field; an absent key leaves it unchanged. Before, a cleared field could only be omitted, so the old value stayed.

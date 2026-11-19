@@ -22,7 +22,7 @@ export class DownloadsClient extends BaseResource {
 	}
 
 	getFileUrl(jobId: string): string {
-		return new URL(`/v1/downloads/${jobId}/file`, this.getBaseUrl()).toString();
+		return this.apiUrl(`/downloads/${jobId}/file`).toString();
 	}
 
 	cancel(jobId: string): Promise<{ success: boolean }> {

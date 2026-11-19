@@ -8,7 +8,9 @@ import { ReelVaultClient, ReelVaultValidationError } from "./index";
  * in for the server, so these checks run without one.
  */
 
-const BASE_URL = "http://reelvault.test/v1";
+// The client is configured with the server origin, as documented; every API path sits under /v1.
+const ORIGIN = "http://reelvault.test";
+const BASE_URL = `${ORIGIN}/v1`;
 
 interface SentRequest {
 	method: string;
@@ -25,7 +27,7 @@ function recordingClient() {
 		return Promise.resolve(Response.json({ ok: true }));
 	};
 
-	return { client: new ReelVaultClient({ baseUrl: BASE_URL, fetcher }), sent };
+	return { client: new ReelVaultClient({ baseUrl: ORIGIN, fetcher }), sent };
 }
 
 describe("admin requests", () => {
