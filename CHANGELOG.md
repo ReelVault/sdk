@@ -138,3 +138,9 @@
 - **One playback command method** — `playbackSessions.sendCommand(sessionId, command)` is the single way to send a remote-control command; the duplicate `events.sendPlaybackCommand` was removed and the reply uses the shared `PlaybackCommandResponse`.
 - **One source per shared contract** — `admin.createApiKey` uses `CreateApiKeyRequest` and `me.getWatchlistStatuses` uses `WatchlistStatusesResponse`. Five unused schemas (`MetadataImageSchema`, `SearchMediaInProvidersSchema`, `UpdateUserRatingSchema`, `UpdateWatchedHistorySchema`, `UpdateWatchlistSchema`) were removed.
 - **Testing host behaves like the server** — markers are plugin-scoped and emit `media.markers.updated`, hook rejections and failures use production codes and isolation, access policies fail closed, event handlers are awaited and time-boxed, and storage uses JSON values with per-key locking and the server's limits.
+
+# v1.3.2
+
+### Features
+
+- **Discover recommendation fields** — `DiscoverResponse` gains optional `recommendedMovies` and `recommendedShows` (each `MetadataWithRelation[]`, one ranked list per type) and `recommendationReasons` (`RecommendationReason[]`: `{ metadataId, kind, label?, role?, seedId? }`). The reason carries a kind such as `collection`, `keyword`, `credit` or `seed` and the provider's labels (for a `credit`, also the provider's job name in `role`), so clients build the sentence in their own language. `recommendations` stays unchanged, so older clients keep working.
